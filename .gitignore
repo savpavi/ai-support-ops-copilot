@@ -1,0 +1,79 @@
+# Environment and local configuration
+.env
+.env.*
+!.env.example
+*.local
+
+# Secrets and credentials
+secrets/
+secret/
+credentials/
+*.secret
+*.secrets
+*.credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+auth.json
+service-account*.json
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.yarn/cache/
+.yarn/unplugged/
+.pnpm-store/
+coverage/
+.nyc_output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+htmlcov/
+*.egg-info/
+
+# n8n local state and exported credentials
+.n8n/
+n8n-data/
+**/credentials*.json
+**/*credential-export*.json
+
+# Build and generated files
+dist/
+build/
+out/
+tmp/
+temp/
+generated/
+artifacts/
+*.log
+*.pid
+
+# Editors and operating systems
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Codex/agent metadata
+.agents/
+.codex/
