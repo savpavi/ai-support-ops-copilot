@@ -39,7 +39,7 @@ Run all tests:
 python3 -m unittest discover -s tests -v
 ```
 
-This runs 11 Task 001 regression tests and 8 Task 002 workflow structure/parity tests. Node.js is required only for the Task 002 tests, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+This runs 13 Task 001 regression tests and 9 Task 002 workflow structure/parity tests. Node.js is required only for the Task 002 tests, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
 
 Analyze one synthetic request from standard input:
 

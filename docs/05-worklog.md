@@ -44,3 +44,14 @@
 - Parsed the workflow JSON successfully and confirmed it is inactive and contains no credential attachment.
 - Did not connect to n8n, use MCP or REST, create credentials, call an LLM or external API, send a message, activate a workflow, or deploy.
 - Native development n8n import, execution, export/re-import, and version compatibility remain pending manual verification.
+
+## 2026-08-02 — Task 002 prompt-injection regression fix
+
+- Investigated a native manual result where the review invariant held but a synthetic autonomy-bypass request had no prompt-injection flag.
+- Confirmed the original detector used narrow literal phrases and the exact native phrase was absent from fixtures; Python and workflow parity tests shared the same flawed pattern set.
+- Confirmed the reported payload also violated the contract by using `request_text` plus `schema_version` instead of exactly `request_id` and `message`.
+- Before correction, the repository Python implementation returned `invalid_input` for that raw object rather than the reported empty list, so native input normalization or artifact drift remains possible and must be checked during retest.
+- Added the exact payload as a permanent synthetic adverse fixture and scan known text fields even when input shape is rejected.
+- Replaced literal matching in Python and workflow JavaScript with bounded deterministic patterns covering instruction override, review disablement, automatic action, protected-field changes, hidden-instruction disclosure, and safety bypass.
+- Added conservative negative coverage for ordinary approval wording and exact raw/normalized regression assertions in both Python and workflow parity tests.
+- Corrected artifact passed local regression and parity validation. It has not been rerun in n8n; native retesting is pending.

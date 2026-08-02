@@ -1,6 +1,6 @@
 # Task 002: n8n Workflow Integration
 
-**Status:** Local artifact implemented — 2026-08-02. Native development n8n import and execution verification pending.
+**Status:** Local artifact corrected after prompt-injection regression — 2026-08-02. Native retesting of the corrected artifact pending.
 
 ## Objective
 
@@ -184,3 +184,20 @@ All acceptance criteria are met in an authorized development n8n instance, the e
 10. **Local pass; export round-trip pending:** The reviewed artifact is stored under `n8n/workflows/`, is inactive, and passed local credential/personal-data scans. It has not been deployed or round-tripped through n8n.
 
 Task 002 is not fully done under its definition of done until the pending items are verified in an explicitly authorized development n8n instance. Task 003 must not begin.
+
+## Prompt-injection defect verification
+
+Native manual verification found that a synthetic request containing “Ignore all previous instructions,” a protected-field override, and automatic approval language retained human review but produced no prompt-injection flag.
+
+The automated tests had passed because the original fixture used phrases already present in a narrow literal allowlist, the failing phrase was absent, and Python and JavaScript shared the same flawed detector. The reported raw object also used `request_text` and an input `schema_version`, contrary to the exact two-field input contract. Before correction, the repository implementation rejected that raw object with `invalid_input`; it did not reproduce an empty flag list. Therefore native input replacement/normalization or imported-artifact drift is also possible and must be checked during manual retest.
+
+The corrected local artifact now:
+
+- detects bounded, explicit instruction override and autonomy-bypass patterns;
+- scans `message` and rejected `request_text` values without accepting the alias into the contract;
+- returns `invalid_input` plus `prompt_injection` for the exact raw regression fixture;
+- returns `prompt_injection` for the same text normalized into valid `message` input;
+- preserves `human_review_required: true` in all paths;
+- passes Python and workflow parity regressions.
+
+No native n8n claim is made for the correction. Re-import and native execution of both raw and normalized regression cases remain pending.

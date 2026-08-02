@@ -148,6 +148,28 @@ class WorkflowParityTests(unittest.TestCase):
                 self.assertEqual(result["status"], "rejected")
                 self.assertTrue(result["human_review_required"])
                 validate_output(result)
+                for field, expected in case.get("expected", {}).items():
+                    self.assertEqual(result[field], expected)
+
+    def test_exact_native_prompt_injection_regression_is_flagged_in_parity_evaluation(self) -> None:
+        case = next(case for case in ADVERSE_FIXTURES if case["name"] == "native-prompt-injection-regression")
+        python_result = analyze_request(case["input"])
+        workflow_result = _run_workflow_code(case["input"])
+        self.assertEqual(workflow_result, python_result)
+        self.assertIn("prompt_injection", python_result["security_flags"])
+        self.assertIn("prompt_injection", workflow_result["security_flags"])
+        self.assertTrue(workflow_result["human_review_required"])
+
+        normalized = {
+            "request_id": case["input"]["request_id"],
+            "message": case["input"]["request_text"],
+        }
+        normalized_python = analyze_request(normalized)
+        normalized_workflow = _run_workflow_code(normalized)
+        self.assertEqual(normalized_workflow, normalized_python)
+        self.assertEqual(normalized_workflow["status"], "accepted")
+        self.assertIn("prompt_injection", normalized_workflow["security_flags"])
+        self.assertTrue(normalized_workflow["human_review_required"])
 
     def test_overlong_and_non_object_inputs_match_python(self) -> None:
         values: list[Any] = [None, [], {"request_id": "SYN-N8N-LONG-001", "message": "x" * 4_001}]

@@ -45,15 +45,45 @@ _CATEGORY_RULES = (
     ("account_change", ("change account", "update profile", "change name", "account update")),
 )
 
-_PROMPT_INJECTION_TERMS = (
-    "ignore previous instructions",
-    "ignore all instructions",
-    "reveal system prompt",
-    "show system prompt",
-    "bypass safety",
-    "disable human review",
-    "human_review_required false",
-    'human_review_required": false',
+_PROMPT_INJECTION_PATTERNS = (
+    re.compile(
+        r"\b(?:ignore|disregard|override)\b.{0,40}\b(?:previous|prior|system|developer|hidden)\s+"
+        r"(?:instructions?|rules?|prompts?|policies?)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\b(?:disable|remove|skip|bypass|avoid|turn\s+off)\b.{0,30}\b"
+        r"(?:human[ _-]?review|review requirement|human approval)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\b(?:approve|execute|send|submit|publish|process)\b.{0,40}\b"
+        r"(?:automatically|without\s+(?:human\s+)?review|without\s+approval)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\bautomatically\b.{0,20}\b(?:approve|execute|send|submit|publish|process)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\b(?:set|change|alter|modify|override)\b.{0,30}\b"
+        r"(?:human_review_required|security_flags|(?:status|urgency|category)\s+(?:field|value|to))\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\b(?:human_review_required|security_flags)\b.{0,30}\b"
+        r"(?:false|true|null|empty|unknown|approved|rejected)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\b(?:reveal|show|display|print|expose|return)\b.{0,30}\b"
+        r"(?:system|developer|hidden)\s+(?:prompts?|instructions?|rules?)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
+    re.compile(
+        r"\bbypass\b.{0,30}\b(?:safety|policy|guardrails?|validation|review)\b",
+        re.IGNORECASE | re.DOTALL,
+    ),
 )
 
 
@@ -90,7 +120,7 @@ def _contains_any(text: str, terms: tuple[str, ...]) -> bool:
 
 def _security_flags(text: str) -> list[str]:
     flags: list[str] = []
-    if _contains_any(text, _PROMPT_INJECTION_TERMS):
+    if any(pattern.search(text) for pattern in _PROMPT_INJECTION_PATTERNS):
         flags.append("prompt_injection")
     if _contains_any(text, ("password", "passcode", "api key", "access token", "secret token")):
         flags.append("credential_request")
@@ -182,7 +212,16 @@ def _suggested_reply(category: str, missing: list[str], flags: list[str]) -> str
     return f"{opening} A support operator will review the details before any action is taken."
 
 
-def _rejected_result(value: Any, errors: list[str]) -> dict[str, Any]:
+def _security_text(value: Any) -> str:
+    """Extract only known request-text fields for risk scanning, even if shape is invalid."""
+
+    if not isinstance(value, Mapping):
+        return ""
+    parts = [value.get(field) for field in ("message", "request_text")]
+    return "\n".join(part.strip().lower() for part in parts if isinstance(part, str))
+
+
+def _rejected_result(value: Any, errors: list[str], detected_flags: list[str]) -> dict[str, Any]:
     request_id = value.get("request_id") if isinstance(value, Mapping) else None
     if not isinstance(request_id, str) or not _SYNTHETIC_ID.fullmatch(request_id):
         request_id = None
@@ -195,7 +234,7 @@ def _rejected_result(value: Any, errors: list[str]) -> dict[str, Any]:
         "rationale": "Input validation failed; no classification was attempted.",
         "missing_information": [],
         "suggested_reply": "Draft for human review: The request could not be processed safely. Please provide a valid synthetic request.",
-        "security_flags": ["invalid_input"],
+        "security_flags": sorted({"invalid_input", *detected_flags}),
         "human_review_required": True,
         "errors": errors,
     }
@@ -206,7 +245,7 @@ def analyze_request(value: Any) -> dict[str, Any]:
 
     errors = validate_input(value)
     if errors:
-        result = _rejected_result(value, errors)
+        result = _rejected_result(value, errors, _security_flags(_security_text(value)))
         validate_output(result)
         return result
 

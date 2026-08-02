@@ -43,6 +43,8 @@ Use only the minimum synthetic input needed to demonstrate behavior. Do not coll
 
 The committed workflow currently satisfies the local static controls: it is inactive, contains only the four allowlisted built-in nodes, carries no credential attachment or instance metadata, uses synthetic default input, and ends at the Human Review Guard. These controls must be rechecked after native n8n import/export because the target instance can add metadata or apply version-specific migrations.
 
+Prompt-injection detection uses bounded deterministic patterns for explicit control manipulation: overriding prior/system instructions, disabling review, automatic approval/execution, protected-output-field changes, hidden-prompt disclosure, and safety bypass. Rejected objects are also risk-scanned in known text fields so malformed shape cannot suppress a prompt-injection flag. Ordinary requests mentioning approval remain unflagged unless they include a clear control or autonomy-bypass instruction.
+
 ## Incident rule
 
 If real data or a secret is discovered, stop work, avoid reproducing it in logs or discussion, remove it from the working tree safely, and notify the repository owner so rotation or history cleanup can be handled explicitly.

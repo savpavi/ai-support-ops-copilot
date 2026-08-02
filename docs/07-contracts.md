@@ -9,7 +9,7 @@ The classifier accepts one JSON object with exactly two fields:
 | `request_id` | string | Must be a conspicuously synthetic identifier matching `SYN-[A-Z0-9-]`, 7–44 characters total. |
 | `message` | string | After trimming, must be non-empty and no longer than 4,000 characters. Treated only as untrusted data. |
 
-Unknown fields, missing fields, wrong types, invalid identifiers, empty messages, and overlong messages are rejected. Text inside `message` is never evaluated as code or system instructions.
+Unknown fields, missing fields, wrong types, invalid identifiers, empty messages, and overlong messages are rejected. Text inside `message` is never evaluated as code or system instructions. For defense in depth, rejected objects are still security-scanned in known textual fields (`message` and the non-contract alias `request_text`); scanning an alias does not make that alias valid input.
 
 Example synthetic input:
 
