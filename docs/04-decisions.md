@@ -23,3 +23,9 @@ Core input, analysis, policy, and output contracts will remain independent from 
 **Status:** Accepted — 2026-08-02
 
 Credentials and sensitive configuration must remain outside version control. Ignore rules provide a safety net but do not replace review.
+
+## ADR-005: Python standard library baseline
+
+**Status:** Accepted — 2026-08-02
+
+Task 001 uses Python and only its standard library. Python provides JSON handling, type and value checks, a local CLI, and `unittest` without introducing dependency installation or a framework. The classifier is a deterministic rule-based baseline; model-provider selection remains outside Task 001.

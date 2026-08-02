@@ -1,6 +1,6 @@
 # Task 001: Local MVP Classifier and Validation Baseline
 
-**Status:** Not started. Do not implement without explicit approval.
+**Status:** Complete — 2026-08-02.
 
 ## Objective
 
@@ -44,3 +44,15 @@ Build the smallest local, n8n-independent classifier/analyzer that turns one syn
 ## Definition of done
 
 All acceptance criteria are demonstrably met, tests pass locally, documentation and `STATUS.md` are updated, and a final review confirms that all data is synthetic and every result requires human approval.
+
+## Acceptance verification
+
+1. **Pass:** `scripts/classify_request.py` and `analyze_request` process one synthetic request into documented JSON.
+2. **Pass:** Output validation requires every specified field and requires `human_review_required` to be exactly `true`.
+3. **Pass:** Input and output validators reject wrong types, missing or extra fields, invalid enums, empty text, overlong text, invalid identifiers, and tampered output safely.
+4. **Pass:** `fixtures/support_requests.json` covers normal, urgent, incomplete, ambiguous, and security-sensitive cases.
+5. **Pass:** Suggested replies use bounded templates, identify themselves as drafts, request missing details, and do not echo untrusted request text.
+6. **Pass:** Injection-like text is matched only as data, produces security flags, and cannot change validation or the review invariant.
+7. **Pass:** Source and repository review found no network, n8n, deployment, secret, credential, or real-personal-data behavior or content.
+8. **Pass:** All 11 tests pass and the project documentation records behavior and limitations.
+9. **Pass:** Contracts are versioned plain JSON, fixtures are standalone JSON, and tests/CLI are workflow-platform independent for later Task 002 reuse.

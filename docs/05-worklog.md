@@ -14,3 +14,13 @@
 - Clarified that Task 001 owns the local, n8n-independent input/output contract, validation, synthetic fixtures, and repeatable test baseline.
 - Added Task 002 for later integration of the validated baseline with an authorized development n8n instance and export of an importable workflow JSON.
 - Kept both tasks unimplemented and retained the prohibitions on external message sending and production deployment.
+
+## 2026-08-02 — Task 001 implementation
+
+- Implemented a dependency-free Python classifier with explicit input and output validation.
+- Added a versioned plain-JSON contract and a local CLI that processes one request.
+- Added synthetic normal, urgent, incomplete, ambiguous, and security-sensitive fixtures.
+- Added tests for fixture behavior, malformed input, output tampering, prompt-injection isolation, draft safety, and CLI execution.
+- Fixed the disruption rule after the first test run exposed an overly narrow phrase match.
+- Re-ran the complete suite: 11 tests passed.
+- Confirmed that Task 001 has no n8n integration, network service, LLM call, external messaging, or deployment behavior.

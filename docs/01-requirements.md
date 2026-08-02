@@ -2,7 +2,7 @@
 
 ## Functional requirements
 
-Given a synthetic support request, the future MVP must return:
+Given a synthetic support request, the Task 001 baseline returns:
 
 1. A normalized request category.
 2. An urgency level with a short rationale.
