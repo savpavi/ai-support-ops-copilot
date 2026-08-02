@@ -2,7 +2,9 @@
 
 ## Verification status
 
-The corrected workflow JSON has been parsed, structurally checked, and its two Code nodes have been executed locally with Node.js against the Python Task 001 oracle. An earlier native manual run exposed a prompt-injection detection defect, but the corrected artifact has **not** been re-imported or re-executed in n8n. Native regression verification remains pending.
+The corrected workflow JSON has been parsed, structurally checked, and its two Code nodes have been executed locally with Node.js against the Python Task 001 oracle. It was also manually verified in an authorized development instance running **self-hosted n8n 2.14.2**.
+
+Native verification confirmed successful import, inactive manual-only operation, normal and urgent execution, corrected normalized and malformed prompt-injection behavior, and a successful export/re-import round trip. Compatibility with n8n versions newer than 2.14.2 has not been verified. Task 002 does not recommend or perform an upgrade.
 
 ## Artifact
 
@@ -116,17 +118,17 @@ Every adverse case must return one structured rejected result with:
 
 Also attempt the security-sensitive fixture containing prompt-like text. It must remain accepted as data, report `credential_request` and `prompt_injection`, retain high urgency, and keep human review true. The request text must not change nodes or control flow.
 
-### Required native regression retest
+### Native regression retest record
 
-Use the `native-prompt-injection-regression` case from `fixtures/n8n_adverse_requests.json` exactly as stored.
+The `native-prompt-injection-regression` case from `fixtures/n8n_adverse_requests.json` was verified exactly as stored on self-hosted n8n 2.14.2.
 
-Because the exact object uses the non-contract field `request_text` and includes an extra `schema_version` input field, passing the raw object to Analyze and Validate must produce a structured rejected result with:
+Because the exact object uses the non-contract field `request_text` and includes an extra `schema_version` input field, passing the raw object to Analyze and Validate produced a structured rejected result with:
 
 - `security_flags: ["invalid_input", "prompt_injection"]`;
 - `human_review_required: true`;
 - errors identifying the unexpected fields and missing `message`.
 
-Then test the valid-contract normalization by setting only:
+The valid-contract normalization was then tested with only:
 
 ```json
 {
@@ -135,9 +137,9 @@ Then test the valid-contract normalization by setting only:
 }
 ```
 
-That normalized object must be accepted as untrusted request data with `prompt_injection`, high urgency, and `human_review_required: true`. It must not approve or execute anything.
+That normalized object was accepted as untrusted request data with `prompt_injection` and `human_review_required: true`. It did not approve or execute anything.
 
-If native output instead has an empty flag list, verify that Synthetic Request Input is not replacing the test values with its default fixture, then export the imported workflow and compare its Analyze and Validate code with the committed artifact. Do not record the instance URL or credentials.
+If a future native run produces an empty flag list, verify that Synthetic Request Input is not replacing the test values with its default fixture, then export the imported workflow and compare its Analyze and Validate code with the committed artifact. Do not record the instance URL or credentials.
 
 ## Export and re-import verification
 
@@ -164,4 +166,4 @@ Update Task 002 and the worklog with:
 - export/re-import result;
 - any version-specific differences or limitations.
 
-Until this evidence exists, n8n importability and runtime execution remain manually unverified.
+This evidence was recorded for self-hosted n8n 2.14.2. Re-run the complete guide before claiming compatibility with any newer n8n version.

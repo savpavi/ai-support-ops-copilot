@@ -1,6 +1,6 @@
 # Task 002: n8n Workflow Integration
 
-**Status:** Local artifact corrected after prompt-injection regression — 2026-08-02. Native retesting of the corrected artifact pending.
+**Status:** Complete — 2026-08-02. Verified on self-hosted n8n 2.14.2.
 
 ## Objective
 
@@ -172,18 +172,18 @@ All acceptance criteria are met in an authorized development n8n instance, the e
 
 ## Acceptance verification
 
-1. **Pending manual n8n verification:** The sanitized JSON parses locally, is inactive, contains no credentials or instance metadata, and uses conventional built-in-node export structure. Import into a target n8n version has not been attempted.
-2. **Local pass; native execution pending:** The artifact has exactly one Synthetic Request Input node containing only `request_id` and `message`, and local execution produces one item.
-3. **Local pass; native execution pending:** All five Task 001 fixtures produce complete object equality between the workflow JavaScript and Python oracle.
-4. **Local pass; native execution pending:** Empty, wrong-type, invalid, extra-field, non-object, and overlong inputs produce matching structured rejected results with no action node.
-5. **Local pass; native execution pending:** Prompt-like text is handled only as string data, produces the expected risk flags, and cannot change the static topology or review invariant.
-6. **Local pass; native execution pending:** The analyzer hardcodes review true; the separate guard rejects a tampered false value and emits a guarded result with review true.
-7. **Pass by artifact inspection:** The allowlisted topology contains no external message, update, webhook, HTTP, AI, credential, filesystem, subprocess, schedule, or production-action node.
-8. **Pass locally:** Existing Task 001 fixtures plus `fixtures/n8n_adverse_requests.json` cover the required valid and adverse cases and are exercised by parity tests.
-9. **Pass:** `docs/08-n8n-manual-test.md` documents repeatable local validation, import, native execution, field parity, adverse testing, export, re-import, and safety checks.
-10. **Local pass; export round-trip pending:** The reviewed artifact is stored under `n8n/workflows/`, is inactive, and passed local credential/personal-data scans. It has not been deployed or round-tripped through n8n.
+1. **Pass:** The sanitized workflow imported successfully into the authorized self-hosted n8n 2.14.2 development instance without embedded credentials or environment-specific secrets.
+2. **Pass:** The inactive manual workflow accepted one synthetic request through Synthetic Request Input and produced one guarded result.
+3. **Pass:** Normal and urgent valid requests executed successfully; urgency was `high` for the urgent case. Local parity tests cover the complete Task 001 fixture set against the Python oracle.
+4. **Pass:** Local tests cover empty and malformed variants. Native malformed prompt-injection input returned a structured rejected result with `invalid_input`, `prompt_injection`, and human review true.
+5. **Pass:** Native normalized prompt-injection input returned `prompt_injection`; the malformed raw form returned both `invalid_input` and `prompt_injection`. Neither altered workflow control or review.
+6. **Pass:** Native normalized and malformed prompt-injection results retained `human_review_required: true`; local guard-tampering tests independently enforce the invariant.
+7. **Pass:** Native inspection and local artifact checks confirmed no credentials, external APIs, LLMs, webhooks, messaging, production systems, or action nodes were used.
+8. **Pass:** Task 001 fixtures and `fixtures/n8n_adverse_requests.json` cover valid, empty, malformed, urgent, incomplete, ambiguous, and prompt-injection cases with repeatable Python/workflow parity tests.
+9. **Pass:** `docs/08-n8n-manual-test.md` documents repeatable local validation, native import/execution, result comparison, adverse testing, export/re-import, and safety checks.
+10. **Pass:** The reviewed inactive JSON is stored under `n8n/workflows/`, passed local secret/personal-data scans, completed a native export/re-import round trip, and was not deployed to production.
 
-Task 002 is not fully done under its definition of done until the pending items are verified in an explicitly authorized development n8n instance. Task 003 must not begin.
+All acceptance criteria and the definition of done are satisfied for self-hosted n8n 2.14.2. Compatibility with newer n8n versions has not been verified. No upgrade is part of Task 002. Task 003 must not begin without explicit approval.
 
 ## Prompt-injection defect verification
 
@@ -200,4 +200,4 @@ The corrected local artifact now:
 - preserves `human_review_required: true` in all paths;
 - passes Python and workflow parity regressions.
 
-No native n8n claim is made for the correction. Re-import and native execution of both raw and normalized regression cases remain pending.
+The corrected artifact was subsequently verified natively on self-hosted n8n 2.14.2. The normalized case returned `prompt_injection` with human review true. The malformed raw case returned `rejected`, `invalid_input` plus `prompt_injection`, and human review true. Export, re-import as a new workflow, and repeat malformed-input execution produced the same result. Compatibility with newer n8n versions remains unverified.

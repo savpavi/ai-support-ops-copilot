@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Task 001 complete. Task 002 local artifact complete; development n8n import and runtime verification pending.
+Tasks 001 and 002 complete. Task 002 was manually verified on self-hosted n8n 2.14.2.
 
 ## Completed
 
@@ -22,16 +22,18 @@ Task 001 complete. Task 002 local artifact complete; development n8n import and 
 - Replicated Task 001 behavior in a Code node and added a separate Human Review Guard.
 - Added five synthetic adverse-input fixtures and repeatable manual n8n import/test instructions.
 - Added nine automated workflow structure and local JavaScript/Python parity tests; all passed on 2026-08-02.
-- Corrected the prompt-injection detector after native manual verification exposed an untested control-manipulation phrase; corrected native retesting is pending.
+- Corrected the prompt-injection detector after native manual verification exposed an untested control-manipulation phrase.
+- Manually verified successful import, inactive/manual-only operation, normal and urgent execution, normalized and malformed prompt-injection handling, and export/re-import on self-hosted n8n 2.14.2.
+- Confirmed during native verification that no credentials, external APIs, LLMs, webhooks, messaging, or production systems were used.
 
-## Not started
+## Not started or out of scope
 
-- Manual import into an explicitly authorized development n8n instance.
-- Native n8n execution of the corrected artifact, regression-fixture parity, export/re-import, and version compatibility verification.
-- External integrations and deployment.
+- Task 003.
+- Compatibility verification with n8n versions newer than 2.14.2.
+- External integrations and production deployment.
 
 ## Next authorized action
 
-Wait for authorized development-instance details before manual n8n verification. Do not activate or deploy the workflow, add credentials or action nodes, or begin Task 003.
+Stop after Task 002. Do not activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, or begin Task 003 without explicit approval.
 
 Last updated: 2026-08-02

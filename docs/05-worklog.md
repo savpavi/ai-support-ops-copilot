@@ -55,3 +55,14 @@
 - Replaced literal matching in Python and workflow JavaScript with bounded deterministic patterns covering instruction override, review disablement, automatic action, protected-field changes, hidden-instruction disclosure, and safety bypass.
 - Added conservative negative coverage for ordinary approval wording and exact raw/normalized regression assertions in both Python and workflow parity tests.
 - Corrected artifact passed local regression and parity validation. It has not been rerun in n8n; native retesting is pending.
+
+## 2026-08-02 — Task 002 native completion verification
+
+- Manually verified the corrected artifact in an authorized self-hosted n8n 2.14.2 development instance.
+- Imported successfully and remained inactive with Manual Trigger as the only trigger.
+- Executed a normal synthetic request successfully and confirmed an urgent synthetic request returned `urgency: high`.
+- Confirmed normalized prompt-injection input returned `prompt_injection` and `human_review_required: true`.
+- Confirmed the malformed raw prompt-injection payload returned `status: rejected`, `invalid_input` plus `prompt_injection`, and `human_review_required: true`.
+- Exported the workflow, imported it again as a new workflow, and reproduced the malformed-input result.
+- Confirmed no credentials, external APIs, LLMs, webhooks, messaging, or production systems were used.
+- Marked all Task 002 acceptance criteria complete for self-hosted n8n 2.14.2. Compatibility with newer n8n versions remains unverified; no upgrade was recommended or performed.

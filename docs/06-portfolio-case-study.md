@@ -15,7 +15,7 @@ The project begins from a safety-first premise: automated analysis can accelerat
 ## Task 001 evidence
 
 - Five conspicuously synthetic fixture classes: normal, urgent, incomplete, ambiguous, and security-sensitive.
-- Eleven repeatable standard-library tests covering valid behavior, rejected input, contract tampering, prompt injection, draft safety, and CLI parity.
+- Thirteen repeatable standard-library tests covering valid behavior, rejected input, contract tampering, prompt injection, draft safety, and CLI parity.
 - A versioned input/output contract with deterministic allowed values and error behavior.
 - No runtime dependencies, persistence, network services, LLM calls, message sending, or deployment.
 
@@ -23,14 +23,16 @@ The project begins from a safety-first premise: automated analysis can accelerat
 
 Keyword rules can miss paraphrases and can produce false positives. Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. The test suite demonstrates contract and safety behavior, not production accuracy or business impact.
 
-## Task 002 local integration evidence
+## Task 002 integration evidence
 
 - A reviewable inactive workflow artifact with exactly four built-in nodes and no credentials or external-action nodes.
 - A separate Human Review Guard that converts malformed or tampered intermediate output into a structured rejected result with review still required.
-- Eight local tests that inspect workflow structure and compare the embedded JavaScript against the Python oracle for Task 001 and adverse fixtures.
+- Nine local tests that inspect workflow structure and compare the embedded JavaScript against the Python oracle for Task 001 and adverse fixtures.
 - A manual import, fixture parity, export, and re-import guide for an authorized development n8n instance.
+- Native verification on self-hosted n8n 2.14.2: successful import, inactive manual-only execution, normal and urgent results, guarded normalized and malformed prompt-injection results, and successful export/re-import execution.
+- Native confirmation that no credentials, external APIs, LLMs, webhooks, messaging, or production systems were used.
 
-This evidence supports artifact structure and deterministic parity outside n8n. It does not yet support a claim that a particular n8n version imports or executes the artifact correctly; that remains a manual verification step.
+This evidence supports artifact structure, deterministic Python/JavaScript parity, and development compatibility with self-hosted n8n 2.14.2. Compatibility with newer n8n versions is not yet verified, and no upgrade recommendation is part of Task 002.
 
 ## Evidence to collect later
 
