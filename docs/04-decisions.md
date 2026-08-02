@@ -29,3 +29,9 @@ Credentials and sensitive configuration must remain outside version control. Ign
 **Status:** Accepted — 2026-08-02
 
 Task 001 uses Python and only its standard library. Python provides JSON handling, type and value checks, a local CLI, and `unittest` without introducing dependency installation or a framework. The classifier is a deterministic rule-based baseline; model-provider selection remains outside Task 001.
+
+## ADR-006: Self-contained workflow JSON with Python parity reference
+
+**Status:** Proposed — 2026-08-02; implementation not approved.
+
+Task 002 should use an inactive manual-only workflow made from built-in n8n nodes and transported by reviewed workflow JSON. The small deterministic Task 001 algorithm will be replicated in a Code node, with a separate final contract guard. The Python baseline and fixtures remain the canonical parity reference. Direct Python execution is rejected because it requires shell/repository access; a Python API is rejected because it adds a service and network boundary. REST API and n8n MCP management are excluded unless a later need justifies their credentials and additional control surface.

@@ -29,6 +29,18 @@ Use only the minimum synthetic input needed to demonstrate behavior. Do not coll
 - Review dependencies and avoid adding them without need.
 - Do not deploy or connect to n8n during initialization.
 
+## Planned Task 002 controls
+
+- Use a user-authorized development n8n instance on a local or isolated network only.
+- Import an inactive workflow through the authenticated development UI; keep UI credentials and connection details outside the repository.
+- Use only built-in Manual Trigger, Edit Fields/Set, and Code nodes. Do not use webhooks, schedules, HTTP requests, AI nodes, Execute Command, filesystem writes, databases, or message/action nodes.
+- Give Code nodes no secrets, credentials, filesystem dependency, subprocess access requirement, or external-network requirement.
+- Treat request text only as a string value; never evaluate it or use it to choose expressions, property paths, nodes, or control flow.
+- Keep a separate final guard that validates the exact output contract and forces `human_review_required: true`.
+- Minimize or disable execution retention where supported and use only reviewed synthetic fixtures.
+- Before committing an export, verify it is inactive and scan for credential attachments, tokens, cookies, instance URLs and IDs, webhook data, personal data, and unexpected node types.
+- Require human approval before import, first execution, export, re-import verification, activation, or any production use. Task 002 does not authorize the last two actions.
+
 ## Incident rule
 
 If real data or a secret is discovered, stop work, avoid reproducing it in logs or discussion, remove it from the working tree safely, and notify the repository owner so rotation or history cleanup can be handled explicitly.

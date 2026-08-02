@@ -24,3 +24,12 @@
 - Fixed the disruption rule after the first test run exposed an overly narrow phrase match.
 - Re-ran the complete suite: 11 tests passed.
 - Confirmed that Task 001 has no n8n integration, network service, LLM call, external messaging, or deployment behavior.
+
+## 2026-08-02 — Task 002 integration planning
+
+- Inspected the Task 001 implementation, JSON contracts, fixtures, CLI, and automated tests.
+- Selected an inactive manual-only workflow using built-in n8n nodes and workflow JSON import/export as the smallest integration boundary.
+- Chose to replicate the deterministic rules in a Code node while retaining Python as the parity oracle; rejected shell execution and a new local API as unnecessary risk and complexity.
+- Excluded n8n REST API and MCP management from the baseline because no programmatic control channel or credential is needed.
+- Defined development connection prerequisites, credential controls, parity and adverse-input testing, sanitized export, human approval gates, and rollback steps.
+- Made planning changes only; no n8n connection, workflow, credential, LLM call, or deployment was created.

@@ -12,7 +12,9 @@ Task 001 established the n8n-independent core: the machine-readable input/output
 
 ### Task 002: development n8n integration
 
-Only after Task 001 is complete, Task 002 connects that validated baseline to an authorized development n8n instance. It maps one synthetic request into the established contract, preserves the same validated result and safety invariants, adds workflow-level adverse-input tests, and exports an importable workflow JSON under `n8n/workflows/`. It does not send external messages or deploy to production.
+Only after separate implementation approval, Task 002 will connect that validated baseline to an authorized development n8n instance. The planned workflow is inactive and manual-only: Manual Trigger → Synthetic Request Input → Analyze and Validate → Human Review Guard. It maps one synthetic request into the established contract, preserves the same validated result and safety invariants, adds workflow-level adverse-input tests, and exports an importable workflow JSON under `n8n/workflows/`. It does not send external messages or deploy to production.
+
+The deterministic Task 001 rules will be replicated in a built-in n8n Code node so the workflow remains self-contained. The Python implementation remains the canonical parity reference rather than being invoked through a shell or new local API. Workflow JSON import/export through the development UI is the primary integration mechanism; REST API and MCP access are intentionally excluded from the baseline because they would add credentials and control surfaces without a demonstrated need.
 
 ## Implemented Task 001 flow
 
@@ -30,15 +32,20 @@ Only after Task 001 is complete, Task 002 connects that validated baseline to an
 - **Policy checks:** deterministic input validation, output schema and enum validation, injection-risk detection, and an immutable human-review invariant.
 - **Output contract:** versioned plain JSON documented in `docs/07-contracts.md`, suitable for tests and later n8n consumption.
 - **Fixtures and tests:** five synthetic scenario classes plus malformed-input, contract-tampering, reply-safety, and CLI tests.
-- **n8n adapter:** deferred to Task 002. It will map the validated Task 001 inputs and outputs into a development workflow without moving or weakening core validation rules.
+- **n8n adapter:** planned for Task 002 as built-in manual, edit-fields, and Code nodes. A final guard independently validates the contract and enforces human review.
 
 ## Data handling
 
 The Task 001 baseline operates in memory and performs no persistence or network calls. The CLI reads one local JSON value and writes one result to standard output. Task 002 may connect only to an explicitly authorized development n8n instance; it must not send external messages or connect to production systems.
 
+## Task 002 development boundary
+
+The target must be a user-authorized, non-production n8n instance on a local or isolated development network. The workflow requires no n8n credential records, external network access, filesystem mounts, subprocess execution, community nodes, webhooks, schedules, or production identifiers. It must be imported and exported inactive, and retained execution data must remain synthetic and minimized.
+
 ## Deferred decisions
 
-- Exact n8n workflow shape and development connection method, deferred to Task 002 after Task 001 validation.
+- The exact development instance URL, version, and access method, which must be supplied and authorized before implementation and must not be committed.
+- Any future REST API or MCP management channel, which requires separate justification and approval.
 - Production hosting and deployment, which remain out of scope.
 
 Task 001 decisions must preserve a platform-independent contract. Task 002 workflow decisions should be made only after that baseline is complete and only with explicit approval.
