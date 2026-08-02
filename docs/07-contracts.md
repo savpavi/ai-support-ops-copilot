@@ -44,4 +44,4 @@ Rejected inputs use `category: unknown` and `urgency: unknown`, include `invalid
 
 ## Compatibility boundary
 
-The contracts are plain JSON and contain no n8n-specific fields. Task 002 may transport these objects, but must not weaken validation, reinterpret request text as instructions, or alter the human-review invariant.
+The contracts are plain JSON and contain no n8n-specific fields. The Task 002 artifact transports these objects and replicates Task 001 rules in a Code node, followed by an independent Human Review Guard. Local parity tests confirm complete object equality with the Python reference for the committed fixtures. Native n8n import and execution remain version-dependent manual verification. Any n8n migration must not weaken validation, reinterpret request text as instructions, or alter the human-review invariant.

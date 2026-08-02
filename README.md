@@ -4,7 +4,7 @@ AI Support Operations Copilot is a portfolio project for assisting human support
 
 ## Current state
 
-Task 001 is complete: the repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, and automated tests. Task 002, n8n integration, has not started. Nothing has been deployed or connected to an external service. See `STATUS.md` for the authoritative status.
+Task 001 is complete: the repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, and automated tests. The local Task 002 artifact is also implemented as a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. It has not been imported into or executed by an n8n instance, so development-runtime verification remains pending. Nothing has been deployed or connected to an external service. See `STATUS.md` for the authoritative status.
 
 ## Scope
 
@@ -23,7 +23,7 @@ Out of scope for the initial phase are real customer data, production integratio
 
 - `docs/`: brief, requirements, architecture, security, decisions, worklog, and case-study notes.
 - `tasks/`: bounded implementation task specifications.
-- `n8n/workflows/`: reserved for later workflow artifacts; currently empty.
+- `n8n/workflows/`: sanitized inactive Task 002 workflow artifact.
 - `support_copilot/`: local classifier plus input and output validation.
 - `fixtures/`: synthetic Task 001 scenarios.
 - `tests/`: standard-library automated tests.
@@ -38,6 +38,8 @@ Run all tests:
 ```bash
 python3 -m unittest discover -s tests -v
 ```
+
+This runs 11 Task 001 regression tests and 8 Task 002 workflow structure/parity tests. Node.js is required only for the Task 002 tests, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
 
 Analyze one synthetic request from standard input:
 
@@ -56,6 +58,8 @@ The CLI returns exit code `0` for accepted input and `2` for rejected input. The
 ## Limitations
 
 The classifier uses transparent keyword rules, not an LLM. It is deterministic and useful as a contract and safety baseline, but it does not understand language semantically, measure statistical confidence, or establish production accuracy. Its suggested replies are fixed templates and must always be reviewed by a human.
+
+The workflow artifact has not yet been verified against a real n8n version or sandbox. Follow `docs/08-n8n-manual-test.md` in an explicitly authorized development instance before claiming import or runtime compatibility. The workflow must remain inactive and must not gain credentials or action nodes.
 
 ## Safety
 

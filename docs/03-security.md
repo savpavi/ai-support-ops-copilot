@@ -29,7 +29,7 @@ Use only the minimum synthetic input needed to demonstrate behavior. Do not coll
 - Review dependencies and avoid adding them without need.
 - Do not deploy or connect to n8n during initialization.
 
-## Planned Task 002 controls
+## Task 002 controls
 
 - Use a user-authorized development n8n instance on a local or isolated network only.
 - Import an inactive workflow through the authenticated development UI; keep UI credentials and connection details outside the repository.
@@ -40,6 +40,8 @@ Use only the minimum synthetic input needed to demonstrate behavior. Do not coll
 - Minimize or disable execution retention where supported and use only reviewed synthetic fixtures.
 - Before committing an export, verify it is inactive and scan for credential attachments, tokens, cookies, instance URLs and IDs, webhook data, personal data, and unexpected node types.
 - Require human approval before import, first execution, export, re-import verification, activation, or any production use. Task 002 does not authorize the last two actions.
+
+The committed workflow currently satisfies the local static controls: it is inactive, contains only the four allowlisted built-in nodes, carries no credential attachment or instance metadata, uses synthetic default input, and ends at the Human Review Guard. These controls must be rechecked after native n8n import/export because the target instance can add metadata or apply version-specific migrations.
 
 ## Incident rule
 

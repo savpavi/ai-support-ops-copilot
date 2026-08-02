@@ -1,0 +1,110 @@
+{
+  "name": "AI Support Operations Copilot - Development Manual Baseline",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "6fe28cf4-cb42-4cb3-a843-e7d9ec7c3d01",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1d2a5a6-a932-44f6-9d01-248507550101",
+              "name": "request_id",
+              "value": "SYN-N8N-DEMO-001",
+              "type": "string"
+            },
+            {
+              "id": "7630dbd4-095c-45f8-b784-a45925550102",
+              "name": "message",
+              "value": "The synthetic demo dashboard stopped working ten minutes ago.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cb720bc9-1d4e-4ac1-8c90-21d7c42bc302",
+      "name": "Synthetic Request Input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -420,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const SCHEMA_VERSION = '1.0';\nconst MAX_MESSAGE_LENGTH = 4000;\nconst SYNTHETIC_ID = /^SYN-[A-Z0-9][A-Z0-9-]{2,39}$/;\nconst URL_PATTERN = /https?:\\/\\/|www\\./i;\n\nconst CATEGORY_RULES = [\n  ['access_issue', ['cannot log in', \"can't log in\", 'locked out', 'sign in', 'login']],\n  ['billing', ['charged', 'charge', 'billing', 'invoice', 'refund', 'payment']],\n  ['service_disruption', ['service unavailable', 'unavailable', 'outage', 'not working', 'system down', 'stopped working']],\n  ['account_change', ['change account', 'update profile', 'change name', 'account update']],\n];\n\nconst PROMPT_INJECTION_TERMS = [\n  'ignore previous instructions',\n  'ignore all instructions',\n  'reveal system prompt',\n  'show system prompt',\n  'bypass safety',\n  'disable human review',\n  'human_review_required false',\n  'human_review_required\\\": false',\n];\n\nconst containsAny = (text, terms) => terms.some((term) => text.includes(term));\n\nfunction validateInput(value) {\n  if (value === null || Array.isArray(value) || typeof value !== 'object') {\n    return ['input must be a JSON object'];\n  }\n\n  const errors = [];\n  const allowedKeys = new Set(['request_id', 'message']);\n  const extraKeys = Object.keys(value).filter((key) => !allowedKeys.has(key)).sort();\n  if (extraKeys.length) {\n    errors.push(`unexpected fields: ${extraKeys.join(', ')}`);\n  }\n\n  if (typeof value.request_id !== 'string' || !SYNTHETIC_ID.test(value.request_id)) {\n    errors.push('request_id must match SYN-[A-Z0-9-] and be 7-44 characters long');\n  }\n\n  if (typeof value.message !== 'string') {\n    errors.push('message must be a string');\n  } else if (!value.message.trim()) {\n    errors.push('message must not be empty');\n  } else if ([...value.message].length > MAX_MESSAGE_LENGTH) {\n    errors.push(`message must be at most ${MAX_MESSAGE_LENGTH} characters`);\n  }\n\n  return errors;\n}\n\nfunction securityFlags(text) {\n  const flags = [];\n  if (containsAny(text, PROMPT_INJECTION_TERMS)) flags.push('prompt_injection');\n  if (containsAny(text, ['password', 'passcode', 'api key', 'access token', 'secret token'])) flags.push('credential_request');\n  if (containsAny(text, ['card number', 'credit card', 'security code', 'cvv'])) flags.push('payment_data');\n  if (containsAny(text, ['passport number', 'national id', 'identity document'])) flags.push('sensitive_identity_data');\n  if (URL_PATTERN.test(text)) flags.push('suspicious_link');\n  return flags.sort();\n}\n\nfunction classifyCategory(text) {\n  for (const [category, terms] of CATEGORY_RULES) {\n    if (containsAny(text, terms)) return category;\n  }\n  return 'general';\n}\n\nfunction classifyUrgency(text, flags) {\n  if (containsAny(text, ['immediate danger', 'medical emergency', 'safety emergency'])) return 'critical';\n  if (containsAny(text, ['urgent', 'stranded', 'locked out', 'system down', 'cannot access', \"can't access\"])) return 'high';\n  if (flags.length) return 'high';\n  if (containsAny(text, ['when convenient', 'no rush', 'general question'])) return 'low';\n  return 'normal';\n}\n\nfunction missingInformation(category, text) {\n  const missing = [];\n  if (category === 'access_issue') {\n    if (!containsAny(text, ['account', 'profile', 'workspace'])) missing.push('affected account context');\n    if (!containsAny(text, ['browser', 'device', 'app', 'desktop', 'mobile'])) missing.push('device or application context');\n  } else if (category === 'billing') {\n    if (!containsAny(text, ['invoice', 'transaction', 'order', 'receipt', 'synthetic reference'])) missing.push('synthetic transaction reference');\n    if (!containsAny(text, ['date', 'today', 'yesterday'])) missing.push('approximate event date');\n  } else if (category === 'service_disruption') {\n    if (!containsAny(text, ['dashboard', 'portal', 'service', 'app', 'feature'])) missing.push('affected service or feature');\n    if (!containsAny(text, ['since', 'started', 'today', 'minute', 'hour'])) missing.push('time the issue began');\n  } else if (category === 'account_change') {\n    if (!containsAny(text, ['name', 'setting', 'preference', 'profile'])) missing.push('account field to change');\n  } else if (text.split(/\\s+/).filter(Boolean).length < 8 || containsAny(text, ['help me', 'it failed', 'problem'])) {\n    missing.push('specific issue and desired outcome');\n  }\n  return missing;\n}\n\nfunction rationale(category, urgency, flags) {\n  const categoryReasons = {\n    access_issue: 'The request describes a sign-in or access problem.',\n    account_change: 'The request asks for an account or profile change.',\n    billing: 'The request concerns a charge, payment, invoice, or refund.',\n    service_disruption: 'The request describes unavailable or failing service.',\n    general: 'The request lacks a more specific supported category.',\n  };\n  const urgencyReasons = {\n    low: 'It explicitly indicates that no prompt response is needed.',\n    normal: 'No deterministic high-urgency indicator was found.',\n    high: 'Urgent access, disruption, or security-review indicators were found.',\n    critical: 'The text contains an explicit safety or medical emergency indicator.',\n  };\n  const securityReason = flags.length ? ' Security-sensitive content requires review.' : '';\n  return `${categoryReasons[category]} ${urgencyReasons[urgency]}${securityReason}`;\n}\n\nfunction suggestedReply(category, missing, flags) {\n  const opening = flags.length\n    ? 'Draft for human review: We received your request, but it contains content that requires a security review.'\n    : `Draft for human review: We received your ${category.replaceAll('_', ' ')} request.`;\n  if (missing.length) {\n    return `${opening} Please provide: ${missing.join(', ')}. Do not include passwords, payment-card data, or identity documents.`;\n  }\n  return `${opening} A support operator will review the details before any action is taken.`;\n}\n\nfunction rejectedResult(value, errors) {\n  const requestId = value !== null && !Array.isArray(value) && typeof value === 'object'\n    && typeof value.request_id === 'string' && SYNTHETIC_ID.test(value.request_id)\n    ? value.request_id\n    : null;\n  return {\n    schema_version: SCHEMA_VERSION,\n    status: 'rejected',\n    request_id: requestId,\n    category: 'unknown',\n    urgency: 'unknown',\n    rationale: 'Input validation failed; no classification was attempted.',\n    missing_information: [],\n    suggested_reply: 'Draft for human review: The request could not be processed safely. Please provide a valid synthetic request.',\n    security_flags: ['invalid_input'],\n    human_review_required: true,\n    errors,\n  };\n}\n\nconst input = $input.first().json;\nconst errors = validateInput(input);\nif (errors.length) {\n  return [{ json: rejectedResult(input, errors) }];\n}\n\nconst text = input.message.trim().toLowerCase();\nconst flags = securityFlags(text);\nconst category = classifyCategory(text);\nconst urgency = classifyUrgency(text, flags);\nconst missing = missingInformation(category, text);\n\nreturn [{\n  json: {\n    schema_version: SCHEMA_VERSION,\n    status: 'accepted',\n    request_id: input.request_id,\n    category,\n    urgency,\n    rationale: rationale(category, urgency, flags),\n    missing_information: missing,\n    suggested_reply: suggestedReply(category, missing, flags),\n    security_flags: flags,\n    human_review_required: true,\n    errors: [],\n  },\n}];"
+      },
+      "id": "8c0a4799-3974-4771-a77f-1c60fdba0303",
+      "name": "Analyze and Validate",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const REQUIRED_FIELDS = [\n  'category',\n  'errors',\n  'human_review_required',\n  'missing_information',\n  'rationale',\n  'request_id',\n  'schema_version',\n  'security_flags',\n  'status',\n  'suggested_reply',\n  'urgency',\n];\nconst CATEGORIES = new Set(['access_issue', 'account_change', 'billing', 'service_disruption', 'general', 'unknown']);\nconst URGENCIES = new Set(['low', 'normal', 'high', 'critical', 'unknown']);\nconst STATUSES = new Set(['accepted', 'rejected']);\nconst SECURITY_FLAGS = new Set(['credential_request', 'invalid_input', 'payment_data', 'prompt_injection', 'sensitive_identity_data', 'suspicious_link']);\nconst SYNTHETIC_ID = /^SYN-[A-Z0-9][A-Z0-9-]{2,39}$/;\n\nfunction fallback() {\n  return {\n    schema_version: '1.0',\n    status: 'rejected',\n    request_id: null,\n    category: 'unknown',\n    urgency: 'unknown',\n    rationale: 'Output validation failed; no workflow action was attempted.',\n    missing_information: [],\n    suggested_reply: 'Draft for human review: The request could not be processed safely. Please review the workflow result.',\n    security_flags: ['invalid_input'],\n    human_review_required: true,\n    errors: ['output validation failed'],\n  };\n}\n\nfunction isStringArray(value) {\n  return Array.isArray(value) && value.every((item) => typeof item === 'string');\n}\n\nfunction isValid(value) {\n  if (value === null || Array.isArray(value) || typeof value !== 'object') return false;\n  const fields = Object.keys(value).sort();\n  if (JSON.stringify(fields) !== JSON.stringify(REQUIRED_FIELDS)) return false;\n  if (value.schema_version !== '1.0') return false;\n  if (typeof value.status !== 'string' || !STATUSES.has(value.status)) return false;\n  if (typeof value.category !== 'string' || !CATEGORIES.has(value.category)) return false;\n  if (typeof value.urgency !== 'string' || !URGENCIES.has(value.urgency)) return false;\n  if (value.human_review_required !== true) return false;\n  if (value.request_id !== null && (typeof value.request_id !== 'string' || !SYNTHETIC_ID.test(value.request_id))) return false;\n  if (typeof value.rationale !== 'string' || !value.rationale) return false;\n  if (typeof value.suggested_reply !== 'string' || !value.suggested_reply.startsWith('Draft for human review:')) return false;\n  if (!isStringArray(value.missing_information) || !isStringArray(value.security_flags) || !isStringArray(value.errors)) return false;\n  if (!value.security_flags.every((flag) => SECURITY_FLAGS.has(flag))) return false;\n  if (value.status === 'accepted' && value.errors.length) return false;\n  if (value.status === 'rejected' && (!value.errors.length || !value.security_flags.includes('invalid_input'))) return false;\n  return true;\n}\n\nconst items = $input.all();\nconst candidate = items.length === 1 ? items[0].json : null;\nconst guarded = isValid(candidate) ? candidate : fallback();\nguarded.human_review_required = true;\nreturn [{ json: guarded }];"
+      },
+      "id": "f6414d21-095a-46a5-bec7-2e39ef380404",
+      "name": "Human Review Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        100,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Synthetic Request Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Synthetic Request Input": {
+      "main": [
+        [
+          {
+            "node": "Analyze and Validate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze and Validate": {
+      "main": [
+        [
+          {
+            "node": "Human Review Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

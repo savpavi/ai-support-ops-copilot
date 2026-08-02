@@ -12,9 +12,9 @@ Task 001 established the n8n-independent core: the machine-readable input/output
 
 ### Task 002: development n8n integration
 
-Only after separate implementation approval, Task 002 will connect that validated baseline to an authorized development n8n instance. The planned workflow is inactive and manual-only: Manual Trigger → Synthetic Request Input → Analyze and Validate → Human Review Guard. It maps one synthetic request into the established contract, preserves the same validated result and safety invariants, adds workflow-level adverse-input tests, and exports an importable workflow JSON under `n8n/workflows/`. It does not send external messages or deploy to production.
+Task 002 now has a sanitized local workflow artifact that is inactive and manual-only: Manual Trigger → Synthetic Request Input → Analyze and Validate → Human Review Guard. It maps one synthetic request into the established contract, preserves the same validated result and safety invariants, and is stored under `n8n/workflows/`. It does not send external messages or deploy to production. Import and execution in an authorized development n8n instance remain unverified.
 
-The deterministic Task 001 rules will be replicated in a built-in n8n Code node so the workflow remains self-contained. The Python implementation remains the canonical parity reference rather than being invoked through a shell or new local API. Workflow JSON import/export through the development UI is the primary integration mechanism; REST API and MCP access are intentionally excluded from the baseline because they would add credentials and control surfaces without a demonstrated need.
+The deterministic Task 001 rules are replicated in a built-in n8n Code node so the workflow remains self-contained. The Python implementation remains the canonical parity reference rather than being invoked through a shell or new local API. Workflow JSON import/export through the development UI is the intended integration mechanism; REST API and MCP access remain excluded.
 
 ## Implemented Task 001 flow
 
@@ -32,7 +32,8 @@ The deterministic Task 001 rules will be replicated in a built-in n8n Code node 
 - **Policy checks:** deterministic input validation, output schema and enum validation, injection-risk detection, and an immutable human-review invariant.
 - **Output contract:** versioned plain JSON documented in `docs/07-contracts.md`, suitable for tests and later n8n consumption.
 - **Fixtures and tests:** five synthetic scenario classes plus malformed-input, contract-tampering, reply-safety, and CLI tests.
-- **n8n adapter:** planned for Task 002 as built-in manual, edit-fields, and Code nodes. A final guard independently validates the contract and enforces human review.
+- **n8n adapter:** implemented locally as built-in Manual Trigger, Edit Fields/Set, and Code nodes. A final guard independently validates the contract and enforces human review.
+- **Workflow verification:** Python tests parse and inspect the artifact, run its JavaScript in a local Node harness, and compare complete results with the Task 001 oracle. This does not emulate all n8n sandbox or import behavior.
 
 ## Data handling
 

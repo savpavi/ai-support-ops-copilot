@@ -1,6 +1,6 @@
 # Task 002: n8n Workflow Integration
 
-**Status:** Planning complete; implementation not started. A separate explicit approval is required before connecting to n8n or creating the workflow.
+**Status:** Local artifact implemented — 2026-08-02. Native development n8n import and execution verification pending.
 
 ## Objective
 
@@ -169,3 +169,18 @@ Because the workflow creates no external state beyond its inactive development d
 ## Definition of done
 
 All acceptance criteria are met in an authorized development n8n instance, the exported workflow and synthetic fixtures are reviewed, repeatable tests confirm parity with the Task 001 contract, documentation and `STATUS.md` are current, and no message has been sent or production deployment performed.
+
+## Acceptance verification
+
+1. **Pending manual n8n verification:** The sanitized JSON parses locally, is inactive, contains no credentials or instance metadata, and uses conventional built-in-node export structure. Import into a target n8n version has not been attempted.
+2. **Local pass; native execution pending:** The artifact has exactly one Synthetic Request Input node containing only `request_id` and `message`, and local execution produces one item.
+3. **Local pass; native execution pending:** All five Task 001 fixtures produce complete object equality between the workflow JavaScript and Python oracle.
+4. **Local pass; native execution pending:** Empty, wrong-type, invalid, extra-field, non-object, and overlong inputs produce matching structured rejected results with no action node.
+5. **Local pass; native execution pending:** Prompt-like text is handled only as string data, produces the expected risk flags, and cannot change the static topology or review invariant.
+6. **Local pass; native execution pending:** The analyzer hardcodes review true; the separate guard rejects a tampered false value and emits a guarded result with review true.
+7. **Pass by artifact inspection:** The allowlisted topology contains no external message, update, webhook, HTTP, AI, credential, filesystem, subprocess, schedule, or production-action node.
+8. **Pass locally:** Existing Task 001 fixtures plus `fixtures/n8n_adverse_requests.json` cover the required valid and adverse cases and are exercised by parity tests.
+9. **Pass:** `docs/08-n8n-manual-test.md` documents repeatable local validation, import, native execution, field parity, adverse testing, export, re-import, and safety checks.
+10. **Local pass; export round-trip pending:** The reviewed artifact is stored under `n8n/workflows/`, is inactive, and passed local credential/personal-data scans. It has not been deployed or round-tripped through n8n.
+
+Task 002 is not fully done under its definition of done until the pending items are verified in an explicitly authorized development n8n instance. Task 003 must not begin.

@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Task 001 complete. Task 002 planning complete; implementation has not started.
+Task 001 complete. Task 002 local artifact complete; development n8n import and runtime verification pending.
 
 ## Completed
 
@@ -18,15 +18,19 @@ Task 001 complete. Task 002 planning complete; implementation has not started.
 - Verified safe rejection of empty, malformed, and non-JSON input and enforcement of human review.
 - Ran the complete test suite successfully on 2026-08-02.
 - Completed the Task 002 development-integration plan without connecting to n8n or creating a workflow.
+- Created a sanitized, inactive, manual-only four-node workflow JSON under `n8n/workflows/`.
+- Replicated Task 001 behavior in a Code node and added a separate Human Review Guard.
+- Added five synthetic adverse-input fixtures and repeatable manual n8n import/test instructions.
+- Added eight automated workflow structure and local JavaScript/Python parity tests; all passed on 2026-08-02.
 
 ## Not started
 
-- Task 002 implementation: development n8n workflow integration of the completed Task 001 baseline.
-- n8n workflow design or connection.
+- Manual import into an explicitly authorized development n8n instance.
+- Native n8n execution, fixture parity, export/re-import, and version compatibility verification.
 - External integrations and deployment.
 
 ## Next authorized action
 
-Wait for separate explicit implementation approval and authorized development-instance details before connecting to n8n or creating the Task 002 workflow.
+Wait for authorized development-instance details before manual n8n verification. Do not activate or deploy the workflow, add credentials or action nodes, or begin Task 003.
 
 Last updated: 2026-08-02

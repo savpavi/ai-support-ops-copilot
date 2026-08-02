@@ -23,6 +23,15 @@ The project begins from a safety-first premise: automated analysis can accelerat
 
 Keyword rules can miss paraphrases and can produce false positives. Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. The test suite demonstrates contract and safety behavior, not production accuracy or business impact.
 
+## Task 002 local integration evidence
+
+- A reviewable inactive workflow artifact with exactly four built-in nodes and no credentials or external-action nodes.
+- A separate Human Review Guard that converts malformed or tampered intermediate output into a structured rejected result with review still required.
+- Eight local tests that inspect workflow structure and compare the embedded JavaScript against the Python oracle for Task 001 and adverse fixtures.
+- A manual import, fixture parity, export, and re-import guide for an authorized development n8n instance.
+
+This evidence supports artifact structure and deterministic parity outside n8n. It does not yet support a claim that a particular n8n version imports or executes the artifact correctly; that remains a manual verification step.
+
 ## Evidence to collect later
 
 - Architecture and data-flow diagram matching the implemented system.
