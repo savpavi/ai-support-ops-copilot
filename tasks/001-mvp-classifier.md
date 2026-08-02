@@ -1,10 +1,10 @@
-# Task 001: MVP Classifier
+# Task 001: Local MVP Classifier and Validation Baseline
 
 **Status:** Not started. Do not implement without explicit approval.
 
 ## Objective
 
-Build the smallest local classifier/analyzer that turns one synthetic support request into a validated, structured, human-reviewable recommendation.
+Build the smallest local, n8n-independent classifier/analyzer that turns one synthetic support request into a validated, structured, human-reviewable recommendation. Establish the input/output contract, synthetic fixtures, and repeatable test baseline that Task 002 will integrate without changing its safety invariants.
 
 ## Deliverables
 
@@ -16,6 +16,7 @@ Build the smallest local classifier/analyzer that turns one synthetic support re
 - Security and privacy risk flags.
 - An invariant that human review is always required.
 - Synthetic fixtures and automated tests.
+- Repeatable local test instructions that establish the integration baseline for Task 002.
 - Updates to architecture, decisions, worklog, README, and status as needed.
 
 ## Constraints
@@ -23,6 +24,7 @@ Build the smallest local classifier/analyzer that turns one synthetic support re
 - Use synthetic data only; never use real Pegasus, passenger, agency, PNR, employee, email, or phone data.
 - Do not store secrets, credentials, or sensitive configuration.
 - Do not connect to n8n, create an n8n workflow, deploy, send messages, or call production systems.
+- Keep the core contract, validation, fixtures, and tests independent from any workflow platform.
 - Keep dependencies and abstractions minimal.
 - Treat request text as untrusted input.
 - Do not allow the classifier to take actions; all output is advisory.
@@ -37,6 +39,7 @@ Build the smallest local classifier/analyzer that turns one synthetic support re
 6. Prompt-like instructions inside request text cannot disable safety constraints or human review.
 7. No network connection, n8n workflow, deployment artifact, secret, credential, or real personal data is introduced.
 8. Relevant tests pass and documentation accurately reflects the implementation and its limitations.
+9. The validated contract, synthetic fixtures, and test instructions are reusable by Task 002 without requiring n8n-specific behavior in the classifier core.
 
 ## Definition of done
 
