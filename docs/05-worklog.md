@@ -162,3 +162,13 @@
 - Added a dependency-free GitHub Actions workflow: full test suite on Python 3.10 and 3.13, workflow artifact source check, and both evaluation summaries on every push and pull request; added the README badge and recorded ADR-013.
 - Brought `docs/06-portfolio-case-study.md` up to date with the Task 005 single-source evidence, the Task 006 honest out-of-distribution measurements, the engineering-honesty narrative arc, and the measured (rather than assumed) paraphrase limitation.
 - No classifier, rules, workflow, or evaluation change; CI contains no secrets, deploy steps, or n8n access.
+
+## 2026-08-04 — Task 008 LLM classifier and multi-model evaluation
+
+- Implemented `support_copilot/llm_classifier.py`: semantic classification behind the unchanged contract, with deterministic input validation before any tokens are spent, union-only merging of deterministic security flags, templated replies, and fail-closed contract enforcement.
+- Added two providers: the optional `anthropic` SDK (pinned to `claude-haiku-4-5`) and OpenRouter via the standard library (`OPENROUTER_API_KEY`, any served model), plus `--classifier`, `--provider`, and `--model` CLI options with usage reporting.
+- Extended the evaluation runner with analyzer and parity options; parity is honestly reported as not measured for non-baseline analyzers.
+- Added thirteen offline stub-based tests; the full suite passed: 64 tests, still key-less and network-free.
+- Ran the live sweep: four models × both datasets (308 calls, ~$0.10 total) through OpenRouter. Category on paraphrases rose from the baseline's 14/33 to 31–33/33 (claude-haiku-4.5: 33/33); the five paraphrased security solicitations the baseline missed entirely were caught 4–5/5 by every model; missing-information remained a judgment-divergence domain that dominates the all-assertions metric.
+- One model produced contract-nonconforming output on 10 calls; every one was rejected by the guard before reaching a caller — no unsafe output passed in any of the 308 calls.
+- Committed the snapshot results and methodology (`docs/llm-evaluation-results.json`, `docs/11-llm-evaluation.md`) with explicit non-reproducibility caveats; recorded ADR-014.

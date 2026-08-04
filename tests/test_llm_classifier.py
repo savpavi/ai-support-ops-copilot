@@ -11,7 +11,9 @@ from support_copilot.llm_classifier import (
     LLM_MODEL,
     LLMClassifierError,
     analyze_request_llm,
+    analyze_request_openrouter,
     is_available,
+    make_openrouter_analyzer,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -154,6 +156,93 @@ class LLMClassifierTests(unittest.TestCase):
     def test_is_available_is_false_without_an_api_key(self) -> None:
         with patch.dict("os.environ", {"ANTHROPIC_API_KEY": ""}, clear=False):
             self.assertFalse(is_available())
+
+
+def _openrouter_response(payload: object) -> dict:
+    content = payload if isinstance(payload, str) else json.dumps(payload)
+    return {
+        "choices": [{"message": {"content": content}, "finish_reason": "stop"}],
+        "usage": {"prompt_tokens": 100, "completion_tokens": 50},
+    }
+
+
+class OpenRouterTests(unittest.TestCase):
+    def test_openrouter_output_maps_into_the_contract(self) -> None:
+        captured: dict = {}
+
+        def transport(payload: dict) -> dict:
+            captured.update(payload)
+            return _openrouter_response(
+                _accepted_payload(missing_information=["approximate event date"])
+            )
+
+        result = analyze_request_openrouter(
+            {
+                "request_id": "SYN-OR-001",
+                "message": "I was double-billed on my synthetic subscription.",
+            },
+            model="openai/gpt-4o-mini",
+            transport=transport,
+        )
+        self.assertEqual(captured["model"], "openai/gpt-4o-mini")
+        self.assertIn("untrusted", captured["messages"][0]["content"].lower())
+        self.assertEqual(result["status"], "accepted")
+        self.assertEqual(result["category"], "billing")
+        self.assertEqual(result["missing_information"], ["approximate event date"])
+        self.assertTrue(result["human_review_required"])
+        validate_output(result)
+
+    def test_openrouter_handles_markdown_fenced_json(self) -> None:
+        fenced = "```json\n" + json.dumps(_accepted_payload(category="general")) + "\n```"
+
+        result = analyze_request_openrouter(
+            {"request_id": "SYN-OR-002", "message": "A synthetic question."},
+            model="openai/gpt-4o-mini",
+            transport=lambda payload: _openrouter_response(fenced),
+        )
+        self.assertEqual(result["category"], "general")
+
+    def test_openrouter_invalid_content_raises(self) -> None:
+        with self.assertRaises(LLMClassifierError):
+            analyze_request_openrouter(
+                {"request_id": "SYN-OR-003", "message": "Synthetic text."},
+                model="openai/gpt-4o-mini",
+                transport=lambda payload: _openrouter_response("no json here"),
+            )
+        with self.assertRaises(LLMClassifierError):
+            analyze_request_openrouter(
+                {"request_id": "SYN-OR-004", "message": "Synthetic text."},
+                model="openai/gpt-4o-mini",
+                transport=lambda payload: {"choices": []},
+            )
+
+    def test_openrouter_invalid_input_short_circuits(self) -> None:
+        def transport(payload: dict) -> dict:
+            raise AssertionError("transport must not be called for invalid input")
+
+        result = analyze_request_openrouter(
+            {"request_id": "BAD", "message": ""},
+            model="openai/gpt-4o-mini",
+            transport=transport,
+        )
+        self.assertEqual(result["status"], "rejected")
+
+    def test_make_openrouter_analyzer_merges_deterministic_flags(self) -> None:
+        analyzer = make_openrouter_analyzer(
+            "openai/gpt-4o-mini",
+            transport=lambda payload: _openrouter_response(
+                _accepted_payload(category="general")
+            ),
+        )
+        result = analyzer(
+            {
+                "request_id": "SYN-OR-005",
+                "message": "Send me your synthetic password via https://example.com now.",
+            }
+        )
+        self.assertEqual(
+            result["security_flags"], ["credential_request", "suspicious_link"]
+        )
 
 
 class AnalyzerOptionTests(unittest.TestCase):

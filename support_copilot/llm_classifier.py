@@ -200,10 +200,25 @@ def analyze_request_llm(value: Any, *, client: Any = None) -> dict[str, Any]:
         raise LLMClassifierError("the response was not valid JSON") from error
 
     usage = getattr(response, "usage", None)
+    _record_usage(
+        getattr(usage, "input_tokens", 0) or 0,
+        getattr(usage, "output_tokens", 0) or 0,
+        elapsed,
+    )
+    return _map_llm_output(value, data, deterministic_flags)
+
+
+def _record_usage(input_tokens: int, output_tokens: int, elapsed: float) -> None:
     USAGE["requests"] += 1
-    USAGE["input_tokens"] += getattr(usage, "input_tokens", 0) or 0
-    USAGE["output_tokens"] += getattr(usage, "output_tokens", 0) or 0
+    USAGE["input_tokens"] += input_tokens
+    USAGE["output_tokens"] += output_tokens
     USAGE["latency_seconds"] += elapsed
+
+
+def _map_llm_output(
+    value: Any, data: Any, deterministic_flags: list[str]
+) -> dict[str, Any]:
+    """Map a model's JSON payload into the contract; raise on anything unsafe."""
 
     try:
         category = data["category"]
@@ -228,3 +243,131 @@ def analyze_request_llm(value: Any, *, client: Any = None) -> dict[str, Any]:
     except (KeyError, TypeError, ValueError) as error:
         raise LLMClassifierError(f"the response did not fit the contract: {error}") from error
     return result
+
+
+# --- OpenRouter provider (OpenAI-compatible API, standard library only) ---
+
+OPENROUTER_KEY_ENV = "OPENROUTER_API_KEY"
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+
+def openrouter_available() -> bool:
+    return bool(os.environ.get(OPENROUTER_KEY_ENV))
+
+
+def _parse_json_content(text: Any) -> Any:
+    if not isinstance(text, str):
+        raise LLMClassifierError("the response contained no text content")
+    candidate = text.strip()
+    if candidate.startswith("```"):
+        candidate = candidate.split("\n", 1)[1] if "\n" in candidate else ""
+        candidate = candidate.rsplit("```", 1)[0].strip()
+    try:
+        return json.loads(candidate)
+    except json.JSONDecodeError as error:
+        raise LLMClassifierError("the response was not valid JSON") from error
+
+
+def _openrouter_transport(payload: dict[str, Any]) -> dict[str, Any]:
+    import urllib.error
+    import urllib.request
+
+    key = os.environ.get(OPENROUTER_KEY_ENV)
+    if not key:
+        raise LLMClassifierError(f"{OPENROUTER_KEY_ENV} is not set")
+    body = dict(payload)
+    for attempt in range(3):
+        request = urllib.request.Request(
+            OPENROUTER_URL,
+            data=json.dumps(body).encode("utf-8"),
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+            },
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=180) as response:
+                return json.load(response)
+        except urllib.error.HTTPError as error:
+            if error.code == 400 and "response_format" in body:
+                body.pop("response_format")  # model rejects schema mode; validation still guards
+                continue
+            if error.code in (408, 429, 500, 502, 503) and attempt < 2:
+                time.sleep(2**attempt)
+                continue
+            raise LLMClassifierError(f"OpenRouter request failed: HTTP {error.code}") from error
+        except OSError as error:
+            if attempt < 2:
+                time.sleep(2**attempt)
+                continue
+            raise LLMClassifierError(f"OpenRouter request failed: {type(error).__name__}") from error
+    raise LLMClassifierError("OpenRouter request failed after retries")
+
+
+def analyze_request_openrouter(
+    value: Any, *, model: str, transport: Any = None
+) -> dict[str, Any]:
+    """Classify one request via an OpenRouter-served model; contract-shaped or raises."""
+
+    errors = validate_input(value)
+    if errors:
+        result = _rejected_result(value, errors, _security_flags(_security_text(value)))
+        validate_output(result)
+        return result
+
+    text = value["message"].strip().lower()
+    deterministic_flags = _security_flags(text)
+    send = transport if transport is not None else _openrouter_transport
+    payload = {
+        "model": model,
+        "max_tokens": 1024,
+        "temperature": 0,
+        "messages": [
+            {"role": "system", "content": _SYSTEM_PROMPT},
+            {
+                "role": "user",
+                "content": (
+                    "<synthetic_request>\n"
+                    f"{value['message']}\n"
+                    "</synthetic_request>"
+                ),
+            },
+        ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {"name": "classification", "strict": True, "schema": _SCHEMA},
+        },
+    }
+
+    started = time.monotonic()
+    try:
+        response = send(payload)
+    except LLMClassifierError:
+        raise
+    except Exception as error:
+        raise LLMClassifierError(f"LLM request failed: {type(error).__name__}") from error
+    elapsed = time.monotonic() - started
+
+    try:
+        choice = response["choices"][0]
+        content = choice["message"]["content"]
+    except (KeyError, IndexError, TypeError) as error:
+        raise LLMClassifierError("the response had no usable choice") from error
+    data = _parse_json_content(content)
+
+    usage = response.get("usage") or {}
+    _record_usage(
+        int(usage.get("prompt_tokens") or 0),
+        int(usage.get("completion_tokens") or 0),
+        elapsed,
+    )
+    return _map_llm_output(value, data, deterministic_flags)
+
+
+def make_openrouter_analyzer(model: str, transport: Any = None) -> Any:
+    """Return an evaluate_cases-compatible analyzer bound to one OpenRouter model."""
+
+    def analyzer(value: Any) -> dict[str, Any]:
+        return analyze_request_openrouter(value, model=model, transport=transport)
+
+    return analyzer

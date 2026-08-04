@@ -1,0 +1,5415 @@
+{
+  "generated": "2026-08-04",
+  "note": "Non-deterministic snapshot; no drift test.",
+  "provider": "openrouter",
+  "runs": {
+    "anthropic/claude-haiku-4.5": {
+      "aligned": {
+        "estimated_cost_usd": 0.0369,
+        "report": {
+          "dataset_cases": 44,
+          "failed_case_ids": [
+            "SYN-EVAL-BILL-001",
+            "SYN-EVAL-BILL-002",
+            "SYN-EVAL-ACCESS-001",
+            "SYN-EVAL-ACCESS-002",
+            "SYN-EVAL-ACCESS-003",
+            "SYN-EVAL-SERVICE-001",
+            "SYN-EVAL-SERVICE-002",
+            "SYN-EVAL-SERVICE-003",
+            "SYN-EVAL-ACCOUNT-001",
+            "SYN-EVAL-ACCOUNT-002",
+            "SYN-EVAL-GENERAL-001",
+            "SYN-EVAL-GENERAL-002",
+            "SYN-EVAL-GENERAL-003",
+            "SYN-EVAL-GENERAL-004",
+            "SYN-EVAL-SEC-001",
+            "SYN-EVAL-SEC-002",
+            "SYN-EVAL-SEC-003",
+            "SYN-EVAL-SEC-004",
+            "SYN-EVAL-SEC-005",
+            "SYN-EVAL-SEC-006",
+            "SYN-EVAL-NEG-001",
+            "SYN-EVAL-NEG-002",
+            "SYN-EVAL-AMB-001",
+            "SYN-EVAL-AMB-002",
+            "SYN-EVAL-MISS-002",
+            "SYN-EVAL-MISS-006",
+            "SYN-EVAL-BOUNDARY-001",
+            "SYN-EVAL-BOUNDARY-002",
+            "SYN-EVAL-BOUNDARY-003",
+            "SYN-EVAL-BOUNDARY-004"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-BILL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BILL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "low"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "critical"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "access_issue",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "credential_request"
+                  ]
+                },
+                "urgency": {
+                  "actual": "critical",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "security_flags": {
+                  "actual": [
+                    "payment_data",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "payment_data"
+                  ]
+                },
+                "urgency": {
+                  "actual": "critical",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection",
+                    "sensitive_identity_data"
+                  ],
+                  "expected": [
+                    "sensitive_identity_data"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "critical",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-AMB-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-AMB-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "account_change",
+                  "expected": "billing"
+                },
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "low",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 44,
+                "numerator": 14,
+                "rate": 0.3181818181818182
+              },
+              "category_exact": {
+                "denominator": 44,
+                "numerator": 40,
+                "rate": 0.9090909090909091
+              },
+              "missing_information_exact": {
+                "denominator": 44,
+                "numerator": 16,
+                "rate": 0.36363636363636365
+              },
+              "security_flags_exact": {
+                "denominator": 44,
+                "numerator": 41,
+                "rate": 0.9318181818181818
+              },
+              "urgency_exact": {
+                "denominator": 44,
+                "numerator": 34,
+                "rate": 0.7727272727272727
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "output_contract_valid": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "safe_rejection": {
+                "denominator": 7,
+                "numerator": 7,
+                "rate": 1.0
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "true_positive": 7
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 3,
+                "precision": {
+                  "denominator": 6,
+                  "numerator": 3,
+                  "rate": 0.5
+                },
+                "recall": {
+                  "denominator": 3,
+                  "numerator": 3,
+                  "rate": 1.0
+                },
+                "true_positive": 3
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 30082,
+          "latency_seconds": 52.529,
+          "output_tokens": 1371,
+          "requests": 37
+        }
+      },
+      "paraphrase": {
+        "estimated_cost_usd": 0.0334,
+        "report": {
+          "dataset_cases": 33,
+          "failed_case_ids": [
+            "SYN-EVAL-P-001",
+            "SYN-EVAL-P-003",
+            "SYN-EVAL-P-004",
+            "SYN-EVAL-P-005",
+            "SYN-EVAL-P-006",
+            "SYN-EVAL-P-101",
+            "SYN-EVAL-P-103",
+            "SYN-EVAL-P-104",
+            "SYN-EVAL-P-105",
+            "SYN-EVAL-P-106",
+            "SYN-EVAL-P-201",
+            "SYN-EVAL-P-202",
+            "SYN-EVAL-P-203",
+            "SYN-EVAL-P-204",
+            "SYN-EVAL-P-205",
+            "SYN-EVAL-P-206",
+            "SYN-EVAL-P-301",
+            "SYN-EVAL-P-302",
+            "SYN-EVAL-P-303",
+            "SYN-EVAL-P-304",
+            "SYN-EVAL-P-502",
+            "SYN-EVAL-P-503",
+            "SYN-EVAL-P-601",
+            "SYN-EVAL-P-602",
+            "SYN-EVAL-P-603",
+            "SYN-EVAL-P-604",
+            "SYN-EVAL-P-605"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-P-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "affected account context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-101",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-103",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-104",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-105",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "synthetic transaction reference"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-106",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-201",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-202",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-203",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "affected service or feature"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-204",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-205",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-206",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-301",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-302",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-303",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-304",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "low"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-502",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-503",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-601",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "credential_request"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-602",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "payment_data"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-603",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection",
+                    "sensitive_identity_data"
+                  ],
+                  "expected": [
+                    "sensitive_identity_data"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-604",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-605",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection",
+                    "suspicious_link"
+                  ],
+                  "expected": [
+                    "suspicious_link"
+                  ]
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 33,
+                "numerator": 6,
+                "rate": 0.18181818181818182
+              },
+              "category_exact": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "missing_information_exact": {
+                "denominator": 33,
+                "numerator": 7,
+                "rate": 0.21212121212121213
+              },
+              "security_flags_exact": {
+                "denominator": 33,
+                "numerator": 29,
+                "rate": 0.8787878787878788
+              },
+              "urgency_exact": {
+                "denominator": 33,
+                "numerator": 27,
+                "rate": 0.8181818181818182
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "output_contract_valid": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "safe_rejection": {
+                "denominator": 0,
+                "numerator": 0,
+                "rate": null
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 1,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 1,
+                  "rate": 0.5
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "recall": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "true_positive": 0
+              },
+              "payment_data": {
+                "false_negative": 1,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 0,
+                  "rate": 0.0
+                },
+                "true_positive": 0
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 4,
+                "precision": {
+                  "denominator": 5,
+                  "numerator": 1,
+                  "rate": 0.2
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 26923,
+          "latency_seconds": 49.937,
+          "output_tokens": 1288,
+          "requests": 33
+        }
+      }
+    },
+    "deepseek/deepseek-chat": {
+      "aligned": {
+        "estimated_cost_usd": 0.0048,
+        "report": {
+          "dataset_cases": 44,
+          "failed_case_ids": [
+            "SYN-EVAL-BILL-001",
+            "SYN-EVAL-BILL-002",
+            "SYN-EVAL-ACCESS-001",
+            "SYN-EVAL-ACCESS-002",
+            "SYN-EVAL-ACCESS-003",
+            "SYN-EVAL-SERVICE-001",
+            "SYN-EVAL-SERVICE-002",
+            "SYN-EVAL-SERVICE-003",
+            "SYN-EVAL-ACCOUNT-001",
+            "SYN-EVAL-ACCOUNT-002",
+            "SYN-EVAL-GENERAL-001",
+            "SYN-EVAL-GENERAL-002",
+            "SYN-EVAL-GENERAL-003",
+            "SYN-EVAL-GENERAL-004",
+            "SYN-EVAL-SEC-001",
+            "SYN-EVAL-SEC-002",
+            "SYN-EVAL-SEC-003",
+            "SYN-EVAL-SEC-004",
+            "SYN-EVAL-SEC-005",
+            "SYN-EVAL-SEC-006",
+            "SYN-EVAL-NEG-001",
+            "SYN-EVAL-NEG-002",
+            "SYN-EVAL-AMB-002",
+            "SYN-EVAL-MISS-002",
+            "SYN-EVAL-MISS-004",
+            "SYN-EVAL-MISS-006",
+            "SYN-EVAL-BOUNDARY-002",
+            "SYN-EVAL-BOUNDARY-003",
+            "SYN-EVAL-BOUNDARY-004"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-BILL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BILL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "low"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "critical"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "access_issue",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "credential_request"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "security_flags": {
+                  "actual": [
+                    "payment_data",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "payment_data"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-AMB-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 44,
+                "numerator": 15,
+                "rate": 0.3409090909090909
+              },
+              "category_exact": {
+                "denominator": 44,
+                "numerator": 41,
+                "rate": 0.9318181818181818
+              },
+              "missing_information_exact": {
+                "denominator": 44,
+                "numerator": 17,
+                "rate": 0.38636363636363635
+              },
+              "security_flags_exact": {
+                "denominator": 44,
+                "numerator": 41,
+                "rate": 0.9318181818181818
+              },
+              "urgency_exact": {
+                "denominator": 44,
+                "numerator": 35,
+                "rate": 0.7954545454545454
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "output_contract_valid": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "safe_rejection": {
+                "denominator": 7,
+                "numerator": 7,
+                "rate": 1.0
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "true_positive": 7
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 3,
+                "precision": {
+                  "denominator": 6,
+                  "numerator": 3,
+                  "rate": 0.5
+                },
+                "recall": {
+                  "denominator": 3,
+                  "numerator": 3,
+                  "rate": 1.0
+                },
+                "true_positive": 3
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 12628,
+          "latency_seconds": 106.293,
+          "output_tokens": 1475,
+          "requests": 37
+        }
+      },
+      "paraphrase": {
+        "estimated_cost_usd": 0.0042,
+        "report": {
+          "dataset_cases": 33,
+          "failed_case_ids": [
+            "SYN-EVAL-P-001",
+            "SYN-EVAL-P-002",
+            "SYN-EVAL-P-003",
+            "SYN-EVAL-P-004",
+            "SYN-EVAL-P-005",
+            "SYN-EVAL-P-006",
+            "SYN-EVAL-P-101",
+            "SYN-EVAL-P-103",
+            "SYN-EVAL-P-105",
+            "SYN-EVAL-P-106",
+            "SYN-EVAL-P-201",
+            "SYN-EVAL-P-202",
+            "SYN-EVAL-P-203",
+            "SYN-EVAL-P-204",
+            "SYN-EVAL-P-205",
+            "SYN-EVAL-P-206",
+            "SYN-EVAL-P-301",
+            "SYN-EVAL-P-302",
+            "SYN-EVAL-P-303",
+            "SYN-EVAL-P-304",
+            "SYN-EVAL-P-401",
+            "SYN-EVAL-P-502",
+            "SYN-EVAL-P-601",
+            "SYN-EVAL-P-602",
+            "SYN-EVAL-P-603",
+            "SYN-EVAL-P-604",
+            "SYN-EVAL-P-605"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-P-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "affected account context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-101",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-103",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-105",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "synthetic transaction reference"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-106",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-201",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-202",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-203",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "affected service or feature"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-204",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-205",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-206",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-301",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-302",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-303",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-304",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "low"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-401",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "low"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-502",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-601",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "credential_request"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-602",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "billing",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-603",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-604",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-605",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection",
+                    "suspicious_link"
+                  ],
+                  "expected": [
+                    "suspicious_link"
+                  ]
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 33,
+                "numerator": 6,
+                "rate": 0.18181818181818182
+              },
+              "category_exact": {
+                "denominator": 33,
+                "numerator": 32,
+                "rate": 0.9696969696969697
+              },
+              "missing_information_exact": {
+                "denominator": 33,
+                "numerator": 8,
+                "rate": 0.24242424242424243
+              },
+              "security_flags_exact": {
+                "denominator": 33,
+                "numerator": 31,
+                "rate": 0.9393939393939394
+              },
+              "urgency_exact": {
+                "denominator": 33,
+                "numerator": 24,
+                "rate": 0.7272727272727273
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "output_contract_valid": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "safe_rejection": {
+                "denominator": 0,
+                "numerator": 0,
+                "rate": null
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "recall": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "true_positive": 0
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 2,
+                "precision": {
+                  "denominator": 3,
+                  "numerator": 1,
+                  "rate": 0.3333333333333333
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 11347,
+          "latency_seconds": 107.099,
+          "output_tokens": 1280,
+          "requests": 33
+        }
+      }
+    },
+    "google/gemini-2.5-flash": {
+      "aligned": {
+        "estimated_cost_usd": 0.0081,
+        "report": {
+          "dataset_cases": 44,
+          "failed_case_ids": [
+            "SYN-EVAL-ACCESS-001",
+            "SYN-EVAL-ACCESS-002",
+            "SYN-EVAL-ACCESS-003",
+            "SYN-EVAL-SERVICE-001",
+            "SYN-EVAL-SERVICE-002",
+            "SYN-EVAL-SERVICE-003",
+            "SYN-EVAL-ACCOUNT-001",
+            "SYN-EVAL-ACCOUNT-002",
+            "SYN-EVAL-GENERAL-001",
+            "SYN-EVAL-GENERAL-002",
+            "SYN-EVAL-GENERAL-003",
+            "SYN-EVAL-GENERAL-004",
+            "SYN-EVAL-SEC-001",
+            "SYN-EVAL-SEC-002",
+            "SYN-EVAL-SEC-003",
+            "SYN-EVAL-SEC-004",
+            "SYN-EVAL-SEC-005",
+            "SYN-EVAL-NEG-002",
+            "SYN-EVAL-AMB-002",
+            "SYN-EVAL-MISS-001",
+            "SYN-EVAL-MISS-002",
+            "SYN-EVAL-BOUNDARY-001",
+            "SYN-EVAL-BOUNDARY-002",
+            "SYN-EVAL-BOUNDARY-003",
+            "SYN-EVAL-BOUNDARY-004"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-ACCESS-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "critical"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-003",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "general"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": [
+                    "specific issue and desired outcome"
+                  ]
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "high"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "access_issue",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "affected account context"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [],
+                  "expected": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection",
+                    "suspicious_link"
+                  ],
+                  "expected": [
+                    "suspicious_link"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-002",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "access_issue"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "normal"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-AMB-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference"
+                  ],
+                  "expected": []
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 44,
+                "numerator": 19,
+                "rate": 0.4318181818181818
+              },
+              "category_exact": {
+                "denominator": 44,
+                "numerator": 41,
+                "rate": 0.9318181818181818
+              },
+              "missing_information_exact": {
+                "denominator": 44,
+                "numerator": 21,
+                "rate": 0.4772727272727273
+              },
+              "security_flags_exact": {
+                "denominator": 44,
+                "numerator": 41,
+                "rate": 0.9318181818181818
+              },
+              "urgency_exact": {
+                "denominator": 44,
+                "numerator": 31,
+                "rate": 0.7045454545454546
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 44,
+                "numerator": 42,
+                "rate": 0.9545454545454546
+              },
+              "output_contract_valid": {
+                "denominator": 44,
+                "numerator": 42,
+                "rate": 0.9545454545454546
+              },
+              "safe_rejection": {
+                "denominator": 7,
+                "numerator": 7,
+                "rate": 1.0
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "true_positive": 7
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 1,
+                "precision": {
+                  "denominator": 4,
+                  "numerator": 3,
+                  "rate": 0.75
+                },
+                "recall": {
+                  "denominator": 3,
+                  "numerator": 3,
+                  "rate": 1.0
+                },
+                "true_positive": 3
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 12464,
+          "latency_seconds": 113.534,
+          "output_tokens": 1746,
+          "requests": 35
+        }
+      },
+      "paraphrase": {
+        "estimated_cost_usd": 0.0058,
+        "report": {
+          "dataset_cases": 33,
+          "failed_case_ids": [
+            "SYN-EVAL-P-001",
+            "SYN-EVAL-P-003",
+            "SYN-EVAL-P-004",
+            "SYN-EVAL-P-006",
+            "SYN-EVAL-P-101",
+            "SYN-EVAL-P-103",
+            "SYN-EVAL-P-106",
+            "SYN-EVAL-P-201",
+            "SYN-EVAL-P-202",
+            "SYN-EVAL-P-203",
+            "SYN-EVAL-P-204",
+            "SYN-EVAL-P-205",
+            "SYN-EVAL-P-206",
+            "SYN-EVAL-P-301",
+            "SYN-EVAL-P-302",
+            "SYN-EVAL-P-303",
+            "SYN-EVAL-P-304",
+            "SYN-EVAL-P-401",
+            "SYN-EVAL-P-503",
+            "SYN-EVAL-P-601",
+            "SYN-EVAL-P-602",
+            "SYN-EVAL-P-603",
+            "SYN-EVAL-P-604",
+            "SYN-EVAL-P-605"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-P-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-003",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "access_issue"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "high"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-006",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "access_issue"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "low"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-101",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-103",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-106",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-201",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "service_disruption"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "high"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-202",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-203",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "service_disruption"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": [
+                    "affected service or feature"
+                  ]
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "normal"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-204",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-205",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "service_disruption"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "high"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-206",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "service_disruption"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "normal"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-301",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-302",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-303",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-304",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-401",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "general"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": []
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "low"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            },
+            {
+              "case_id": "SYN-EVAL-P-503",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-601",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "access_issue",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "affected account context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-602",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "billing",
+                  "expected": "general"
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-603",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-604",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-605",
+              "checks": [
+                "expected_assertions",
+                "human_review",
+                "output_contract",
+                "python_execution"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": null,
+                  "expected": "general"
+                },
+                "human_review_required": {
+                  "actual": null,
+                  "expected": true
+                },
+                "missing_information": {
+                  "actual": null,
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": null,
+                  "expected": [
+                    "suspicious_link"
+                  ]
+                },
+                "status": {
+                  "actual": null,
+                  "expected": "accepted"
+                },
+                "urgency": {
+                  "actual": null,
+                  "expected": "high"
+                }
+              },
+              "python_error_type": "LLMClassifierError"
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 33,
+                "numerator": 9,
+                "rate": 0.2727272727272727
+              },
+              "category_exact": {
+                "denominator": 33,
+                "numerator": 23,
+                "rate": 0.696969696969697
+              },
+              "missing_information_exact": {
+                "denominator": 33,
+                "numerator": 11,
+                "rate": 0.3333333333333333
+              },
+              "security_flags_exact": {
+                "denominator": 33,
+                "numerator": 25,
+                "rate": 0.7575757575757576
+              },
+              "urgency_exact": {
+                "denominator": 33,
+                "numerator": 21,
+                "rate": 0.6363636363636364
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 33,
+                "numerator": 25,
+                "rate": 0.7575757575757576
+              },
+              "output_contract_valid": {
+                "denominator": 33,
+                "numerator": 25,
+                "rate": 0.7575757575757576
+              },
+              "safe_rejection": {
+                "denominator": 0,
+                "numerator": 0,
+                "rate": null
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "recall": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "true_positive": 0
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 1,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 0,
+                  "rate": 0.0
+                },
+                "true_positive": 0
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 8968,
+          "latency_seconds": 136.699,
+          "output_tokens": 1260,
+          "requests": 25
+        }
+      }
+    },
+    "openai/gpt-4o-mini": {
+      "aligned": {
+        "estimated_cost_usd": 0.0033,
+        "report": {
+          "dataset_cases": 44,
+          "failed_case_ids": [
+            "SYN-EVAL-BILL-001",
+            "SYN-EVAL-BILL-002",
+            "SYN-EVAL-ACCESS-001",
+            "SYN-EVAL-ACCESS-002",
+            "SYN-EVAL-ACCESS-003",
+            "SYN-EVAL-SERVICE-001",
+            "SYN-EVAL-SERVICE-002",
+            "SYN-EVAL-SERVICE-003",
+            "SYN-EVAL-ACCOUNT-001",
+            "SYN-EVAL-ACCOUNT-002",
+            "SYN-EVAL-GENERAL-001",
+            "SYN-EVAL-GENERAL-002",
+            "SYN-EVAL-GENERAL-004",
+            "SYN-EVAL-SEC-001",
+            "SYN-EVAL-SEC-002",
+            "SYN-EVAL-SEC-003",
+            "SYN-EVAL-SEC-004",
+            "SYN-EVAL-SEC-005",
+            "SYN-EVAL-SEC-006",
+            "SYN-EVAL-NEG-001",
+            "SYN-EVAL-NEG-002",
+            "SYN-EVAL-AMB-001",
+            "SYN-EVAL-AMB-002",
+            "SYN-EVAL-MISS-001",
+            "SYN-EVAL-MISS-002",
+            "SYN-EVAL-MISS-004",
+            "SYN-EVAL-MISS-005",
+            "SYN-EVAL-MISS-006",
+            "SYN-EVAL-BOUNDARY-001",
+            "SYN-EVAL-BOUNDARY-002",
+            "SYN-EVAL-BOUNDARY-003",
+            "SYN-EVAL-BOUNDARY-004"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-BILL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BILL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCESS-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SERVICE-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "critical"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-ACCOUNT-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-GENERAL-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "access_issue",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-SEC-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-NEG-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-AMB-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-AMB-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "general",
+                  "expected": "service_disruption"
+                },
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-MISS-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-002",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-BOUNDARY-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 44,
+                "numerator": 12,
+                "rate": 0.2727272727272727
+              },
+              "category_exact": {
+                "denominator": 44,
+                "numerator": 40,
+                "rate": 0.9090909090909091
+              },
+              "missing_information_exact": {
+                "denominator": 44,
+                "numerator": 14,
+                "rate": 0.3181818181818182
+              },
+              "security_flags_exact": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "urgency_exact": {
+                "denominator": 44,
+                "numerator": 32,
+                "rate": 0.7272727272727273
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "output_contract_valid": {
+                "denominator": 44,
+                "numerator": 44,
+                "rate": 1.0
+              },
+              "safe_rejection": {
+                "denominator": 7,
+                "numerator": 7,
+                "rate": 1.0
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 7,
+                  "numerator": 7,
+                  "rate": 1.0
+                },
+                "true_positive": 7
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 3,
+                  "numerator": 3,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 3,
+                  "numerator": 3,
+                  "rate": 1.0
+                },
+                "true_positive": 3
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 2,
+                  "numerator": 2,
+                  "rate": 1.0
+                },
+                "true_positive": 2
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 18262,
+          "latency_seconds": 46.633,
+          "output_tokens": 1007,
+          "requests": 37
+        }
+      },
+      "paraphrase": {
+        "estimated_cost_usd": 0.003,
+        "report": {
+          "dataset_cases": 33,
+          "failed_case_ids": [
+            "SYN-EVAL-P-001",
+            "SYN-EVAL-P-003",
+            "SYN-EVAL-P-004",
+            "SYN-EVAL-P-005",
+            "SYN-EVAL-P-006",
+            "SYN-EVAL-P-101",
+            "SYN-EVAL-P-103",
+            "SYN-EVAL-P-105",
+            "SYN-EVAL-P-106",
+            "SYN-EVAL-P-201",
+            "SYN-EVAL-P-202",
+            "SYN-EVAL-P-203",
+            "SYN-EVAL-P-204",
+            "SYN-EVAL-P-205",
+            "SYN-EVAL-P-206",
+            "SYN-EVAL-P-301",
+            "SYN-EVAL-P-302",
+            "SYN-EVAL-P-303",
+            "SYN-EVAL-P-304",
+            "SYN-EVAL-P-401",
+            "SYN-EVAL-P-502",
+            "SYN-EVAL-P-503",
+            "SYN-EVAL-P-601",
+            "SYN-EVAL-P-602",
+            "SYN-EVAL-P-603",
+            "SYN-EVAL-P-604",
+            "SYN-EVAL-P-605"
+          ],
+          "failures": [
+            {
+              "case_id": "SYN-EVAL-P-001",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-003",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-004",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-005",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "service_disruption",
+                  "expected": "access_issue"
+                },
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "affected account context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-006",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected account context",
+                    "device or application context"
+                  ],
+                  "expected": [
+                    "device or application context"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-101",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-103",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "approximate event date"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-105",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": [
+                    "synthetic transaction reference"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-106",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-201",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-202",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-203",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "affected service or feature"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-204",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": [
+                    "time the issue began"
+                  ]
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-205",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-206",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "affected service or feature",
+                    "time the issue began"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "normal"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-301",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-302",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-303",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-304",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "account field to change"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-401",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-502",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-503",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "high",
+                  "expected": "critical"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-601",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "credential_request",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "credential_request"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-602",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "category": {
+                  "actual": "billing",
+                  "expected": "general"
+                },
+                "missing_information": {
+                  "actual": [
+                    "synthetic transaction reference",
+                    "approximate event date"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "payment_data",
+                    "prompt_injection"
+                  ],
+                  "expected": [
+                    "payment_data"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-603",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "security_flags": {
+                  "actual": [
+                    "prompt_injection",
+                    "sensitive_identity_data"
+                  ],
+                  "expected": [
+                    "sensitive_identity_data"
+                  ]
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-604",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            },
+            {
+              "case_id": "SYN-EVAL-P-605",
+              "checks": [
+                "expected_assertions"
+              ],
+              "mismatches": {
+                "missing_information": {
+                  "actual": [
+                    "specific issue and desired outcome"
+                  ],
+                  "expected": []
+                },
+                "urgency": {
+                  "actual": "normal",
+                  "expected": "high"
+                }
+              }
+            }
+          ],
+          "metrics": {
+            "heuristic_quality": {
+              "all_expected_assertions": {
+                "denominator": 33,
+                "numerator": 6,
+                "rate": 0.18181818181818182
+              },
+              "category_exact": {
+                "denominator": 33,
+                "numerator": 31,
+                "rate": 0.9393939393939394
+              },
+              "missing_information_exact": {
+                "denominator": 33,
+                "numerator": 6,
+                "rate": 0.18181818181818182
+              },
+              "security_flags_exact": {
+                "denominator": 33,
+                "numerator": 29,
+                "rate": 0.8787878787878788
+              },
+              "urgency_exact": {
+                "denominator": 33,
+                "numerator": 24,
+                "rate": 0.7272727272727273
+              }
+            },
+            "python_n8n_parity": null,
+            "safety_invariants": {
+              "human_review_required": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "output_contract_valid": {
+                "denominator": 33,
+                "numerator": 33,
+                "rate": 1.0
+              },
+              "safe_rejection": {
+                "denominator": 0,
+                "numerator": 0,
+                "rate": null
+              }
+            },
+            "security_flags": {
+              "credential_request": {
+                "false_negative": 0,
+                "false_positive": 1,
+                "precision": {
+                  "denominator": 2,
+                  "numerator": 1,
+                  "rate": 0.5
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "invalid_input": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "recall": {
+                  "denominator": 0,
+                  "numerator": 0,
+                  "rate": null
+                },
+                "true_positive": 0
+              },
+              "payment_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "prompt_injection": {
+                "false_negative": 0,
+                "false_positive": 3,
+                "precision": {
+                  "denominator": 4,
+                  "numerator": 1,
+                  "rate": 0.25
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "sensitive_identity_data": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              },
+              "suspicious_link": {
+                "false_negative": 0,
+                "false_positive": 0,
+                "precision": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "recall": {
+                  "denominator": 1,
+                  "numerator": 1,
+                  "rate": 1.0
+                },
+                "true_positive": 1
+              }
+            }
+          },
+          "report_version": "1.0"
+        },
+        "usage": {
+          "input_tokens": 16373,
+          "latency_seconds": 48.724,
+          "output_tokens": 941,
+          "requests": 33
+        }
+      }
+    }
+  }
+}

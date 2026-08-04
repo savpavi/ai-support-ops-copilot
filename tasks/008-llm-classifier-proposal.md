@@ -2,7 +2,9 @@
 
 ## Status
 
-- **State:** approved and in progress — owner decisions recorded 2026-08-04: Option A; the official `anthropic` Python SDK as an optional dependency (baseline stays dependency-free); evaluation model `claude-haiku-4-5`; API key via the `ANTHROPIC_API_KEY` environment variable only, never in the repository; LLM tests and evaluations skip or fail clearly without the key, so CI stays deterministic and key-less.
+- **State:** complete — 2026-08-04. Implemented with two providers, 64 offline tests passing, and the four-model live sweep recorded in `docs/11-llm-evaluation.md`.
+- **Original decisions:** — owner decisions recorded 2026-08-04: Option A; the official `anthropic` Python SDK as an optional dependency (baseline stays dependency-free); evaluation model `claude-haiku-4-5`; API key via the `ANTHROPIC_API_KEY` environment variable only, never in the repository; LLM tests and evaluations skip or fail clearly without the key, so CI stays deterministic and key-less.
+- **Subsequent owner decision (same day):** add OpenRouter as a second provider (`OPENROUTER_API_KEY`, standard-library HTTP) and run the live sweep through it across four models — `anthropic/claude-haiku-4.5`, `openai/gpt-4o-mini`, `google/gemini-2.5-flash`, `deepseek/deepseek-chat` — superseding the single-model plan below (ADR-014).
 - **Motivation:** the Task 006 paraphrase evaluation quantified the keyword baseline's limit: 5/33 semantic expectations out of distribution, with zero recall on paraphrased security solicitations. The project is named "AI Support Operations Copilot" and currently contains no AI. The evaluation framework, contracts, and safety architecture built in Tasks 001–007 exist precisely to measure and constrain a semantic classifier.
 
 ## Options considered

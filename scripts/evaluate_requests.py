@@ -34,7 +34,18 @@ def main() -> int:
         "--classifier",
         choices=("baseline", "llm"),
         default="baseline",
-        help="baseline: deterministic keyword rules; llm: the optional Claude classifier (requires the anthropic SDK and ANTHROPIC_API_KEY)",
+        help="baseline: deterministic keyword rules; llm: an LLM classifier behind the same contract",
+    )
+    parser.add_argument(
+        "--provider",
+        choices=("anthropic", "openrouter"),
+        default="anthropic",
+        help="llm only: anthropic (ANTHROPIC_API_KEY + anthropic SDK) or openrouter (OPENROUTER_API_KEY, standard library)",
+    )
+    parser.add_argument(
+        "--model",
+        default=None,
+        help="llm only: model id; defaults to claude-haiku-4-5 (anthropic) or anthropic/claude-haiku-4.5 (openrouter)",
     )
     args = parser.parse_args()
 
@@ -48,23 +59,44 @@ def main() -> int:
                 USAGE,
                 analyze_request_llm,
                 is_available,
+                make_openrouter_analyzer,
+                openrouter_available,
                 reset_usage,
             )
 
-            if not is_available():
-                print(
-                    "llm classifier unavailable: install the anthropic SDK and set ANTHROPIC_API_KEY",
-                    file=sys.stderr,
-                )
-                return 2
+            if args.provider == "openrouter":
+                if not openrouter_available():
+                    print("llm classifier unavailable: set OPENROUTER_API_KEY", file=sys.stderr)
+                    return 2
+                model = args.model or "anthropic/claude-haiku-4.5"
+                analyzer = make_openrouter_analyzer(model)
+            else:
+                if not is_available():
+                    print(
+                        "llm classifier unavailable: install the anthropic SDK and set ANTHROPIC_API_KEY",
+                        file=sys.stderr,
+                    )
+                    return 2
+                model = LLM_MODEL
+                if args.model and args.model != LLM_MODEL:
+                    print(
+                        f"note: the anthropic provider is pinned to {LLM_MODEL}; ignoring --model",
+                        file=sys.stderr,
+                    )
+                analyzer = analyze_request_llm
             reset_usage()
             report = evaluate_cases(
                 cases,
                 validation=validation,
-                analyzer=analyze_request_llm,
+                analyzer=analyzer,
                 include_parity=False,
             )
-            engine = {"classifier": "llm", "model": LLM_MODEL, "usage": dict(USAGE)}
+            engine = {
+                "classifier": "llm",
+                "provider": args.provider,
+                "model": model,
+                "usage": dict(USAGE),
+            }
         else:
             report = evaluate_cases(cases, validation=validation)
     except (OSError, json.JSONDecodeError, RuntimeError, ValueError) as error:

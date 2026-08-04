@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001 through 007 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%.
+Tasks 001 through 008 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed.
 
 ## Completed
 
@@ -70,15 +70,23 @@ Tasks 001 through 007 complete. Task 002 was manually verified on self-hosted n8
 - Added dependency-free GitHub Actions CI: full suite on Python 3.10 and 3.13, workflow artifact source check, and both evaluation summaries on every push and pull request; README badge; no secrets or n8n access (ADR-013).
 - Refreshed the portfolio case study with Task 005/006 evidence and the measured paraphrase limitation.
 
+## Task 008 completion
+
+- Added the optional LLM classifier (`support_copilot/llm_classifier.py`) behind the unchanged contract: deterministic validation first, union-only security-flag merging, templated replies, fail-closed contract enforcement.
+- Added two providers (optional `anthropic` SDK pinned to `claude-haiku-4-5`; OpenRouter via the standard library) and `--classifier/--provider/--model` CLI options; keys live in environment variables only.
+- Added thirteen offline stub tests; the suite is 64 tests, still key-less in CI.
+- Ran the four-model, 308-call live sweep (~$0.10): paraphrase category 14/33 (baseline) to 31-33/33; paraphrased security solicitations 0/5 (baseline) to 4-5/5; ten nonconforming outputs rejected by the guard, zero unsafe passes.
+- Committed dated snapshot results and methodology (`docs/llm-evaluation-results.json`, `docs/11-llm-evaluation.md`); recorded ADR-014.
+
 ## Not started or out of scope
 
-- Task 008 or any later work, which has no approved scope. Measured candidates: semantic classification (would require an approved LLM decision) or bounded rule additions justified case by case.
+- Task 009 or any later work, which has no approved scope.
 - Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
 - Compatibility verification with n8n versions newer than 2.14.2.
 - External integrations and production deployment.
 
 ## Next authorized action
 
-Stop after Task 007. Do not begin Task 008, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
+Stop after Task 008. Do not begin Task 009, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
 
 Last updated: 2026-08-04
