@@ -1,8 +1,8 @@
-# Task 008 Proposal: Semantic Classification with an LLM
+# Task 008: Semantic Classification with an LLM
 
 ## Status
 
-- **State:** proposal — owner decisions pending. No implementation is authorized by this document.
+- **State:** approved and in progress — owner decisions recorded 2026-08-04: Option A; the official `anthropic` Python SDK as an optional dependency (baseline stays dependency-free); evaluation model `claude-haiku-4-5`; API key via the `ANTHROPIC_API_KEY` environment variable only, never in the repository; LLM tests and evaluations skip or fail clearly without the key, so CI stays deterministic and key-less.
 - **Motivation:** the Task 006 paraphrase evaluation quantified the keyword baseline's limit: 5/33 semantic expectations out of distribution, with zero recall on paraphrased security solicitations. The project is named "AI Support Operations Copilot" and currently contains no AI. The evaluation framework, contracts, and safety architecture built in Tasks 001–007 exist precisely to measure and constrain a semantic classifier.
 
 ## Options considered

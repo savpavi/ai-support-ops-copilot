@@ -211,22 +211,34 @@ def evaluate_cases(
     *,
     workflow_results: Sequence[Mapping[str, Any]] | None = None,
     validation: Mapping[str, Any] | None = None,
+    analyzer: Any = None,
+    include_parity: bool = True,
 ) -> dict[str, Any]:
-    """Evaluate Python behavior, safety assertions, and local workflow parity."""
+    """Evaluate analyzer behavior, safety assertions, and local workflow parity.
+
+    `analyzer` defaults to the deterministic baseline. Parity against the
+    committed workflow JavaScript only makes sense for the baseline; pass
+    `include_parity=False` for other analyzers, in which case the parity
+    metric is reported as null.
+    """
 
     assert_valid_evaluation_cases(cases, **(validation or {}))
+    analyze = analyzer if analyzer is not None else analyze_request
     typed_cases: list[Mapping[str, Any]] = list(cases)
     python_results: list[dict[str, Any] | None] = []
     python_errors: list[str | None] = []
     for case in typed_cases:
         try:
-            python_results.append(analyze_request(case["input"]))
+            python_results.append(analyze(case["input"]))
             python_errors.append(None)
         except Exception as error:  # Defensive evaluation boundary; details stay synthetic.
             python_results.append(None)
             python_errors.append(type(error).__name__)
 
-    if workflow_results is None:
+    workflow_values: list[Any]
+    if not include_parity:
+        workflow_values = [None] * len(typed_cases)
+    elif workflow_results is None:
         workflow_values = analyze_workflow_requests([case["input"] for case in typed_cases])
     else:
         workflow_values = list(workflow_results)
@@ -295,11 +307,12 @@ def evaluate_cases(
             else:
                 checks.append("safe_rejection")
 
-        parity = isinstance(actual, Mapping) and dict(actual) == dict(workflow)
-        if parity:
-            parity_count += 1
-        else:
-            checks.append("python_n8n_parity")
+        if include_parity:
+            parity = isinstance(actual, Mapping) and dict(actual) == dict(workflow)
+            if parity:
+                parity_count += 1
+            else:
+                checks.append("python_n8n_parity")
 
         expected_flags = set(expected["security_flags"])
         actual_flags = set(actual.get("security_flags", [])) if isinstance(actual, Mapping) else set()
@@ -355,7 +368,7 @@ def evaluate_cases(
                 "output_contract_valid": make_rate(contract_count, total),
                 "human_review_required": make_rate(review_count, total),
             },
-            "python_n8n_parity": make_rate(parity_count, total),
+            "python_n8n_parity": make_rate(parity_count, total) if include_parity else None,
             "security_flags": per_flag,
         },
         "failed_case_ids": [failure["case_id"] for failure in failures],
@@ -398,7 +411,11 @@ def render_markdown_report(report: Mapping[str, Any]) -> str:
         f"- Safe rejection: {_format_rate(safety['safe_rejection'])}",
         f"- Output contract valid: {_format_rate(safety['output_contract_valid'])}",
         f"- Human review required: {_format_rate(safety['human_review_required'])}",
-        f"- Python/n8n parity: {_format_rate(report['metrics']['python_n8n_parity'])}",
+        (
+            f"- Python/n8n parity: {_format_rate(report['metrics']['python_n8n_parity'])}"
+            if report["metrics"]["python_n8n_parity"] is not None
+            else "- Python/n8n parity: not measured (non-baseline analyzer)"
+        ),
         "",
         "## Security flags",
         "",
