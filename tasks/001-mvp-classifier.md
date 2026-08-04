@@ -54,5 +54,5 @@ All acceptance criteria are demonstrably met, tests pass locally, documentation 
 5. **Pass:** Suggested replies use bounded templates, identify themselves as drafts, request missing details, and do not echo untrusted request text.
 6. **Pass:** Injection-like text is matched only as data, produces security flags, and cannot change validation or the review invariant.
 7. **Pass:** Source and repository review found no network, n8n, deployment, secret, credential, or real-personal-data behavior or content.
-8. **Pass:** All 11 tests pass and the project documentation records behavior and limitations.
+8. **Pass:** All 13 current Task 001 tests pass and the project documentation records behavior and limitations.
 9. **Pass:** Contracts are versioned plain JSON, fixtures are standalone JSON, and tests/CLI are workflow-platform independent for later Task 002 reuse.

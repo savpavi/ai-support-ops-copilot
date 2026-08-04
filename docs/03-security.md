@@ -45,6 +45,16 @@ The committed workflow currently satisfies the local static controls: it is inac
 
 Prompt-injection detection uses bounded deterministic patterns for explicit control manipulation: overriding prior/system instructions, disabling review, automatic approval/execution, protected-output-field changes, hidden-prompt disclosure, and safety bypass. Rejected objects are also risk-scanned in known text fields so malformed shape cannot suppress a prompt-injection flag. Ordinary requests mentioning approval remain unflagged unless they include a clear control or autonomy-bypass instruction.
 
+Credential-request detection uses bounded credential terms so ordinary synthetic words such as `passwordless` are not treated as credential requests. Python and workflow JavaScript carry the same rule and are checked for complete parity.
+
+## Task 003 evaluation controls
+
+- Run evaluation locally without network access or an n8n connection.
+- Keep expected labels separate from classifier-generated output and treat them as review assertions, not production truth.
+- Emit only synthetic case identifiers, structured mismatch fields, counts, and rates; do not echo request text into reports.
+- Represent undefined metric rates explicitly as `null` or `undefined` rather than hiding missing evidence.
+- Preserve the mandatory human-review and output-contract checks as safety metrics distinct from heuristic quality observations.
+
 ## Incident rule
 
 If real data or a secret is discovered, stop work, avoid reproducing it in logs or discussion, remove it from the working tree safely, and notify the repository owner so rotation or history cleanup can be handled explicitly.

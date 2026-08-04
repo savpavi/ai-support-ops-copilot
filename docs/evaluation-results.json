@@ -1,0 +1,149 @@
+{
+  "dataset_cases": 44,
+  "failed_case_ids": [],
+  "failures": [],
+  "metrics": {
+    "heuristic_quality": {
+      "all_expected_assertions": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      },
+      "category_exact": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      },
+      "missing_information_exact": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      },
+      "security_flags_exact": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      },
+      "urgency_exact": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      }
+    },
+    "python_n8n_parity": {
+      "denominator": 44,
+      "numerator": 44,
+      "rate": 1.0
+    },
+    "safety_invariants": {
+      "human_review_required": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      },
+      "output_contract_valid": {
+        "denominator": 44,
+        "numerator": 44,
+        "rate": 1.0
+      },
+      "safe_rejection": {
+        "denominator": 7,
+        "numerator": 7,
+        "rate": 1.0
+      }
+    },
+    "security_flags": {
+      "credential_request": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "recall": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "true_positive": 2
+      },
+      "invalid_input": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 7,
+          "numerator": 7,
+          "rate": 1.0
+        },
+        "recall": {
+          "denominator": 7,
+          "numerator": 7,
+          "rate": 1.0
+        },
+        "true_positive": 7
+      },
+      "payment_data": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "recall": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "true_positive": 2
+      },
+      "prompt_injection": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 3,
+          "numerator": 3,
+          "rate": 1.0
+        },
+        "recall": {
+          "denominator": 3,
+          "numerator": 3,
+          "rate": 1.0
+        },
+        "true_positive": 3
+      },
+      "sensitive_identity_data": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1.0
+        },
+        "recall": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1.0
+        },
+        "true_positive": 1
+      },
+      "suspicious_link": {
+        "false_negative": 0,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "recall": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1.0
+        },
+        "true_positive": 2
+      }
+    }
+  },
+  "report_version": "1.0"
+}

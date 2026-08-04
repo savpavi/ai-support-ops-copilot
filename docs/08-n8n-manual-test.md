@@ -6,6 +6,8 @@ The corrected workflow JSON has been parsed, structurally checked, and its two C
 
 Native verification confirmed successful import, inactive manual-only operation, normal and urgent execution, corrected normalized and malformed prompt-injection behavior, and a successful export/re-import round trip. Compatibility with n8n versions newer than 2.14.2 has not been verified. Task 002 does not recommend or perform an upgrade.
 
+Task 003 subsequently replaced credential substring matching with a bounded credential-term pattern, and Task 004 extended the same word-boundary hardening (plus negated-urgency handling) to every remaining term rule in both Python and the committed workflow JavaScript. The current artifact passed 44/44 local Python/workflow parity, including the `passwordless` and Task 004 boundary regressions, but neither task authorized a new n8n connection. Re-run the native procedure before claiming that this exact revision has been runtime-verified in n8n. The Task 004 JavaScript uses regular-expression lookbehind, which requires the modern Node.js runtime that n8n 2.x already provides.
+
 ## Artifact
 
 Import `n8n/workflows/ai-support-operations-copilot.json`. Its reviewed topology is:

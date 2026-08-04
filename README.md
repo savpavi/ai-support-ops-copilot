@@ -4,7 +4,7 @@ AI Support Operations Copilot is a portfolio project for assisting human support
 
 ## Current state
 
-Task 001 is complete: the repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, and automated tests. The local Task 002 artifact is also implemented as a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. It has not been imported into or executed by an n8n instance, so development-runtime verification remains pending. Nothing has been deployed or connected to an external service. See `STATUS.md` for the authoritative status.
+Tasks 001 through 004 are complete. The repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, automated tests, and a reviewed 44-case synthetic evaluation. It also contains a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. The Task 002 workflow revision was manually verified on an authorized self-hosted n8n 2.14.2 development instance, including import, execution, guarded adverse inputs, export, and re-import; the later Task 003 and Task 004 keyword corrections have complete local parity but have not been natively retested. Compatibility with newer n8n versions is unverified. Nothing has been deployed or connected to a production or external action system. See `STATUS.md` for the authoritative status.
 
 ## Scope
 
@@ -39,7 +39,21 @@ Run all tests:
 python3 -m unittest discover -s tests -v
 ```
 
-This runs 13 Task 001 regression tests and 9 Task 002 workflow structure/parity tests. Node.js is required only for the Task 002 tests, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+This currently runs 38 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, and 12 dataset/evaluation tests (Tasks 003 and 004). Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+
+Run the 44-case synthetic evaluation and print a concise Markdown summary:
+
+```bash
+python3 scripts/evaluate_requests.py
+```
+
+Print the deterministic machine-readable report instead:
+
+```bash
+python3 scripts/evaluate_requests.py --format json
+```
+
+The command performs no network access and does not connect to n8n. Reports contain synthetic case identifiers and structured mismatches, not request text. Expected labels are reviewable evaluation assertions rather than production truth.
 
 Analyze one synthetic request from standard input:
 
@@ -59,7 +73,9 @@ The CLI returns exit code `0` for accepted input and `2` for rejected input. The
 
 The classifier uses transparent keyword rules, not an LLM. It is deterministic and useful as a contract and safety baseline, but it does not understand language semantically, measure statistical confidence, or establish production accuracy. Its suggested replies are fixed templates and must always be reviewed by a human.
 
-The workflow artifact has not yet been verified against a real n8n version or sandbox. Follow `docs/08-n8n-manual-test.md` in an explicitly authorized development instance before claiming import or runtime compatibility. The workflow must remain inactive and must not gain credentials or action nodes.
+The Task 002 workflow revision was verified on self-hosted n8n 2.14.2. Tasks 003 and 004 later made bounded keyword corrections in the committed Code-node JavaScript and verified them locally with 44/44 Python parity, but did not reconnect to n8n; the current revision therefore still needs a native retest before claiming exact runtime verification. Follow `docs/08-n8n-manual-test.md`. The workflow must remain inactive and must not gain credentials or action nodes.
+
+The first Task 003 evaluation exposed a keyword-boundary weakness: `passwordless` matched the baseline's original `password` substring rule. The credential detector was corrected in both Python and workflow JavaScript and a regression test was added. Task 004 then applied the same word-boundary hardening to every remaining term rule after an external review demonstrated the same defect class elsewhere (`not urgent` raised urgency to high, `date` matched inside `update`, and `charge` matched inside `discharged`), and added explicit negated-urgency handling plus four regression evaluation cases. The reviewed 44-case result has no expected-assertion failures. This remains synthetic dataset evidence, not a production accuracy estimate. See `docs/09-evaluation.md`.
 
 ## Safety
 

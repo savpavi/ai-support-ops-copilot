@@ -12,7 +12,7 @@ Task 001 established the n8n-independent core: the machine-readable input/output
 
 ### Task 002: development n8n integration
 
-Task 002 now has a sanitized local workflow artifact that is inactive and manual-only: Manual Trigger → Synthetic Request Input → Analyze and Validate → Human Review Guard. It maps one synthetic request into the established contract, preserves the same validated result and safety invariants, and is stored under `n8n/workflows/`. It does not send external messages or deploy to production. Import and execution in an authorized development n8n instance remain unverified.
+Task 002 has a sanitized workflow artifact that is inactive and manual-only: Manual Trigger → Synthetic Request Input → Analyze and Validate → Human Review Guard. It maps one synthetic request into the established contract, preserves the same validated result and safety invariants, and is stored under `n8n/workflows/`. Import, manual execution, guarded adverse inputs, export, and re-import were verified on an authorized self-hosted n8n 2.14.2 development instance. It does not send external messages or deploy to production. Compatibility with newer n8n versions remains unverified.
 
 The deterministic Task 001 rules are replicated in a built-in n8n Code node so the workflow remains self-contained. The Python implementation remains the canonical parity reference rather than being invoked through a shell or new local API. Workflow JSON import/export through the development UI is the intended integration mechanism; REST API and MCP access remain excluded.
 
@@ -33,7 +33,10 @@ The deterministic Task 001 rules are replicated in a built-in n8n Code node so t
 - **Output contract:** versioned plain JSON documented in `docs/07-contracts.md`, suitable for tests and later n8n consumption.
 - **Fixtures and tests:** five synthetic scenario classes plus malformed-input, contract-tampering, reply-safety, and CLI tests.
 - **n8n adapter:** implemented locally as built-in Manual Trigger, Edit Fields/Set, and Code nodes. A final guard independently validates the contract and enforces human review.
-- **Workflow verification:** Python tests parse and inspect the artifact, run its JavaScript in a local Node harness, and compare complete results with the Task 001 oracle. This does not emulate all n8n sandbox or import behavior.
+- **Workflow verification:** Python tests parse and inspect the artifact, run its JavaScript in a local Node harness, and compare complete results with the Task 001 oracle. Native import and execution were additionally verified on self-hosted n8n 2.14.2; local tests alone do not emulate every n8n version.
+- **Evaluation layer:** Task 003 validates independently reviewed synthetic expectations, runs the Python baseline, executes the committed workflow JavaScript locally through a reusable Node harness, and emits deterministic metrics and reports without persistence or network access.
+
+The implemented evaluation data flow, methodology, representative examples, and verified results are documented in `docs/09-evaluation.md`.
 
 ## Data handling
 
@@ -45,7 +48,7 @@ The target must be a user-authorized, non-production n8n instance on a local or 
 
 ## Deferred decisions
 
-- The exact development instance URL, version, and access method, which must be supplied and authorized before implementation and must not be committed.
+- Compatibility verification for n8n versions newer than 2.14.2.
 - Any future REST API or MCP management channel, which requires separate justification and approval.
 - Production hosting and deployment, which remain out of scope.
 

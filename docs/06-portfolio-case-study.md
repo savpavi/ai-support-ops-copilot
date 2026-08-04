@@ -19,10 +19,6 @@ The project begins from a safety-first premise: automated analysis can accelerat
 - A versioned input/output contract with deterministic allowed values and error behavior.
 - No runtime dependencies, persistence, network services, LLM calls, message sending, or deployment.
 
-## Current limitations
-
-Keyword rules can miss paraphrases and can produce false positives. Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. The test suite demonstrates contract and safety behavior, not production accuracy or business impact.
-
 ## Task 002 integration evidence
 
 - A reviewable inactive workflow artifact with exactly four built-in nodes and no credentials or external-action nodes.
@@ -34,14 +30,30 @@ Keyword rules can miss paraphrases and can produce false positives. Urgency is b
 
 This evidence supports artifact structure, deterministic Python/JavaScript parity, and development compatibility with self-hosted n8n 2.14.2. Compatibility with newer n8n versions is not yet verified, and no upgrade recommendation is part of Task 002.
 
-## Evidence to collect later
+## Task 003 evaluation evidence
 
-- Architecture and data-flow diagram matching the implemented system.
-- Representative synthetic input/output examples.
-- Test and evaluation methodology with measurable results.
-- Examples of ambiguous, incomplete, urgent, and adversarial requests.
-- Tradeoffs behind classification categories, urgency rules, and model choices.
+- Forty-four reviewed synthetic evaluation cases spanning all supported categories, urgency values, security flags, missing-information branches, malformed inputs, ambiguous cases, and conservative negatives.
+- A dependency-free runner that emits deterministic machine-readable JSON and human-readable Markdown without request text, timestamps, machine paths, network access, or an n8n connection.
+- Explicit separation between heuristic observations and safety invariants, with numerator and denominator retained for every rate.
+- Final measurements of 44/44 category, urgency, security-flag, missing-information, expected-assertion, output-contract, human-review, and Python/n8n parity checks; safe rejection passed 7/7.
+- Per-security-flag results with zero false positives and zero false negatives within the committed dataset.
+- A keyword-boundary regression discovered by the first run: `passwordless` was incorrectly treated as a credential request. The expected label was preserved, both implementations were corrected, and a focused regression test was added before the final run.
+- A Task 004 hardening pass after an external review demonstrated the same substring defect class in the remaining rules (`not urgent` raised urgency, `date` matched inside `update`, `charge` matched inside `discharged`): every term rule became word-bounded in both implementations, explicitly negated urgency became a low-urgency indicator, and four regression evaluation cases were added.
+- A checked-in deterministic result, methodology, implemented data-flow diagram, and representative accepted and rejected synthetic examples in `docs/09-evaluation.md` and `docs/evaluation-results.json`.
+- Thirty-eight passing automated tests across the classifier, workflow structure/parity, dataset validation, metrics, safety-failure detection, CLI determinism, and result-file drift prevention.
+
+These measurements demonstrate behavior against the committed synthetic assertions. They do not establish production accuracy, generalization, business impact, or real-world security effectiveness.
+
+The Task 003 credential-boundary correction and the Task 004 word-boundary hardening changed the committed workflow after Task 002's native n8n run. The updated JavaScript has complete local parity but has not been re-imported into n8n, so the earlier native compatibility evidence must not be represented as verification of this exact revision.
+
+## Current limitations
+
+Keyword rules can miss paraphrases and can produce false positives outside the evaluated cases. Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. Full Python/n8n parity can reproduce a shared defect, so independent expected assertions remain necessary. The evaluation demonstrates contract and safety behavior within a small synthetic dataset, not production accuracy or business impact.
+
+## Evidence that remains optional or future work
+
 - Screenshots only after checking that they contain no real data or secrets.
+- A separately approved comparison against a future alternative implementation using the same evaluation baseline.
 
 ## Claims policy
 

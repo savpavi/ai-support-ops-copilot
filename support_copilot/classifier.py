@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 from collections.abc import Mapping
+from functools import lru_cache
 from typing import Any
 
 SCHEMA_VERSION = "1.0"
@@ -34,10 +35,31 @@ SECURITY_FLAGS = {
 
 _SYNTHETIC_ID = re.compile(r"^SYN-[A-Z0-9][A-Z0-9-]{2,39}$")
 _URL = re.compile(r"https?://|www\.", re.IGNORECASE)
+_CREDENTIAL_REQUEST = re.compile(
+    r"\b(?:password|passcode|api key|access token|secret token)\b",
+    re.IGNORECASE,
+)
+_URGENT = re.compile(r"(?<!not )(?<!non-)(?<!non )\burgent(?:ly)?\b")
 
 _CATEGORY_RULES = (
     ("access_issue", ("cannot log in", "can't log in", "locked out", "sign in", "login")),
-    ("billing", ("charged", "charge", "billing", "invoice", "refund", "payment")),
+    (
+        "billing",
+        (
+            "charged",
+            "charges",
+            "charge",
+            "overcharged",
+            "billing",
+            "invoice",
+            "invoices",
+            "refund",
+            "refunds",
+            "refunded",
+            "payment",
+            "payments",
+        ),
+    ),
     (
         "service_disruption",
         ("service unavailable", "unavailable", "outage", "not working", "system down", "stopped working"),
@@ -114,15 +136,20 @@ def validate_input(value: Any) -> list[str]:
     return errors
 
 
+@lru_cache(maxsize=None)
+def _term_pattern(term: str) -> re.Pattern[str]:
+    return re.compile(r"\b" + re.escape(term) + r"\b")
+
+
 def _contains_any(text: str, terms: tuple[str, ...]) -> bool:
-    return any(term in text for term in terms)
+    return any(_term_pattern(term).search(text) for term in terms)
 
 
 def _security_flags(text: str) -> list[str]:
     flags: list[str] = []
     if any(pattern.search(text) for pattern in _PROMPT_INJECTION_PATTERNS):
         flags.append("prompt_injection")
-    if _contains_any(text, ("password", "passcode", "api key", "access token", "secret token")):
+    if _CREDENTIAL_REQUEST.search(text):
         flags.append("credential_request")
     if _contains_any(text, ("card number", "credit card", "security code", "cvv")):
         flags.append("payment_data")
@@ -137,22 +164,23 @@ def _category(text: str) -> str:
     for category, terms in _CATEGORY_RULES:
         if _contains_any(text, terms):
             return category
-    if len(text.split()) < 4 or _contains_any(text, ("help me", "it failed", "problem", "urgent")):
-        return "general"
     return "general"
 
 
 def _urgency(text: str, flags: list[str]) -> str:
     if _contains_any(text, ("immediate danger", "medical emergency", "safety emergency")):
         return "critical"
-    if _contains_any(
+    if _URGENT.search(text) or _contains_any(
         text,
-        ("urgent", "stranded", "locked out", "system down", "cannot access", "can't access"),
+        ("stranded", "locked out", "system down", "cannot access", "can't access"),
     ):
         return "high"
     if flags:
         return "high"
-    if _contains_any(text, ("when convenient", "no rush", "general question")):
+    if _contains_any(
+        text,
+        ("when convenient", "no rush", "not urgent", "non-urgent", "non urgent", "general question"),
+    ):
         return "low"
     return "normal"
 
@@ -162,22 +190,24 @@ def _missing_information(category: str, text: str) -> list[str]:
     if category == "access_issue":
         if not _contains_any(text, ("account", "profile", "workspace")):
             missing.append("affected account context")
-        if not _contains_any(text, ("browser", "device", "app", "desktop", "mobile")):
+        if not _contains_any(text, ("browser", "device", "app", "application", "desktop", "mobile")):
             missing.append("device or application context")
     elif category == "billing":
-        if not _contains_any(text, ("invoice", "transaction", "order", "receipt", "synthetic reference")):
+        if not _contains_any(
+            text, ("invoice", "invoices", "transaction", "order", "receipt", "synthetic reference")
+        ):
             missing.append("synthetic transaction reference")
         if not _contains_any(text, ("date", "today", "yesterday")):
             missing.append("approximate event date")
     elif category == "service_disruption":
-        if not _contains_any(text, ("dashboard", "portal", "service", "app", "feature")):
+        if not _contains_any(text, ("dashboard", "portal", "service", "app", "application", "feature")):
             missing.append("affected service or feature")
-        if not _contains_any(text, ("since", "started", "today", "minute", "hour")):
+        if not _contains_any(text, ("since", "started", "today", "minute", "minutes", "hour", "hours")):
             missing.append("time the issue began")
     elif category == "account_change":
         if not _contains_any(text, ("name", "setting", "preference", "profile")):
             missing.append("account field to change")
-    elif len(text.split()) < 8 or _contains_any(text, ("help me", "it failed", "problem")):
+    elif len(text.split()) < 8 or _contains_any(text, ("help me", "it failed", "problem", "problems")):
         missing.append("specific issue and desired outcome")
     return missing
 

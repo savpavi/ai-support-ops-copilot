@@ -66,3 +66,64 @@
 - Exported the workflow, imported it again as a new workflow, and reproduced the malformed-input result.
 - Confirmed no credentials, external APIs, LLMs, webhooks, messaging, or production systems were used.
 - Marked all Task 002 acceptance criteria complete for self-hosted n8n 2.14.2. Compatibility with newer n8n versions remains unverified; no upgrade was recommended or performed.
+
+## 2026-08-03 — Completion-document reconciliation
+
+- Reconciled README, architecture, ADR-006, and Task 001 acceptance evidence with the completed Task 002 native verification and current 13-test Task 001 suite.
+- Preserved historical worklog test counts because they describe the actual suites run at those earlier milestones.
+- Kept compatibility claims limited to self-hosted n8n 2.14.2 and retained the prohibitions on activation, external actions, production deployment, and unapproved Task 003 work.
+
+## 2026-08-03 — Task 003 scope approval
+
+- Selected a synthetic evaluation and portfolio-evidence baseline as Task 003 before any LLM, interface, external integration, or automation work.
+- Defined a 30–50-case synthetic dataset, dependency-free runner, explicit quality and safety metrics, local Python/n8n parity, representative examples, and an implemented-system data-flow diagram.
+- Required independently reviewable expected assertions, deterministic reporting, honest limitations, regression coverage, and continued human review.
+- Deferred LLM integration, external systems, workflow activation, production deployment, and real-data evaluation.
+- Recorded planning changes only; Task 003 implementation has not started.
+
+## 2026-08-03 — Task 003 Phase 1
+
+- Defined a machine-readable evaluation-case schema with independently reviewable expected status, category, urgency, security flags, missing-information assertions, and mandatory human review.
+- Added 40 conspicuously synthetic cases covering all categories, all urgency values, all security flags, ambiguous and keyword-boundary probes, missing-information branches, and seven invalid-input paths.
+- Included a deliberate `passwordless` keyword-boundary case whose expected label does not copy the current substring detector, allowing later metrics to expose a possible false positive.
+- Added a dependency-free validator for dataset size, exact shape, JSON compatibility, unique synthetic identifiers, enums, sorted flags, rejection invariants, and required coverage.
+- Added five dataset-validation tests. The full suite passed: 27 tests.
+- Did not run or connect to n8n, add an LLM or dependency, change the classifier or workflow, activate anything, send a message, or deploy.
+- Left Task 003 in progress; Phase 2 runner, metrics, reports, and full-dataset local parity remain next.
+
+## 2026-08-03 — Task 003 Phase 2
+
+- Extracted the Task 002 Code-node execution helper into a reusable local workflow-parity module without changing the workflow artifact.
+- Added a dependency-free evaluation runner with category, urgency, security-flag, missing-information, safe-rejection, contract, human-review, and Python/n8n parity metrics.
+- Represented each rate with numerator and denominator and used an explicit null value when a rate is undefined.
+- Added deterministic JSON and Markdown rendering that reports synthetic case identifiers and structured mismatches without request text, timestamps, or machine paths.
+- Added a local CLI supporting Markdown and JSON output and verified repeated JSON runs are identical.
+- Measured 40/40 Python/n8n parity, 40/40 contract validity, 40/40 human-review enforcement, and 7/7 safe rejection.
+- Preserved a measured keyword-boundary weakness rather than changing expected labels: `passwordless` produced one credential false positive and changed urgency from normal to high.
+- Added six runner/report tests, including injected safety failure detection. The complete suite passed: 33 tests.
+- Did not connect to n8n, change the workflow or classifier, add a dependency or LLM, send a message, or deploy.
+- Left Task 003 in progress; Phase 3 findings review and portfolio evidence remain next.
+
+## 2026-08-03 — Task 003 Phase 3 and completion
+
+- Classified the measured `passwordless` mismatch as an implementation defect rather than changing its independently reviewed expected assertion.
+- Replaced credential substring matching with the same bounded term pattern in Python and workflow JavaScript; kept contract version `1.0` unchanged.
+- Added a focused classifier regression and updated evaluation tests to require zero failures and zero credential false positives for the committed dataset.
+- Re-ran the evaluation: all expected assertions passed 40/40, Python/n8n parity passed 40/40, contract and human-review invariants passed 40/40, and safe rejection passed 7/7.
+- Added a deterministic checked-in JSON result and a methodology document with the implemented data-flow diagram, representative accepted and rejected synthetic examples, reproducible commands, findings, and limitations.
+- Updated architecture, security, decisions, README, portfolio evidence, status, task acceptance verification, and handoff records.
+- The complete suite passed: 34 tests.
+- Confirmed no n8n connection, LLM, new dependency, credential, external action, real data, message sending, activation, or deployment was introduced.
+- Marked Task 003 complete and stopped before any unapproved Task 004 work.
+
+## 2026-08-04 — Task 004 keyword boundary and negation hardening
+
+- An external review of the completed baseline demonstrated three live defects from the Task 003 substring class: `not urgent` classified as high urgency, `update` satisfied the billing date check, and `discharged` classified as billing.
+- Converted all remaining category, urgency, missing-information, and payment/identity term rules to word-bounded matching in both Python and the committed workflow Code-node JavaScript.
+- Added explicit bounded variants (`charges`, `overcharged`, `invoices`, `refunds`, `refunded`, `payments`, `urgently`, `minutes`, `hours`, `application`, `problems`) to preserve intended matches that substring matching had provided implicitly.
+- Treated explicitly negated urgency phrases (`not urgent`, `non-urgent`, `non urgent`) as low-urgency indicators.
+- Removed the dead always-`general` category branch from the Python baseline; behavior is unchanged and the workflow JavaScript had no such branch.
+- Added four focused classifier regression tests (three failed against the pre-fix baseline; one pins preserved `application` matching) and four `keyword_boundary` evaluation cases (three exposed the old workflow JavaScript through parity; one pins preserved `overcharged` matching).
+- Re-ran the evaluation: 44/44 expected assertions, output-contract validity, human-review enforcement, and Python/n8n parity; safe rejection passed 7/7; zero security-flag false positives or false negatives.
+- Regenerated `docs/evaluation-results.json`. The complete suite passed: 38 tests.
+- Did not connect to n8n, add an LLM or dependency, add credentials or action nodes, activate anything, or deploy. The updated workflow JavaScript still requires a separately authorized native n8n retest.

@@ -59,6 +59,15 @@ class FixtureTests(unittest.TestCase):
         )
         self.assertNotIn("prompt_injection", ordinary["security_flags"])
 
+        passwordless = analyze_request(
+            {
+                "request_id": "SYN-BOUNDARY-001",
+                "message": "The synthetic demo documents a passwordless login option for the workspace browser.",
+            }
+        )
+        self.assertNotIn("credential_request", passwordless["security_flags"])
+        self.assertEqual(passwordless["urgency"], "normal")
+
     def test_exact_native_prompt_injection_regression_is_flagged(self) -> None:
         case = next(case for case in ADVERSE_FIXTURES if case["name"] == "native-prompt-injection-regression")
         result = analyze_request(case["input"])
@@ -76,6 +85,64 @@ class FixtureTests(unittest.TestCase):
         self.assertIn("prompt_injection", normalized_result["security_flags"])
         self.assertEqual(normalized_result["urgency"], "high")
         self.assertTrue(normalized_result["human_review_required"])
+
+
+class KeywordBoundaryTests(unittest.TestCase):
+    def test_negated_urgency_is_low_and_plain_urgency_stays_high(self) -> None:
+        negated = [
+            "This is not urgent at all, reply whenever you like.",
+            "Please treat this as non-urgent synthetic feedback for the demo team.",
+        ]
+        for index, message in enumerate(negated, start=1):
+            with self.subTest(message=message):
+                result = analyze_request({"request_id": f"SYN-BOUNDARY-1{index:02d}", "message": message})
+                self.assertEqual(result["urgency"], "low")
+
+        urgent = [
+            "Urgent: the synthetic demo dashboard must be restored.",
+            "I urgently need the synthetic portal restored for the demo.",
+        ]
+        for index, message in enumerate(urgent, start=1):
+            with self.subTest(message=message):
+                result = analyze_request({"request_id": f"SYN-BOUNDARY-2{index:02d}", "message": message})
+                self.assertEqual(result["urgency"], "high")
+
+    def test_billing_date_check_is_not_satisfied_by_the_word_update(self) -> None:
+        result = analyze_request(
+            {
+                "request_id": "SYN-BOUNDARY-301",
+                "message": "My invoice needs an update to the synthetic billing address.",
+            }
+        )
+        self.assertEqual(result["category"], "billing")
+        self.assertEqual(result["missing_information"], ["approximate event date"])
+
+    def test_billing_terms_do_not_match_inside_longer_words(self) -> None:
+        discharged = analyze_request(
+            {
+                "request_id": "SYN-BOUNDARY-302",
+                "message": "My synthetic demo phone was discharged during the trip.",
+            }
+        )
+        self.assertEqual(discharged["category"], "general")
+
+        overcharged = analyze_request(
+            {
+                "request_id": "SYN-BOUNDARY-303",
+                "message": "I was overcharged for the synthetic order yesterday.",
+            }
+        )
+        self.assertEqual(overcharged["category"], "billing")
+
+    def test_application_still_counts_as_affected_service_context(self) -> None:
+        result = analyze_request(
+            {
+                "request_id": "SYN-BOUNDARY-304",
+                "message": "The synthetic application stopped working since noon.",
+            }
+        )
+        self.assertEqual(result["category"], "service_disruption")
+        self.assertNotIn("affected service or feature", result["missing_information"])
 
 
 class InputValidationTests(unittest.TestCase):

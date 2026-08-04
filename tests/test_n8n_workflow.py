@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import copy
 import json
-import shutil
-import subprocess
 import unittest
 from pathlib import Path
 from typing import Any
 
 from support_copilot import analyze_request, validate_output
+from support_copilot.workflow_parity import analyze_workflow_request, run_code_node
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_PATH = ROOT / "n8n" / "workflows" / "ai-support-operations-copilot.json"
@@ -18,44 +17,8 @@ ADVERSE_FIXTURES = json.loads((ROOT / "fixtures" / "n8n_adverse_requests.json").
 NODES = {node["name"]: node for node in WORKFLOW["nodes"]}
 
 
-def _run_code_node(code: str, input_values: list[Any]) -> list[dict[str, Any]]:
-    if shutil.which("node") is None:
-        raise RuntimeError("Node.js is required to validate n8n Code-node parity")
-    wrapper = f"""
-const payload = JSON.parse(require('fs').readFileSync(0, 'utf8'));
-const $input = {{
-  first: () => payload[0],
-  all: () => payload,
-}};
-const execute = () => {{
-{code}
-}};
-const result = execute();
-process.stdout.write(JSON.stringify(result));
-"""
-    payload = [{"json": value} for value in input_values]
-    completed = subprocess.run(
-        ["node", "-e", wrapper],
-        cwd=ROOT,
-        input=json.dumps(payload),
-        text=True,
-        capture_output=True,
-        check=False,
-    )
-    if completed.returncode != 0:
-        raise AssertionError(completed.stderr)
-    return json.loads(completed.stdout)
-
-
 def _run_workflow_code(input_value: Any) -> dict[str, Any]:
-    analyzed = _run_code_node(NODES["Analyze and Validate"]["parameters"]["jsCode"], [input_value])
-    guarded = _run_code_node(
-        NODES["Human Review Guard"]["parameters"]["jsCode"],
-        [item["json"] for item in analyzed],
-    )
-    if len(guarded) != 1:
-        raise AssertionError("workflow must produce exactly one guarded item")
-    return guarded[0]["json"]
+    return analyze_workflow_request(input_value)
 
 
 def _find_keys(value: Any, target: str) -> list[Any]:
@@ -181,7 +144,7 @@ class WorkflowParityTests(unittest.TestCase):
         valid = analyze_request(TASK_001_FIXTURES[0]["input"])
         tampered = copy.deepcopy(valid)
         tampered["human_review_required"] = False
-        guarded = _run_code_node(NODES["Human Review Guard"]["parameters"]["jsCode"], [tampered])
+        guarded = run_code_node(NODES["Human Review Guard"]["parameters"]["jsCode"], [tampered])
         self.assertEqual(len(guarded), 1)
         result = guarded[0]["json"]
         self.assertEqual(result["status"], "rejected")
