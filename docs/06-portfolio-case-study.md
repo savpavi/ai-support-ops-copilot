@@ -44,7 +44,7 @@ This evidence supports artifact structure, deterministic Python/JavaScript parit
 
 These measurements demonstrate behavior against the committed synthetic assertions. They do not establish production accuracy, generalization, business impact, or real-world security effectiveness.
 
-The Task 003 credential-boundary correction and the Task 004 word-boundary hardening changed the committed workflow after Task 002's native n8n run. The updated JavaScript has complete local parity but has not been re-imported into n8n, so the earlier native compatibility evidence must not be represented as verification of this exact revision.
+The Task 003 credential-boundary correction and the Task 004 word-boundary hardening changed the committed workflow after Task 002's native n8n run. The updated JavaScript was natively re-verified on 2026-08-04 against the same self-hosted n8n 2.14.2 instance: a 16-case sweep (default input, five fixtures, six adverse inputs, four boundary probes) produced exact output parity with the Python oracle through an MCP-created workflow with byte-identical Code-node JavaScript (ADR-010).
 
 ## Current limitations
 

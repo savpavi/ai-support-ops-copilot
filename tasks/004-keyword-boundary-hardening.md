@@ -2,7 +2,7 @@
 
 ## Status
 
-- **State:** complete — 2026-08-04. All acceptance criteria verified: 38 tests pass, the 44-case evaluation reports no failed cases, and Python/n8n local parity is 44/44.
+- **State:** complete — 2026-08-04. All acceptance criteria verified: 38 tests pass, the 44-case evaluation reports no failed cases, and Python/n8n local parity is 44/44. Natively verified the same day on owner-confirmed self-hosted n8n 2.14.2 with a 16-case sweep and 16/16 exact output parity (ADR-010).
 - **Approved scope:** apply the Task 003 keyword-boundary lesson to all remaining substring rules and remove dead classifier logic. Approved by the project owner on 2026-08-04 after an external review found the same defect class outside the credential detector.
 
 ## Problem

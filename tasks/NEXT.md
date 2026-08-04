@@ -2,8 +2,8 @@
 
 - **Date:** 2026-08-04
 - **Branch:** `main`
-- **HEAD:** `d4470e0 Complete native n8n workflow verification`
-- **Repository status at handoff:** Task 003 completion-document reconciliation and all Task 004 changes are uncommitted on top of `origin/main`.
+- **HEAD:** `b58819b Complete Task 003 evaluation and Task 004 keyword hardening` plus the pending native-verification documentation commit.
+- **Repository status at handoff:** the Task 003/004 implementation commit is local; native-verification documentation updates follow it. Push remains unauthorized.
 
 ## Completed this session
 
@@ -12,6 +12,7 @@
 - Added negated-urgency handling, explicit bounded term variants, four classifier regression tests, and four `keyword_boundary` evaluation cases (dataset now 44 cases).
 - Removed the dead always-`general` Python category branch with no behavior change.
 - Regenerated `docs/evaluation-results.json` and updated README, STATUS, evaluation methodology, manual-test guidance, portfolio evidence, worklog, and ADR-009.
+- Natively verified the Task 004 revision on the owner-confirmed self-hosted n8n 2.14.2 instance through the official n8n MCP connector: 16-case sweep (default, five fixtures, six adverse inputs, four boundary probes) with 16/16 exact Human Review Guard parity against the Python oracle; recorded ADR-010 and archived the temporary inactive verification workflow.
 
 ## Validation
 
@@ -21,9 +22,10 @@
 
 ## Unfinished work and risks
 
-- Task 004 is complete. Task 005 has no approved scope and has not started.
-- The current workflow revision (Task 003 + Task 004 keyword corrections) has 44/44 local parity but has not been natively retested in n8n; any retest needs separate authorization. The Task 004 JavaScript uses regular-expression lookbehind, which n8n 2.x's Node runtime supports.
+- Task 004 is complete, including native verification on self-hosted n8n 2.14.2. The manual file-import/export path was last exercised natively during Task 002; the 2026-08-04 verification ran through the MCP connector with byte-identical Code-node JavaScript.
+- Task 005 has no approved scope and has not started.
 - Compatibility with n8n versions newer than 2.14.2 is unverified.
+- Synthetic-only execution records 1567–1582 remain on the development instance; the owner may prune them per the retention preference in `docs/08-n8n-manual-test.md`.
 - The workflow must remain inactive, manual-only, synthetic-data-only, and human-reviewed.
 - Candidate future scopes discussed but not approved: single-source rule data shared by Python and JavaScript, and an out-of-distribution paraphrase evaluation set.
 

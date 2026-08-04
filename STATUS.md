@@ -47,11 +47,12 @@ Tasks 001, 002, 003, and 004 complete. Task 002 was manually verified on self-ho
 - Added four classifier regression tests and four `keyword_boundary` evaluation cases; three of each failed against the pre-fix baseline.
 - Final evaluation on the 44-case dataset: 44/44 for all expected assertions, output-contract validity, human-review enforcement, and Python/n8n parity; safe rejection passed 7/7.
 - Regenerated `docs/evaluation-results.json` and recorded ADR-009. The full suite passed: 38 tests on 2026-08-04.
+- Natively verified the Task 004 revision on the owner-confirmed self-hosted n8n 2.14.2 instance through the official n8n MCP connector (ADR-010): 16 synthetic cases executed with 16/16 exact Human Review Guard parity against the Python oracle; the temporary inactive verification workflow was archived afterward.
 
 ## Not started or out of scope
 
 - Task 005 or any later work, which has no approved scope.
-- Native n8n retest of the current workflow revision (Task 003 credential correction plus Task 004 word-boundary hardening); local parity passed, but reconnection was not authorized.
+- Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
 - Compatibility verification with n8n versions newer than 2.14.2.
 - External integrations and production deployment.
 

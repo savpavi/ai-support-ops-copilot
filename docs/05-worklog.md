@@ -127,3 +127,12 @@
 - Re-ran the evaluation: 44/44 expected assertions, output-contract validity, human-review enforcement, and Python/n8n parity; safe rejection passed 7/7; zero security-flag false positives or false negatives.
 - Regenerated `docs/evaluation-results.json`. The complete suite passed: 38 tests.
 - Did not connect to n8n, add an LLM or dependency, add credentials or action nodes, activate anything, or deploy. The updated workflow JavaScript still requires a separately authorized native n8n retest.
+
+## 2026-08-04 — Task 004 native n8n verification
+
+- Connected the official n8n MCP connector to the authorized self-hosted development instance; the project owner confirmed n8n 2.14.2, the same version as the Task 002 verification.
+- Created a temporary, inactive, credential-free verification workflow with the committed four-node topology and byte-identical Code-node JavaScript (the connector creates workflows from SDK code; file import is not available through it).
+- Executed 16 synthetic cases manually: the committed default input, all five Task 001 fixtures, all six adverse inputs, and the four Task 004 keyword-boundary probes.
+- Machine-compared every native Human Review Guard output with the Python oracle: 16/16 exact matches, including `not urgent` producing low urgency (the Task 004 lookbehind pattern works in the n8n runtime), the `update`/`date` and `discharged` boundary corrections, and structured rejections with `invalid_input` and enforced human review for every adverse input.
+- Confirmed the verification workflow was never published or activated, restored its committed default input, and archived it after recording results; the older baseline workflows were not touched.
+- Recorded ADR-010 for the bounded MCP-based verification approach. No credentials, URLs, or execution data entered the repository.
