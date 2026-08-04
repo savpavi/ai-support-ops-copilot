@@ -156,3 +156,9 @@
 - Confirmed the safety architecture held throughout: 33/33 output-contract validity, 33/33 human-review enforcement, and 33/33 Python/n8n parity despite misclassifications.
 - Added seven focused tests, including a drift test on `docs/paraphrase-results.json` and an assertion that the set measures real out-of-distribution failure. The complete suite passed: 51 tests.
 - Documented methodology, results, representative failures, and limitations in `docs/10-paraphrase-evaluation.md`; recorded ADR-012. No classifier, rules, or workflow change; no n8n connection.
+
+## 2026-08-04 — Task 007 continuous verification and case-study refresh
+
+- Added a dependency-free GitHub Actions workflow: full test suite on Python 3.10 and 3.13, workflow artifact source check, and both evaluation summaries on every push and pull request; added the README badge and recorded ADR-013.
+- Brought `docs/06-portfolio-case-study.md` up to date with the Task 005 single-source evidence, the Task 006 honest out-of-distribution measurements, the engineering-honesty narrative arc, and the measured (rather than assumed) paraphrase limitation.
+- No classifier, rules, workflow, or evaluation change; CI contains no secrets, deploy steps, or n8n access.

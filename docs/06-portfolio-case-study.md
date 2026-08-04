@@ -12,6 +12,8 @@ This document will capture the problem framing, design decisions, implementation
 
 The project begins from a safety-first premise: automated analysis can accelerate support triage and drafting, but a human operator remains accountable for interpretation and action. Task 001 implements a deliberately modest baseline: transparent Python rules classify synthetic requests, produce templated draft replies, flag security-sensitive text, and validate a plain-JSON result. The output contract rejects any attempt to disable human review. Keeping this core independent from workflow tooling creates a reproducible reference for later integration.
 
+The later arc of the project is about engineering honesty: an external review found a systematic defect class, the fix was applied systematically and natively re-verified, the drift-prone rule data was reduced to a single provable source, and finally the baseline was measured against paraphrases it was never written for — and the low score was published rather than patched away.
+
 ## Task 001 evidence
 
 - Five conspicuously synthetic fixture classes: normal, urgent, incomplete, ambiguous, and security-sensitive.
@@ -40,15 +42,34 @@ This evidence supports artifact structure, deterministic Python/JavaScript parit
 - A keyword-boundary regression discovered by the first run: `passwordless` was incorrectly treated as a credential request. The expected label was preserved, both implementations were corrected, and a focused regression test was added before the final run.
 - A Task 004 hardening pass after an external review demonstrated the same substring defect class in the remaining rules (`not urgent` raised urgency, `date` matched inside `update`, `charge` matched inside `discharged`): every term rule became word-bounded in both implementations, explicitly negated urgency became a low-urgency indicator, and four regression evaluation cases were added.
 - A checked-in deterministic result, methodology, implemented data-flow diagram, and representative accepted and rejected synthetic examples in `docs/09-evaluation.md` and `docs/evaluation-results.json`.
-- Thirty-eight passing automated tests across the classifier, workflow structure/parity, dataset validation, metrics, safety-failure detection, CLI determinism, and result-file drift prevention.
+- Thirty-eight passing automated tests at Task 003/004 completion across the classifier, workflow structure/parity, dataset validation, metrics, safety-failure detection, CLI determinism, and result-file drift prevention; the suite has since grown to fifty-one.
 
 These measurements demonstrate behavior against the committed synthetic assertions. They do not establish production accuracy, generalization, business impact, or real-world security effectiveness.
 
 The Task 003 credential-boundary correction and the Task 004 word-boundary hardening changed the committed workflow after Task 002's native n8n run. The updated JavaScript was natively re-verified on 2026-08-04 against the same self-hosted n8n 2.14.2 instance: a 16-case sweep (default input, five fixtures, six adverse inputs, four boundary probes) produced exact output parity with the Python oracle through an MCP-created workflow with byte-identical Code-node JavaScript (ADR-010).
 
+## Task 005 single-source evidence
+
+- `support_copilot/rules.json` is the only place rule data (term lists, shared portable regular expressions, contract enums, limits) is written; the Python classifier compiles from it at import.
+- The workflow Code-node JavaScript lives as reviewable templates under `n8n/src/`; a deterministic generator (`scripts/build_workflow.py`) renders them into the committed artifact.
+- The generator's first output was byte-identical to the natively verified Task 004 artifact, proving the extraction changed nothing, and a permanent drift test plus a check mode prevent the artifact from diverging from its sources.
+- A flow-through test edits one rule in memory and observes the change in both the Python classifier and the generated JavaScript.
+
+## Task 006 honest out-of-distribution evidence
+
+- Thirty-three paraphrase cases whose expected labels are semantic judgments frozen before the classifier first ran on them, with four in-distribution controls.
+- The committed, unretouched result: 5/33 full expected assertions (category 14/33, urgency 16/33, security flags 28/33, missing information 21/33), with zero false positives and zero paraphrase recall on all five paraphrased security solicitations.
+- The safety architecture held everywhere classification failed: output-contract validity, human-review enforcement, and Python/n8n parity were 33/33.
+- A decision record (ADR-012) forbids chasing this dataset with rule patches, preserving it as a measurement instead of another aligned score.
+- Fifty-one passing automated tests overall, including a drift test that pins the committed paraphrase results without requiring assertion success.
+
+## Continuous verification
+
+Since 2026-08-04, GitHub Actions runs the full test suite on Python 3.10 and 3.13, verifies that the committed workflow artifact matches its generated sources, and prints both evaluation summaries on every push and pull request.
+
 ## Current limitations
 
-Keyword rules can miss paraphrases and can produce false positives outside the evaluated cases. Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. Full Python/n8n parity can reproduce a shared defect, so independent expected assertions remain necessary. The evaluation demonstrates contract and safety behavior within a small synthetic dataset, not production accuracy or business impact.
+Keyword rules miss paraphrases, and this is now measured rather than assumed: 5/33 semantic expectations on the out-of-distribution set, with every paraphrased security solicitation missed (`docs/10-paraphrase-evaluation.md`). Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. Full Python/n8n parity can reproduce a shared defect, so independent expected assertions remain necessary. The evaluation demonstrates contract and safety behavior within a small synthetic dataset, not production accuracy or business impact.
 
 ## Evidence that remains optional or future work
 

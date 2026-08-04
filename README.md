@@ -1,5 +1,7 @@
 # AI Support Operations Copilot
 
+[![CI](https://github.com/savpavi/ai-support-ops-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/savpavi/ai-support-ops-copilot/actions/workflows/ci.yml)
+
 AI Support Operations Copilot is a portfolio project for assisting human support operators with synthetic inbound requests. The intended system will classify a request, estimate urgency, identify missing information, draft a suggested reply, and flag possible security risks. A human must review every output before any action is taken.
 
 ## Current state

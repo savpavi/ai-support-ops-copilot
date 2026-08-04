@@ -73,3 +73,9 @@ Tasks 003 and 004 fixed the same defect class twice because rule data existed se
 **Status:** Accepted — 2026-08-04.
 
 The aligned Task 003 dataset demonstrates contract discipline, and its full score says nothing about language understanding. Task 006 adds a second dataset whose expected labels are semantic judgments made from the case text alone, frozen before the classifier first ran on those inputs, with four in-distribution control cases as anchors. The measured result — 5/33 expected assertions, zero paraphrase recall on security solicitations, and 100% contract, human-review, and parity invariants — is committed verbatim in `docs/paraphrase-results.json` and protected by a drift test that does not require assertion success. The dataset validator gained explicit coverage options (defaults unchanged) so both dataset purposes share one runner and report format. Rule changes chasing this dataset are rejected: relabeling or patching terms to pass would turn it back into an aligned dataset and destroy its value as a measurement. The labels' limited independence (same session authors rules and labels) is recorded in the methodology.
+
+## ADR-013: Continuous verification on GitHub Actions
+
+**Status:** Accepted — 2026-08-04.
+
+The suite, the artifact-source check, and both evaluation summaries were previously verified only locally and recorded in the worklog. Now that the repository is public on GitHub, a single dependency-free GitHub Actions workflow runs `unittest` on Python 3.10 and 3.13, `scripts/build_workflow.py` in check mode, and both evaluation summaries on every push and pull request, with a README badge. This turns recorded claims into externally visible evidence at zero dependency cost. CI has no secrets, no deploy step, and no n8n access; it must stay that way unless a later task explicitly changes it.

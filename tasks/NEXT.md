@@ -2,10 +2,12 @@
 
 - **Date:** 2026-08-04
 - **Branch:** `main`
-- **HEAD:** the Task 006 paraphrase-evaluation commit (after `d666a74 Move rule data to a single shared source with workflow generator`).
-- **Repository status at handoff:** all Task 003–006 work is committed locally. Push remains unauthorized.
+- **HEAD:** the Task 007 CI/case-study commit (after `e0fa4f2 Add out-of-distribution paraphrase evaluation with honest results`).
+- **Repository status at handoff:** everything through Task 007 is committed and pushed to `origin/main`; CI runs on GitHub Actions.
 
 ## Completed this session
+
+- Task 007: GitHub Actions CI (suite on Python 3.10/3.13, artifact source check, both evaluation summaries), README badge, and the case-study refresh with Task 005/006 evidence (ADR-013).
 
 - Task 004: word-boundary and negation hardening, natively verified on self-hosted n8n 2.14.2 (16/16 exact parity, ADR-009/ADR-010).
 - Task 005: single-source rule data in `support_copilot/rules.json` with a byte-identical workflow generator (`n8n/src/` templates, `scripts/build_workflow.py`, ADR-011).
@@ -20,7 +22,7 @@
 
 ## Unfinished work and risks
 
-- Task 007 has no approved scope. Measured candidates from the paraphrase results: semantic classification (requires an approved LLM decision) or bounded rule additions justified case by case — but ADR-012 forbids chasing the paraphrase set with rule patches.
+- Task 008 has no approved scope. The owner asked for an LLM options/cost analysis before any semantic-classifier decision. Other measured candidates: semantic classification (requires an approved LLM decision) or bounded rule additions justified case by case — but ADR-012 forbids chasing the paraphrase set with rule patches.
 - The paraphrase labels were authored in the same session that maintains the rules; owner review of `fixtures/paraphrase_cases.json` labels is invited and disputes should be recorded, not resolved by rerunning.
 - Future rule edits must go through `rules.json` plus `scripts/build_workflow.py --write`; a regenerated workflow revision needs a new native n8n verification.
 - Compatibility with n8n versions newer than 2.14.2 is unverified.
@@ -28,11 +30,11 @@
 
 ## Do not perform yet
 
-Do not begin Task 007, add an LLM or interface, introduce an external integration, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real personal data, or deploy.
+Do not begin Task 008, add an LLM or interface, introduce an external integration, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real personal data, or deploy.
 
 ## Repository operations
 
-- **Commit:** Task 006 committed; nothing pending.
-- **Push:** pending only if/after explicitly authorized.
+- **Commit:** Task 007 committed; nothing pending.
+- **Push:** authorized and up to date with `origin/main`.
 - **Merge:** not pending.
 - **Deployment:** not pending and not authorized.

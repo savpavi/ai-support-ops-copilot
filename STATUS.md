@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001 through 006 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%.
+Tasks 001 through 007 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%.
 
 ## Completed
 
@@ -65,15 +65,20 @@ Tasks 001 through 006 complete. Task 002 was manually verified on self-hosted n8
 - Safety invariants held at 100% throughout: output contract, human review, and Python/n8n parity all 33/33.
 - Added seven tests including a results drift test; the full suite passed: 51 tests on 2026-08-04. Recorded ADR-012 and `docs/10-paraphrase-evaluation.md`.
 
+## Task 007 completion
+
+- Added dependency-free GitHub Actions CI: full suite on Python 3.10 and 3.13, workflow artifact source check, and both evaluation summaries on every push and pull request; README badge; no secrets or n8n access (ADR-013).
+- Refreshed the portfolio case study with Task 005/006 evidence and the measured paraphrase limitation.
+
 ## Not started or out of scope
 
-- Task 007 or any later work, which has no approved scope. Measured candidates: semantic classification (would require an approved LLM decision) or bounded rule additions justified case by case.
+- Task 008 or any later work, which has no approved scope. Measured candidates: semantic classification (would require an approved LLM decision) or bounded rule additions justified case by case.
 - Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
 - Compatibility verification with n8n versions newer than 2.14.2.
 - External integrations and production deployment.
 
 ## Next authorized action
 
-Stop after Task 006. Do not begin Task 007, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
+Stop after Task 007. Do not begin Task 008, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
 
 Last updated: 2026-08-04
