@@ -1,0 +1,263 @@
+{
+  "rules_version": "1.0",
+  "schema_version": "1.0",
+  "max_message_length": 4000,
+  "synthetic_id_pattern": "^SYN-[A-Z0-9][A-Z0-9-]{2,39}$",
+  "output_fields": [
+    "category",
+    "errors",
+    "human_review_required",
+    "missing_information",
+    "rationale",
+    "request_id",
+    "schema_version",
+    "security_flags",
+    "status",
+    "suggested_reply",
+    "urgency"
+  ],
+  "categories": [
+    "access_issue",
+    "account_change",
+    "billing",
+    "service_disruption",
+    "general",
+    "unknown"
+  ],
+  "urgencies": [
+    "low",
+    "normal",
+    "high",
+    "critical",
+    "unknown"
+  ],
+  "statuses": [
+    "accepted",
+    "rejected"
+  ],
+  "security_flags": [
+    "credential_request",
+    "invalid_input",
+    "payment_data",
+    "prompt_injection",
+    "sensitive_identity_data",
+    "suspicious_link"
+  ],
+  "category_rules": [
+    [
+      "access_issue",
+      [
+        "cannot log in",
+        "can't log in",
+        "locked out",
+        "sign in",
+        "login"
+      ]
+    ],
+    [
+      "billing",
+      [
+        "charged",
+        "charges",
+        "charge",
+        "overcharged",
+        "billing",
+        "invoice",
+        "invoices",
+        "refund",
+        "refunds",
+        "refunded",
+        "payment",
+        "payments"
+      ]
+    ],
+    [
+      "service_disruption",
+      [
+        "service unavailable",
+        "unavailable",
+        "outage",
+        "not working",
+        "system down",
+        "stopped working"
+      ]
+    ],
+    [
+      "account_change",
+      [
+        "change account",
+        "update profile",
+        "change name",
+        "account update"
+      ]
+    ]
+  ],
+  "urgency": {
+    "critical_terms": [
+      "immediate danger",
+      "medical emergency",
+      "safety emergency"
+    ],
+    "urgent_pattern": "(?<!not )(?<!non-)(?<!non )\\burgent(?:ly)?\\b",
+    "high_terms": [
+      "stranded",
+      "locked out",
+      "system down",
+      "cannot access",
+      "can't access"
+    ],
+    "low_terms": [
+      "when convenient",
+      "no rush",
+      "not urgent",
+      "non-urgent",
+      "non urgent",
+      "general question"
+    ]
+  },
+  "missing_information": {
+    "access_issue": [
+      {
+        "label": "affected account context",
+        "terms": [
+          "account",
+          "profile",
+          "workspace"
+        ]
+      },
+      {
+        "label": "device or application context",
+        "terms": [
+          "browser",
+          "device",
+          "app",
+          "application",
+          "desktop",
+          "mobile"
+        ]
+      }
+    ],
+    "billing": [
+      {
+        "label": "synthetic transaction reference",
+        "terms": [
+          "invoice",
+          "invoices",
+          "transaction",
+          "order",
+          "receipt",
+          "synthetic reference"
+        ]
+      },
+      {
+        "label": "approximate event date",
+        "terms": [
+          "date",
+          "today",
+          "yesterday"
+        ]
+      }
+    ],
+    "service_disruption": [
+      {
+        "label": "affected service or feature",
+        "terms": [
+          "dashboard",
+          "portal",
+          "service",
+          "app",
+          "application",
+          "feature"
+        ]
+      },
+      {
+        "label": "time the issue began",
+        "terms": [
+          "since",
+          "started",
+          "today",
+          "minute",
+          "minutes",
+          "hour",
+          "hours"
+        ]
+      }
+    ],
+    "account_change": [
+      {
+        "label": "account field to change",
+        "terms": [
+          "name",
+          "setting",
+          "preference",
+          "profile"
+        ]
+      }
+    ],
+    "general": {
+      "label": "specific issue and desired outcome",
+      "min_words": 8,
+      "terms": [
+        "help me",
+        "it failed",
+        "problem",
+        "problems"
+      ]
+    }
+  },
+  "security": {
+    "credential_pattern": {
+      "pattern": "\\b(?:password|passcode|api key|access token|secret token)\\b",
+      "flags": "i"
+    },
+    "url_pattern": {
+      "pattern": "https?:\\/\\/|www\\.",
+      "flags": "i"
+    },
+    "payment_terms": [
+      "card number",
+      "credit card",
+      "security code",
+      "cvv"
+    ],
+    "identity_terms": [
+      "passport number",
+      "national id",
+      "identity document"
+    ],
+    "prompt_injection_patterns": [
+      {
+        "pattern": "\\b(?:ignore|disregard|override)\\b[\\s\\S]{0,40}\\b(?:previous|prior|system|developer|hidden)\\s+(?:instructions?|rules?|prompts?|policies?)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:disable|remove|skip|bypass|avoid|turn\\s+off)\\b[\\s\\S]{0,30}\\b(?:human[ _-]?review|review requirement|human approval)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:approve|execute|send|submit|publish|process)\\b[\\s\\S]{0,40}\\b(?:automatically|without\\s+(?:human\\s+)?review|without\\s+approval)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\bautomatically\\b[\\s\\S]{0,20}\\b(?:approve|execute|send|submit|publish|process)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:set|change|alter|modify|override)\\b[\\s\\S]{0,30}\\b(?:human_review_required|security_flags|(?:status|urgency|category)\\s+(?:field|value|to))\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:human_review_required|security_flags)\\b[\\s\\S]{0,30}\\b(?:false|true|null|empty|unknown|approved|rejected)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:reveal|show|display|print|expose|return)\\b[\\s\\S]{0,30}\\b(?:system|developer|hidden)\\s+(?:prompts?|instructions?|rules?)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\bbypass\\b[\\s\\S]{0,30}\\b(?:safety|policy|guardrails?|validation|review)\\b",
+        "flags": "i"
+      }
+    ]
+  }
+}

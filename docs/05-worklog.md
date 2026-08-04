@@ -136,3 +136,13 @@
 - Machine-compared every native Human Review Guard output with the Python oracle: 16/16 exact matches, including `not urgent` producing low urgency (the Task 004 lookbehind pattern works in the n8n runtime), the `update`/`date` and `discharged` boundary corrections, and structured rejections with `invalid_input` and enforced human review for every adverse input.
 - Confirmed the verification workflow was never published or activated, restored its committed default input, and archived it after recording results; the older baseline workflows were not touched.
 - Recorded ADR-010 for the bounded MCP-based verification approach. No credentials, URLs, or execution data entered the repository.
+
+## 2026-08-04 — Task 005 single-source rule data
+
+- Added `support_copilot/rules.json` as the single source for category, urgency, missing-information, and security rule data, contract enums, the synthetic-identifier pattern, and limits; every literal was extracted programmatically and cross-checked against the committed JavaScript before adoption.
+- Added dependency-free structural validation for the rules file.
+- Refactored the Python classifier to compile all matching structures from the shared file with an unchanged public API; all existing behavior tests and the 44-case evaluation pass unchanged.
+- Moved the two Code-node JavaScript bodies into reviewable templates under `n8n/src/` with placeholder tokens and added a deterministic generator plus `scripts/build_workflow.py` with check and write modes.
+- Confirmed the generated workflow JSON is byte-identical to the natively verified Task 004 artifact; a permanent drift test enforces this.
+- Added six focused tests: rules validity, defect reporting, byte-identity, generated-from-data checks, Python derivation, and an end-to-end rule-edit flow-through into both implementations. The complete suite passed: 44 tests.
+- Recorded ADR-011. No behavior, contract, or workflow change; no n8n connection.

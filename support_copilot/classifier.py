@@ -11,102 +11,63 @@ from collections.abc import Mapping
 from functools import lru_cache
 from typing import Any
 
-SCHEMA_VERSION = "1.0"
-MAX_MESSAGE_LENGTH = 4_000
+from .rules import load_rules
 
-CATEGORIES = {
-    "access_issue",
-    "account_change",
-    "billing",
-    "service_disruption",
-    "general",
-    "unknown",
-}
-URGENCIES = {"low", "normal", "high", "critical", "unknown"}
-STATUSES = {"accepted", "rejected"}
-SECURITY_FLAGS = {
-    "credential_request",
-    "invalid_input",
-    "payment_data",
-    "prompt_injection",
-    "sensitive_identity_data",
-    "suspicious_link",
-}
 
-_SYNTHETIC_ID = re.compile(r"^SYN-[A-Z0-9][A-Z0-9-]{2,39}$")
-_URL = re.compile(r"https?://|www\.", re.IGNORECASE)
-_CREDENTIAL_REQUEST = re.compile(
-    r"\b(?:password|passcode|api key|access token|secret token)\b",
-    re.IGNORECASE,
-)
-_URGENT = re.compile(r"(?<!not )(?<!non-)(?<!non )\burgent(?:ly)?\b")
+def _compile_flagged(entry: Mapping[str, Any]) -> re.Pattern[str]:
+    return re.compile(entry["pattern"], re.IGNORECASE if "i" in entry["flags"] else 0)
 
-_CATEGORY_RULES = (
-    ("access_issue", ("cannot log in", "can't log in", "locked out", "sign in", "login")),
-    (
-        "billing",
-        (
-            "charged",
-            "charges",
-            "charge",
-            "overcharged",
-            "billing",
-            "invoice",
-            "invoices",
-            "refund",
-            "refunds",
-            "refunded",
-            "payment",
-            "payments",
-        ),
-    ),
-    (
-        "service_disruption",
-        ("service unavailable", "unavailable", "outage", "not working", "system down", "stopped working"),
-    ),
-    ("account_change", ("change account", "update profile", "change name", "account update")),
-)
 
-_PROMPT_INJECTION_PATTERNS = (
-    re.compile(
-        r"\b(?:ignore|disregard|override)\b.{0,40}\b(?:previous|prior|system|developer|hidden)\s+"
-        r"(?:instructions?|rules?|prompts?|policies?)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\b(?:disable|remove|skip|bypass|avoid|turn\s+off)\b.{0,30}\b"
-        r"(?:human[ _-]?review|review requirement|human approval)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\b(?:approve|execute|send|submit|publish|process)\b.{0,40}\b"
-        r"(?:automatically|without\s+(?:human\s+)?review|without\s+approval)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\bautomatically\b.{0,20}\b(?:approve|execute|send|submit|publish|process)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\b(?:set|change|alter|modify|override)\b.{0,30}\b"
-        r"(?:human_review_required|security_flags|(?:status|urgency|category)\s+(?:field|value|to))\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\b(?:human_review_required|security_flags)\b.{0,30}\b"
-        r"(?:false|true|null|empty|unknown|approved|rejected)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\b(?:reveal|show|display|print|expose|return)\b.{0,30}\b"
-        r"(?:system|developer|hidden)\s+(?:prompts?|instructions?|rules?)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-    re.compile(
-        r"\bbypass\b.{0,30}\b(?:safety|policy|guardrails?|validation|review)\b",
-        re.IGNORECASE | re.DOTALL,
-    ),
-)
+def _apply_rules(rules: Mapping[str, Any]) -> None:
+    """Compile the shared rule data into the module-level matching structures.
+
+    The same `rules.json` content is injected into the committed workflow
+    JavaScript by `support_copilot.workflow_build`; both implementations must
+    only ever change through that shared file.
+    """
+
+    global SCHEMA_VERSION, MAX_MESSAGE_LENGTH, CATEGORIES, URGENCIES, STATUSES
+    global SECURITY_FLAGS, OUTPUT_FIELDS, _SYNTHETIC_ID, _URL, _CREDENTIAL_REQUEST
+    global _URGENT, _CATEGORY_RULES, _PROMPT_INJECTION_PATTERNS, _PAYMENT_TERMS
+    global _IDENTITY_TERMS, _CRITICAL_TERMS, _HIGH_TERMS, _LOW_TERMS
+    global _MISSING_RULES, _GENERAL_MISSING
+
+    SCHEMA_VERSION = rules["schema_version"]
+    MAX_MESSAGE_LENGTH = rules["max_message_length"]
+    CATEGORIES = set(rules["categories"])
+    URGENCIES = set(rules["urgencies"])
+    STATUSES = set(rules["statuses"])
+    SECURITY_FLAGS = set(rules["security_flags"])
+    OUTPUT_FIELDS = set(rules["output_fields"])
+    _SYNTHETIC_ID = re.compile(rules["synthetic_id_pattern"])
+    _CATEGORY_RULES = tuple((category, tuple(terms)) for category, terms in rules["category_rules"])
+
+    security = rules["security"]
+    _URL = _compile_flagged(security["url_pattern"])
+    _CREDENTIAL_REQUEST = _compile_flagged(security["credential_pattern"])
+    _PROMPT_INJECTION_PATTERNS = tuple(
+        _compile_flagged(entry) for entry in security["prompt_injection_patterns"]
+    )
+    _PAYMENT_TERMS = tuple(security["payment_terms"])
+    _IDENTITY_TERMS = tuple(security["identity_terms"])
+
+    urgency = rules["urgency"]
+    _URGENT = re.compile(urgency["urgent_pattern"])
+    _CRITICAL_TERMS = tuple(urgency["critical_terms"])
+    _HIGH_TERMS = tuple(urgency["high_terms"])
+    _LOW_TERMS = tuple(urgency["low_terms"])
+
+    missing = rules["missing_information"]
+    _MISSING_RULES = {
+        category: tuple((check["label"], tuple(check["terms"])) for check in checks)
+        for category, checks in missing.items()
+        if category != "general"
+    }
+    general = missing["general"]
+    _GENERAL_MISSING = (general["label"], general["min_words"], tuple(general["terms"]))
+
+
+_apply_rules(load_rules())
 
 
 def validate_input(value: Any) -> list[str]:
@@ -151,9 +112,9 @@ def _security_flags(text: str) -> list[str]:
         flags.append("prompt_injection")
     if _CREDENTIAL_REQUEST.search(text):
         flags.append("credential_request")
-    if _contains_any(text, ("card number", "credit card", "security code", "cvv")):
+    if _contains_any(text, _PAYMENT_TERMS):
         flags.append("payment_data")
-    if _contains_any(text, ("passport number", "national id", "identity document")):
+    if _contains_any(text, _IDENTITY_TERMS):
         flags.append("sensitive_identity_data")
     if _URL.search(text):
         flags.append("suspicious_link")
@@ -168,47 +129,27 @@ def _category(text: str) -> str:
 
 
 def _urgency(text: str, flags: list[str]) -> str:
-    if _contains_any(text, ("immediate danger", "medical emergency", "safety emergency")):
+    if _contains_any(text, _CRITICAL_TERMS):
         return "critical"
-    if _URGENT.search(text) or _contains_any(
-        text,
-        ("stranded", "locked out", "system down", "cannot access", "can't access"),
-    ):
+    if _URGENT.search(text) or _contains_any(text, _HIGH_TERMS):
         return "high"
     if flags:
         return "high"
-    if _contains_any(
-        text,
-        ("when convenient", "no rush", "not urgent", "non-urgent", "non urgent", "general question"),
-    ):
+    if _contains_any(text, _LOW_TERMS):
         return "low"
     return "normal"
 
 
 def _missing_information(category: str, text: str) -> list[str]:
     missing: list[str] = []
-    if category == "access_issue":
-        if not _contains_any(text, ("account", "profile", "workspace")):
-            missing.append("affected account context")
-        if not _contains_any(text, ("browser", "device", "app", "application", "desktop", "mobile")):
-            missing.append("device or application context")
-    elif category == "billing":
-        if not _contains_any(
-            text, ("invoice", "invoices", "transaction", "order", "receipt", "synthetic reference")
-        ):
-            missing.append("synthetic transaction reference")
-        if not _contains_any(text, ("date", "today", "yesterday")):
-            missing.append("approximate event date")
-    elif category == "service_disruption":
-        if not _contains_any(text, ("dashboard", "portal", "service", "app", "application", "feature")):
-            missing.append("affected service or feature")
-        if not _contains_any(text, ("since", "started", "today", "minute", "minutes", "hour", "hours")):
-            missing.append("time the issue began")
-    elif category == "account_change":
-        if not _contains_any(text, ("name", "setting", "preference", "profile")):
-            missing.append("account field to change")
-    elif len(text.split()) < 8 or _contains_any(text, ("help me", "it failed", "problem", "problems")):
-        missing.append("specific issue and desired outcome")
+    if category in _MISSING_RULES:
+        for label, terms in _MISSING_RULES[category]:
+            if not _contains_any(text, terms):
+                missing.append(label)
+    else:
+        label, min_words, terms = _GENERAL_MISSING
+        if len(text.split()) < min_words or _contains_any(text, terms):
+            missing.append(label)
     return missing
 
 
@@ -308,20 +249,7 @@ def validate_output(value: Any) -> None:
     if not isinstance(value, Mapping):
         raise ValueError("output must be an object")
 
-    required = {
-        "schema_version",
-        "status",
-        "request_id",
-        "category",
-        "urgency",
-        "rationale",
-        "missing_information",
-        "suggested_reply",
-        "security_flags",
-        "human_review_required",
-        "errors",
-    }
-    if set(value) != required:
+    if set(value) != OUTPUT_FIELDS:
         raise ValueError("output fields do not match the contract")
     if not isinstance(value["schema_version"], str) or value["schema_version"] != SCHEMA_VERSION:
         raise ValueError("unsupported schema_version")

@@ -23,11 +23,12 @@ Out of scope for the initial phase are real customer data, production integratio
 
 - `docs/`: brief, requirements, architecture, security, decisions, worklog, and case-study notes.
 - `tasks/`: bounded implementation task specifications.
-- `n8n/workflows/`: sanitized inactive Task 002 workflow artifact.
-- `support_copilot/`: local classifier plus input and output validation.
-- `fixtures/`: synthetic Task 001 scenarios.
+- `n8n/workflows/`: sanitized inactive workflow artifact, generated from `n8n/src/` and `support_copilot/rules.json`.
+- `n8n/src/`: reviewable Code-node JavaScript templates whose rule literals are placeholders.
+- `support_copilot/`: local classifier, input/output validation, shared rule data (`rules.json`), evaluation, and the workflow generator.
+- `fixtures/`: synthetic scenarios and the reviewed evaluation dataset.
 - `tests/`: standard-library automated tests.
-- `scripts/`: local command-line entry point.
+- `scripts/`: local command-line entry points.
 
 ## Local usage
 
@@ -39,7 +40,15 @@ Run all tests:
 python3 -m unittest discover -s tests -v
 ```
 
-This currently runs 38 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, and 12 dataset/evaluation tests (Tasks 003 and 004). Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+This currently runs 44 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), and 6 rule-source and generator tests (Task 005). Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+
+All rule data (term lists, shared patterns, enums, limits) lives in `support_copilot/rules.json`; the committed workflow JavaScript is generated from `n8n/src/` templates. Verify that the committed artifact matches its sources:
+
+```bash
+python3 scripts/build_workflow.py
+```
+
+After editing `rules.json` or a template, regenerate the artifact with `--write`. A regenerated workflow revision requires a new native n8n verification before runtime claims are repeated.
 
 Run the 44-case synthetic evaluation and print a concise Markdown summary:
 

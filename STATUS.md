@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001, 002, 003, and 004 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline and portfolio evidence. Task 004 hardened all remaining keyword rules with word-boundary matching and negation handling after an external review.
+Tasks 001 through 005 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline and portfolio evidence. Task 004 hardened all remaining keyword rules with word-boundary matching and negation handling after an external review, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator.
 
 ## Completed
 
@@ -49,15 +49,24 @@ Tasks 001, 002, 003, and 004 complete. Task 002 was manually verified on self-ho
 - Regenerated `docs/evaluation-results.json` and recorded ADR-009. The full suite passed: 38 tests on 2026-08-04.
 - Natively verified the Task 004 revision on the owner-confirmed self-hosted n8n 2.14.2 instance through the official n8n MCP connector (ADR-010): 16 synthetic cases executed with 16/16 exact Human Review Guard parity against the Python oracle; the temporary inactive verification workflow was archived afterward.
 
+## Task 005 completion
+
+- Added `support_copilot/rules.json` as the single source for all term lists, shared regular-expression patterns, contract enums, and limits, with dependency-free structural validation.
+- The Python classifier now compiles its matching structures from the shared file; behavior, public API, and the 44-case evaluation results are unchanged.
+- The Code-node JavaScript now lives as reviewable templates under `n8n/src/`; `scripts/build_workflow.py` deterministically regenerates the committed workflow JSON, and its output is byte-identical to the natively verified Task 004 artifact.
+- A permanent drift test and a `--check` mode fail whenever the committed workflow differs from its sources; a flow-through test proves a rule edit reaches both implementations.
+- Recorded ADR-011. The full suite passed: 44 tests on 2026-08-04.
+
 ## Not started or out of scope
 
-- Task 005 or any later work, which has no approved scope.
+- Task 006, the approved next task: an out-of-distribution paraphrase evaluation set with independently reviewed semantic expectations.
+- Any work beyond Task 006, which has no approved scope.
 - Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
 - Compatibility verification with n8n versions newer than 2.14.2.
 - External integrations and production deployment.
 
 ## Next authorized action
 
-Stop after Task 004. Do not begin Task 005, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
+Begin Task 006, the out-of-distribution paraphrase evaluation set, approved by the project owner on 2026-08-04. Do not add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
 
 Last updated: 2026-08-04
