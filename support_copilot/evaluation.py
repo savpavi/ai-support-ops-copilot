@@ -31,6 +31,15 @@ _REQUIRED_TAGS = {
     "reply_branch",
 }
 
+# Validation profile for the out-of-distribution paraphrase dataset: accepted-only
+# cases tagged `paraphrase`, without the Task 003 flag/urgency coverage demands.
+PARAPHRASE_VALIDATION: dict[str, Any] = {
+    "required_tags": frozenset({"paraphrase"}),
+    "require_rejected": False,
+    "require_flag_coverage": False,
+    "require_urgency_coverage": False,
+}
+
 
 def _is_string_list(value: Any) -> bool:
     return isinstance(value, list) and all(isinstance(item, str) and item for item in value)
@@ -44,8 +53,21 @@ def _json_compatible(value: Any) -> bool:
     return True
 
 
-def validate_evaluation_cases(value: Any) -> list[str]:
-    """Return deterministic errors without running or consulting the classifier."""
+def validate_evaluation_cases(
+    value: Any,
+    *,
+    required_tags: frozenset[str] | set[str] = frozenset(_REQUIRED_TAGS),
+    require_rejected: bool = True,
+    require_flag_coverage: bool = True,
+    require_urgency_coverage: bool = True,
+) -> list[str]:
+    """Return deterministic errors without running or consulting the classifier.
+
+    The keyword options relax dataset-level coverage requirements for datasets
+    with a different purpose (for example the paraphrase set); per-case rules
+    and category coverage always apply, and the defaults preserve the Task 003
+    requirements.
+    """
 
     if not isinstance(value, list):
         return ["evaluation dataset must be a JSON array"]
@@ -146,23 +168,24 @@ def validate_evaluation_cases(value: Any) -> list[str]:
     required_categories = CATEGORIES - {"unknown"}
     if not required_categories.issubset(covered_categories):
         errors.append(f"dataset is missing categories: {sorted(required_categories - covered_categories)}")
-    required_urgencies = URGENCIES - {"unknown"}
-    if not required_urgencies.issubset(covered_urgencies):
-        errors.append(f"dataset is missing urgencies: {sorted(required_urgencies - covered_urgencies)}")
-    if not SECURITY_FLAGS.issubset(covered_flags):
+    if require_urgency_coverage:
+        required_urgencies = URGENCIES - {"unknown"}
+        if not required_urgencies.issubset(covered_urgencies):
+            errors.append(f"dataset is missing urgencies: {sorted(required_urgencies - covered_urgencies)}")
+    if require_flag_coverage and not SECURITY_FLAGS.issubset(covered_flags):
         errors.append(f"dataset is missing security flags: {sorted(SECURITY_FLAGS - covered_flags)}")
-    if not _REQUIRED_TAGS.issubset(covered_tags):
-        errors.append(f"dataset is missing coverage tags: {sorted(_REQUIRED_TAGS - covered_tags)}")
-    if not has_rejected:
+    if not set(required_tags).issubset(covered_tags):
+        errors.append(f"dataset is missing coverage tags: {sorted(set(required_tags) - covered_tags)}")
+    if require_rejected and not has_rejected:
         errors.append("dataset must include at least one rejected-input case")
 
     return errors
 
 
-def assert_valid_evaluation_cases(value: Any) -> None:
+def assert_valid_evaluation_cases(value: Any, **options: Any) -> None:
     """Raise a single review-friendly exception when dataset validation fails."""
 
-    errors = validate_evaluation_cases(value)
+    errors = validate_evaluation_cases(value, **options)
     if errors:
         raise ValueError("invalid evaluation dataset:\n- " + "\n- ".join(errors))
 
@@ -187,10 +210,11 @@ def evaluate_cases(
     cases: Any,
     *,
     workflow_results: Sequence[Mapping[str, Any]] | None = None,
+    validation: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Evaluate Python behavior, safety assertions, and local workflow parity."""
 
-    assert_valid_evaluation_cases(cases)
+    assert_valid_evaluation_cases(cases, **(validation or {}))
     typed_cases: list[Mapping[str, Any]] = list(cases)
     python_results: list[dict[str, Any] | None] = []
     python_errors: list[str | None] = []

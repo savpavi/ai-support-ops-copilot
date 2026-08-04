@@ -40,7 +40,7 @@ Run all tests:
 python3 -m unittest discover -s tests -v
 ```
 
-This currently runs 44 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), and 6 rule-source and generator tests (Task 005). Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+This currently runs 51 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), 6 rule-source and generator tests (Task 005), and 7 paraphrase-evaluation tests (Task 006). Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
 
 All rule data (term lists, shared patterns, enums, limits) lives in `support_copilot/rules.json`; the committed workflow JavaScript is generated from `n8n/src/` templates. Verify that the committed artifact matches its sources:
 
@@ -50,10 +50,16 @@ python3 scripts/build_workflow.py
 
 After editing `rules.json` or a template, regenerate the artifact with `--write`. A regenerated workflow revision requires a new native n8n verification before runtime claims are repeated.
 
-Run the 44-case synthetic evaluation and print a concise Markdown summary:
+Run the 44-case aligned synthetic evaluation and print a concise Markdown summary:
 
 ```bash
 python3 scripts/evaluate_requests.py
+```
+
+Run the 33-case out-of-distribution paraphrase evaluation, whose low scores are the honest, expected outcome (see `docs/10-paraphrase-evaluation.md`):
+
+```bash
+python3 scripts/evaluate_requests.py --dataset paraphrase
 ```
 
 Print the deterministic machine-readable report instead:
@@ -80,7 +86,7 @@ The CLI returns exit code `0` for accepted input and `2` for rejected input. The
 
 ## Limitations
 
-The classifier uses transparent keyword rules, not an LLM. It is deterministic and useful as a contract and safety baseline, but it does not understand language semantically, measure statistical confidence, or establish production accuracy. Its suggested replies are fixed templates and must always be reviewed by a human.
+The classifier uses transparent keyword rules, not an LLM. It is deterministic and useful as a contract and safety baseline, but it does not understand language semantically, measure statistical confidence, or establish production accuracy. The Task 006 paraphrase evaluation quantifies this honestly: on 33 out-of-distribution phrasings it met only 5/33 semantic expectations and missed every paraphrased security solicitation, while the output contract, human-review enforcement, and Python/n8n parity held at 100%. Its suggested replies are fixed templates and must always be reviewed by a human.
 
 The Task 002 workflow revision was verified on self-hosted n8n 2.14.2. Tasks 003 and 004 later made bounded keyword corrections in the committed Code-node JavaScript and verified them locally with 44/44 Python parity; the current revision was then natively verified on the same self-hosted n8n 2.14.2 instance on 2026-08-04 through a 16-case sweep with exact output parity (see `docs/08-n8n-manual-test.md` and ADR-010). Compatibility with newer n8n versions remains unverified. The workflow must remain inactive and must not gain credentials or action nodes.
 

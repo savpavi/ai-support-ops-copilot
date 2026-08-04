@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001 through 005 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline and portfolio evidence. Task 004 hardened all remaining keyword rules with word-boundary matching and negation handling after an external review, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator.
+Tasks 001 through 006 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%.
 
 ## Completed
 
@@ -57,16 +57,23 @@ Tasks 001 through 005 complete. Task 002 was manually verified on self-hosted n8
 - A permanent drift test and a `--check` mode fail whenever the committed workflow differs from its sources; a flow-through test proves a rule edit reaches both implementations.
 - Recorded ADR-011. The full suite passed: 44 tests on 2026-08-04.
 
+## Task 006 completion
+
+- Parameterized the dataset validator with explicit coverage options; defaults and all existing tests unchanged.
+- Added the 33-case paraphrase dataset with semantic expected labels frozen before the first classifier run, four in-distribution controls, and a `--dataset aligned|paraphrase` CLI option.
+- Committed the honest measurement: 5/33 full expected assertions (category 14/33, urgency 16/33, security flags 28/33, missing information 21/33) with zero false positives and 0 paraphrase recall on all five paraphrased security solicitations.
+- Safety invariants held at 100% throughout: output contract, human review, and Python/n8n parity all 33/33.
+- Added seven tests including a results drift test; the full suite passed: 51 tests on 2026-08-04. Recorded ADR-012 and `docs/10-paraphrase-evaluation.md`.
+
 ## Not started or out of scope
 
-- Task 006, the approved next task: an out-of-distribution paraphrase evaluation set with independently reviewed semantic expectations.
-- Any work beyond Task 006, which has no approved scope.
+- Task 007 or any later work, which has no approved scope. Measured candidates: semantic classification (would require an approved LLM decision) or bounded rule additions justified case by case.
 - Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
 - Compatibility verification with n8n versions newer than 2.14.2.
 - External integrations and production deployment.
 
 ## Next authorized action
 
-Begin Task 006, the out-of-distribution paraphrase evaluation set, approved by the project owner on 2026-08-04. Do not add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
+Stop after Task 006. Do not begin Task 007, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
 
 Last updated: 2026-08-04

@@ -146,3 +146,13 @@
 - Confirmed the generated workflow JSON is byte-identical to the natively verified Task 004 artifact; a permanent drift test enforces this.
 - Added six focused tests: rules validity, defect reporting, byte-identity, generated-from-data checks, Python derivation, and an end-to-end rule-edit flow-through into both implementations. The complete suite passed: 44 tests.
 - Recorded ADR-011. No behavior, contract, or workflow change; no n8n connection.
+
+## 2026-08-04 — Task 006 out-of-distribution paraphrase evaluation
+
+- Parameterized the dataset validator with explicit coverage options (required tags, rejected-case, flag and urgency coverage); defaults preserve Task 003 behavior and all existing tests passed unchanged.
+- Added `fixtures/paraphrase_cases.json`: 33 synthetic cases expressing supported intents, urgency cues, and security solicitations in phrasings that avoid the rule terms, plus four in-distribution controls; expected labels were assigned semantically and frozen before the classifier first ran on them.
+- Extended `scripts/evaluate_requests.py` with an explicit `--dataset aligned|paraphrase` option.
+- Measured and committed the honest result: 14/33 category, 16/33 urgency, 28/33 security-flag, 21/33 missing-information, and 5/33 full expected-assertion accuracy, with zero false positives but 0 paraphrase recall on all five paraphrased security solicitations.
+- Confirmed the safety architecture held throughout: 33/33 output-contract validity, 33/33 human-review enforcement, and 33/33 Python/n8n parity despite misclassifications.
+- Added seven focused tests, including a drift test on `docs/paraphrase-results.json` and an assertion that the set measures real out-of-distribution failure. The complete suite passed: 51 tests.
+- Documented methodology, results, representative failures, and limitations in `docs/10-paraphrase-evaluation.md`; recorded ADR-012. No classifier, rules, or workflow change; no n8n connection.
