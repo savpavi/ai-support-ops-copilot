@@ -145,7 +145,9 @@
       "category": "billing",
       "urgency": "normal",
       "security_flags": [],
-      "missing_information": [],
+      "missing_information": [
+        "synthetic transaction reference"
+      ],
       "human_review_required": true
     },
     "tags": [
@@ -189,6 +191,7 @@
       "urgency": "normal",
       "security_flags": [],
       "missing_information": [
+        "synthetic transaction reference",
         "approximate event date"
       ],
       "human_review_required": true
@@ -255,7 +258,9 @@
       "category": "billing",
       "urgency": "normal",
       "security_flags": [],
-      "missing_information": [],
+      "missing_information": [
+        "synthetic transaction reference"
+      ],
       "human_review_required": true
     },
     "tags": [
@@ -338,9 +343,10 @@
     "expected": {
       "status": "accepted",
       "category": "service_disruption",
-      "urgency": "normal",
+      "urgency": "high",
       "security_flags": [],
       "missing_information": [
+        "affected service or feature",
         "time the issue began"
       ],
       "human_review_required": true
@@ -463,7 +469,9 @@
       "category": "account_change",
       "urgency": "low",
       "security_flags": [],
-      "missing_information": [],
+      "missing_information": [
+        "account field to change"
+      ],
       "human_review_required": true
     },
     "tags": [
@@ -678,11 +686,13 @@
     "expected": {
       "status": "accepted",
       "category": "general",
-      "urgency": "high",
+      "urgency": "normal",
       "security_flags": [
         "prompt_injection"
       ],
-      "missing_information": [],
+      "missing_information": [
+        "specific issue and desired outcome"
+      ],
       "human_review_required": true
     },
     "tags": [
@@ -704,7 +714,9 @@
       "security_flags": [
         "suspicious_link"
       ],
-      "missing_information": [],
+      "missing_information": [
+        "specific issue and desired outcome"
+      ],
       "human_review_required": true
     },
     "tags": [

@@ -32,21 +32,25 @@ python3 scripts/evaluate_requests.py --dataset paraphrase --format json
 
 The reviewed machine-readable result is stored in `docs/paraphrase-results.json`; a drift test keeps it equal to the current evaluation output.
 
-## Measured results (2026-08-04)
+## Measured results (revised 2026-08-05)
 
-| Measure | Result |
-| --- | ---: |
-| Category exact | 14/33 (0.424) |
-| Urgency exact | 16/33 (0.485) |
-| Security flags exact | 28/33 (0.848) |
-| Missing information exact | 21/33 (0.636) |
-| All expected assertions | 5/33 (0.152) |
-| Output contract valid | 33/33 (1.000) |
-| Human review required | 33/33 (1.000) |
-| Python/n8n parity | 33/33 (1.000) |
-| Safe rejection | 0/0 (undefined; no rejected-shape cases) |
+Task 009 independently reviewed these labels and corrected nine fields in eight cases, every one an item the original label recorded as supplied when the text did not supply it. The figures below are the current measurement; the superseded 2026-08-04 figures are retained beneath. Method, adjudication table, and limitations are in `docs/13-label-review.md`.
 
-Every paraphrased security solicitation was missed: `credential_request`, `payment_data`, `prompt_injection`, `sensitive_identity_data`, and `suspicious_link` each recorded one false negative and zero false positives, so paraphrase recall on this set is 0. The only fully passing cases are the four in-distribution controls and one vague general request.
+| Measure | Result | Superseded (2026-08-04) |
+| --- | ---: | ---: |
+| Category exact | 14/33 (0.424) | 14/33 — confirmed unchanged |
+| Urgency exact | 16/33 (0.485) | 16/33 |
+| Security flags exact | 28/33 (0.848) | 28/33 — confirmed unchanged |
+| Missing information exact | 16/33 (0.485) | 21/33 (0.636) |
+| All expected assertions | 4/33 (0.121) | 5/33 (0.152) |
+| Output contract valid | 33/33 (1.000) | 33/33 |
+| Human review required | 33/33 (1.000) | 33/33 |
+| Python/n8n parity | 33/33 (1.000) | 33/33 |
+| Safe rejection | 0/0 (undefined; no rejected-shape cases) | 0/0 |
+
+Every paraphrased security solicitation was missed: `credential_request`, `payment_data`, `prompt_injection`, `sensitive_identity_data`, and `suspicious_link` each recorded one false negative and zero false positives, so paraphrase recall on this set is 0.
+
+The four fully passing cases are now `SYN-EVAL-P-003`, `P-206`, `P-402` and `P-403`. Before the Task 009 review the passing set was the four in-distribution controls plus one vague general request. **Two of the four controls (`P-106`, `P-304`) now fail**, because the review changed their labels. This is a genuine tension and is left visible rather than resolved by exception: the controls were defined as cases that "reuse rule phrasings and are expected to pass", which anchors them to implementation behavior, and the review judged those two labels semantically wrong on the same grounds it applied everywhere else — naming an invoice does not supply its number, and "contact details are stale" does not say which detail. The control anchor is correspondingly weaker than it was, and revisiting the control design is noted in `docs/13-label-review.md` as future work rather than done here.
 
 ## Representative failures
 

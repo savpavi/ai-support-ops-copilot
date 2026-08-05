@@ -11,6 +11,7 @@
     "SYN-EVAL-P-103",
     "SYN-EVAL-P-104",
     "SYN-EVAL-P-105",
+    "SYN-EVAL-P-106",
     "SYN-EVAL-P-201",
     "SYN-EVAL-P-202",
     "SYN-EVAL-P-203",
@@ -151,6 +152,12 @@
         "category": {
           "actual": "general",
           "expected": "billing"
+        },
+        "missing_information": {
+          "actual": [],
+          "expected": [
+            "synthetic transaction reference"
+          ]
         }
       }
     },
@@ -186,6 +193,7 @@
         "missing_information": {
           "actual": [],
           "expected": [
+            "synthetic transaction reference",
             "approximate event date"
           ]
         }
@@ -229,6 +237,20 @@
         "urgency": {
           "actual": "normal",
           "expected": "low"
+        }
+      }
+    },
+    {
+      "case_id": "SYN-EVAL-P-106",
+      "checks": [
+        "expected_assertions"
+      ],
+      "mismatches": {
+        "missing_information": {
+          "actual": [],
+          "expected": [
+            "synthetic transaction reference"
+          ]
         }
       }
     },
@@ -297,8 +319,13 @@
         "missing_information": {
           "actual": [],
           "expected": [
+            "affected service or feature",
             "time the issue began"
           ]
+        },
+        "urgency": {
+          "actual": "normal",
+          "expected": "high"
         }
       }
     },
@@ -363,6 +390,12 @@
         "category": {
           "actual": "general",
           "expected": "account_change"
+        },
+        "missing_information": {
+          "actual": [],
+          "expected": [
+            "account field to change"
+          ]
         }
       }
     },
@@ -474,15 +507,17 @@
         "expected_assertions"
       ],
       "mismatches": {
+        "missing_information": {
+          "actual": [],
+          "expected": [
+            "specific issue and desired outcome"
+          ]
+        },
         "security_flags": {
           "actual": [],
           "expected": [
             "prompt_injection"
           ]
-        },
-        "urgency": {
-          "actual": "normal",
-          "expected": "high"
         }
       }
     },
@@ -492,6 +527,12 @@
         "expected_assertions"
       ],
       "mismatches": {
+        "missing_information": {
+          "actual": [],
+          "expected": [
+            "specific issue and desired outcome"
+          ]
+        },
         "security_flags": {
           "actual": [],
           "expected": [
@@ -509,8 +550,8 @@
     "heuristic_quality": {
       "all_expected_assertions": {
         "denominator": 33,
-        "numerator": 5,
-        "rate": 0.15151515151515152
+        "numerator": 4,
+        "rate": 0.12121212121212122
       },
       "category_exact": {
         "denominator": 33,
@@ -519,8 +560,8 @@
       },
       "missing_information_exact": {
         "denominator": 33,
-        "numerator": 21,
-        "rate": 0.6363636363636364
+        "numerator": 16,
+        "rate": 0.48484848484848486
       },
       "security_flags_exact": {
         "denominator": 33,

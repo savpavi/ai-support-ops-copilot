@@ -17,6 +17,12 @@ Unlike the deterministic evaluations, LLM outputs are **not reproducible**: thes
 
 Two providers: the `anthropic` SDK (pinned to `claude-haiku-4-5`) and OpenRouter (standard library HTTP, any served model, `OPENROUTER_API_KEY`). This sweep ran through OpenRouter with `temperature: 0` and a JSON-schema `response_format` derived from `rules.json`.
 
+## Revised by the Task 009 label review
+
+Task 009 reviewed the paraphrase labels these tables are scored against and corrected nine fields in eight cases. The tables below are the **2026-08-04 measurement as taken**, kept intact; re-scored figures against the revised labels are in `docs/13-label-review.md` and `docs/label-review-rescored.json`. Every model gains on missing information (7→12, 8→13, 11→17, 6→11) and all-assertions; note that the adjudication rule required model unanimity, so that improvement is partly built in.
+
+Task 009 also found a confound in this evaluation's own design. The system prompt below instructs models that urgency is *"high for blocked access, significant outages, explicit urgency, or security-sensitive content"* — that is the deterministic baseline's topic-driven and flag-driven escalation, handed to the model as a rule. Model agreement with the baseline's urgency conventions is therefore not independent evidence, and the urgency rows are in part a measure of instruction-following. The category and security-flag results are unaffected: Task 009 confirmed those labels 33/33 without a single change.
+
 ## Results — paraphrase dataset (33 semantic cases)
 
 | Measure | Baseline | claude-haiku-4.5 | gpt-4o-mini | gemini-2.5-flash | deepseek-chat |

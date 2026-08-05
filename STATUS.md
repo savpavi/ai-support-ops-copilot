@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001 through 008 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed.
+Tasks 001 through 009 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed. Task 009 audited the paraphrase labels themselves under a rubric frozen in advance, confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting fall in the baseline's own score.
 
 ## Completed
 
@@ -61,7 +61,7 @@ Tasks 001 through 008 complete. Task 002 was manually verified on self-hosted n8
 
 - Parameterized the dataset validator with explicit coverage options; defaults and all existing tests unchanged.
 - Added the 33-case paraphrase dataset with semantic expected labels frozen before the first classifier run, four in-distribution controls, and a `--dataset aligned|paraphrase` CLI option.
-- Committed the honest measurement: 5/33 full expected assertions (category 14/33, urgency 16/33, security flags 28/33, missing information 21/33) with zero false positives and 0 paraphrase recall on all five paraphrased security solicitations.
+- Committed the honest measurement: 5/33 full expected assertions (category 14/33, urgency 16/33, security flags 28/33, missing information 21/33) with zero false positives and 0 paraphrase recall on all five paraphrased security solicitations. Superseded by the Task 009 label review on 2026-08-05: the current figures are 4/33 and missing information 16/33; category and security flags were confirmed unchanged.
 - Safety invariants held at 100% throughout: output contract, human review, and Python/n8n parity all 33/33.
 - Added seven tests including a results drift test; the full suite passed: 51 tests on 2026-08-04. Recorded ADR-012 and `docs/10-paraphrase-evaluation.md`.
 
@@ -78,15 +78,26 @@ Tasks 001 through 008 complete. Task 002 was manually verified on self-hosted n8
 - Ran the four-model, 308-call live sweep (~$0.10): paraphrase category 14/33 (baseline) to 31-33/33; paraphrased security solicitations 0/5 (baseline) to 4-5/5; ten nonconforming outputs rejected by the guard, zero unsafe passes.
 - Committed dated snapshot results and methodology (`docs/llm-evaluation-results.json`, `docs/11-llm-evaluation.md`); recorded ADR-014.
 
+## Task 009 completion
+
+- Reviewed the paraphrase labels under a method fixed before the result: a rubric derived from the contract and requirements with the rule data deliberately not consulted (`docs/12-labeling-rubric.md`, committed alone), then a blind re-derivation of all 33 cases (`docs/blind-relabel.json`, committed before the originals were opened), then adjudication. Git history carries the ordering claim.
+- Confirmed category and security-flag labels 33/33 unchanged. Changed nine fields in eight cases under a unanimous-convergence rule, all additions, all the same error: a detail treated as supplied because the message named the kind of thing that would carry it.
+- Re-scored the 2026-08-04 four-model snapshot with no new API call, by reconstructing per-case outputs from stored mismatches; the reconstruction reproduces the published counts exactly on both datasets.
+- Published against interest: baseline missing information 21/33 to 16/33 and all assertions 5/33 to 4/33, with superseded figures retained; every model rose.
+- Recorded three findings against the task's own premise (the Task 008 system prompt hands models the baseline's urgency conventions; the aggregate keyword-echo hypothesis is unsupported; the rubric's pre-registered expectation was refuted), the adjudication rule's built-in circularity, and the two in-distribution controls that now fail.
+- Full suite passed: 64 tests on 2026-08-05. Recorded ADR-015 and `docs/13-label-review.md`.
+
 ## Not started or out of scope
 
-- Task 009 or any later work, which has no approved scope.
+- Task 010 (baseline-fallback wrapper) and Task 011 (LLM-drafted replies), which the owner approved in sequence on 2026-08-05 but which have no written scope yet.
+- Redesigning the in-distribution controls so they anchor to operator judgment rather than to rule phrasings.
+- Acting on the `_system_prompt` confound found in Task 009; it is recorded, not fixed.
 - Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
 - Compatibility verification with n8n versions newer than 2.14.2.
 - External integrations and production deployment.
 
 ## Next authorized action
 
-Stop after Task 008. Do not begin Task 009, add an LLM, activate or deploy the workflow, recommend or perform an n8n upgrade, add credentials or action nodes, connect external systems, or use real data without explicit approval.
+Stop after Task 009. Tasks 010 and 011 are approved in principle but have no written scope; write and approve the Task 010 proposal before implementing anything. Do not add LLM-drafted replies, change `_system_prompt`, redesign the controls, introduce further integrations, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real data, or deploy.
 
-Last updated: 2026-08-04
+Last updated: 2026-08-05

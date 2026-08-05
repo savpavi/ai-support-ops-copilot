@@ -2,7 +2,7 @@
 
 ## Status
 
-- **State:** approved — 2026-08-05. Implementation authorized by the project owner.
+- **State:** complete — 2026-08-05. All acceptance criteria met: rubric frozen in its own commit before any revision, all 33 cases blind re-derived and committed before the originals were opened, nine fields in eight cases adjudicated and changed, model snapshot re-scored with no new API call, 64 tests passing offline. Results in `docs/13-label-review.md`.
 - **Owner decisions (2026-08-05):** (1) the practical option — assistant re-derivation under the frozen rubric, owner adjudicates differences; independence is improved, not achieved, and the write-up must say so. (2) Model outputs enter adjudication only after the blind re-derivation is committed. (3) Whatever the review measures is published, including a fallen headline number.
 - **Artifacts:** the rubric is `docs/12-labeling-rubric.md`, committed on its own before any label is revised so the ordering is auditable in git history; the review is `docs/13-label-review.md`.
 - **Position in the approved sequence:** first of three approved follow-ups (009 label review, 010 baseline-fallback wrapper, 011 LLM-drafted replies). It runs first because it defines the ground truth the other two are measured against.

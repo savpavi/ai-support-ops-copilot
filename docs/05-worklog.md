@@ -172,3 +172,13 @@
 - Ran the live sweep: four models × both datasets (308 calls, ~$0.10 total) through OpenRouter. Category on paraphrases rose from the baseline's 14/33 to 31–33/33 (claude-haiku-4.5: 33/33); the five paraphrased security solicitations the baseline missed entirely were caught 4–5/5 by every model; missing-information remained a judgment-divergence domain that dominates the all-assertions metric.
 - One model produced contract-nonconforming output on 10 calls; every one was rejected by the guard before reaching a caller — no unsafe output passed in any of the 308 calls.
 - Committed the snapshot results and methodology (`docs/llm-evaluation-results.json`, `docs/11-llm-evaluation.md`) with explicit non-reproducibility caveats; recorded ADR-014.
+
+## 2026-08-05 — Task 009: independent review of the paraphrase labels
+
+- Froze `docs/12-labeling-rubric.md` in its own commit (`931a8c3`), derived from `docs/07-contracts.md` and `docs/01-requirements.md` with `support_copilot/rules.json` deliberately not consulted, and pre-registered the expected direction of its two urgency conventions.
+- Committed a blind re-derivation of all 33 cases (`09e9765`, `docs/blind-relabel.json`) from case text and rubric alone, before the original labels or model outputs were opened.
+- Verified that per-case model outputs reconstruct from the stored mismatches in `docs/llm-evaluation-results.json`, reproducing the published per-field counts exactly on both datasets, so the 2026-08-04 snapshot was re-scored with no new API call and no provider contact.
+- Adjudicated all 33 cases: category and security flags confirmed 33/33 unchanged; nine fields in eight cases changed under a unanimous-convergence rule; eleven fields refuted from both directions were left as originally labelled.
+- Regenerated `docs/paraphrase-results.json` (missing information 21/33 to 16/33, all assertions 5/33 to 4/33) and re-scored the four models, every one of which gained.
+- Recorded the prompt confound in `_system_prompt`, the unsupported aggregate echo hypothesis, the refuted pre-registration, the adjudication rule's built-in circularity, and the two now-failing controls.
+- Full suite passed: 64 tests, offline and key-less. Recorded ADR-015 and `docs/13-label-review.md`.

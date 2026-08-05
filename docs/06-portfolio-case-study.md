@@ -58,7 +58,7 @@ The Task 003 credential-boundary correction and the Task 004 word-boundary harde
 ## Task 006 honest out-of-distribution evidence
 
 - Thirty-three paraphrase cases whose expected labels are semantic judgments frozen before the classifier first ran on them, with four in-distribution controls.
-- The committed, unretouched result: 5/33 full expected assertions (category 14/33, urgency 16/33, security flags 28/33, missing information 21/33), with zero false positives and zero paraphrase recall on all five paraphrased security solicitations.
+- The committed, unretouched result: 4/33 full expected assertions (category 14/33, urgency 16/33, security flags 28/33, missing information 16/33), with zero false positives and zero paraphrase recall on all five paraphrased security solicitations. The figures were 5/33 and 21/33 until Task 009 independently reviewed the labels themselves and corrected nine fields; the lower number is published because it is the measured one.
 - The safety architecture held everywhere classification failed: output-contract validity, human-review enforcement, and Python/n8n parity were 33/33.
 - A decision record (ADR-012) forbids chasing this dataset with rule patches, preserving it as a measurement instead of another aligned score.
 - Fifty-one passing automated tests overall, including a drift test that pins the committed paraphrase results without requiring assertion success.
@@ -69,7 +69,7 @@ Since 2026-08-04, GitHub Actions runs the full test suite on Python 3.10 and 3.1
 
 ## Current limitations
 
-Keyword rules miss paraphrases, and this is now measured rather than assumed: 5/33 semantic expectations on the out-of-distribution set, with every paraphrased security solicitation missed (`docs/10-paraphrase-evaluation.md`). Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. Full Python/n8n parity can reproduce a shared defect, so independent expected assertions remain necessary. The evaluation demonstrates contract and safety behavior within a small synthetic dataset, not production accuracy or business impact.
+Keyword rules miss paraphrases, and this is now measured rather than assumed: 4/33 semantic expectations on the out-of-distribution set, with every paraphrased security solicitation missed (`docs/10-paraphrase-evaluation.md`). The measurement's own labels were then audited under a rubric frozen in advance, which corrected nine fields and lowered the published score (`docs/13-label-review.md`). Urgency is based on explicit phrases rather than operational context. Missing-information checks are illustrative, and reply drafts are intentionally generic. Full Python/n8n parity can reproduce a shared defect, so independent expected assertions remain necessary. The evaluation demonstrates contract and safety behavior within a small synthetic dataset, not production accuracy or business impact.
 
 ## Evidence that remains optional or future work
 

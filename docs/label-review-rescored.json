@@ -1,0 +1,93 @@
+{
+  "generated": "2026-08-05",
+  "task": "009",
+  "note": "Re-scored from the 2026-08-04 snapshot in docs/llm-evaluation-results.json. No new API call was made. Per-case model outputs were reconstructed from the stored mismatches; the reconstruction reproduces the published per-field counts exactly on both datasets. Guard-rejected calls have no output and are excluded from the counts (they are neither matches nor mismatches), so denominators are 33 minus guard_rejected.",
+  "caveat": "The adjudication rule required the blind re-derivation AND every model that produced output to agree against the original label. Model scores therefore improve on every changed field by construction. The independent signal is that the blind re-derivation, produced under a frozen rubric without sight of model output, reached the same items.",
+  "baseline": {
+    "against_original_labels": {
+      "category": 14,
+      "urgency": 16,
+      "security_flags": 28,
+      "missing_information": 21,
+      "all_expected_assertions": 5
+    },
+    "against_revised_labels": {
+      "category": 14,
+      "urgency": 16,
+      "security_flags": 28,
+      "missing_information": 16,
+      "all_expected_assertions": 4
+    },
+    "denominator": 33
+  },
+  "models": {
+    "anthropic/claude-haiku-4.5": {
+      "against_original_labels": {
+        "category": 33,
+        "urgency": 27,
+        "security_flags": 29,
+        "missing_information": 7,
+        "all_expected_assertions": 6
+      },
+      "against_revised_labels": {
+        "category": 33,
+        "urgency": 29,
+        "security_flags": 29,
+        "missing_information": 12,
+        "all_expected_assertions": 9
+      },
+      "guard_rejected": 0
+    },
+    "deepseek/deepseek-chat": {
+      "against_original_labels": {
+        "category": 32,
+        "urgency": 24,
+        "security_flags": 31,
+        "missing_information": 8,
+        "all_expected_assertions": 6
+      },
+      "against_revised_labels": {
+        "category": 32,
+        "urgency": 26,
+        "security_flags": 31,
+        "missing_information": 13,
+        "all_expected_assertions": 9
+      },
+      "guard_rejected": 0
+    },
+    "google/gemini-2.5-flash": {
+      "against_original_labels": {
+        "category": 23,
+        "urgency": 21,
+        "security_flags": 25,
+        "missing_information": 11,
+        "all_expected_assertions": 9
+      },
+      "against_revised_labels": {
+        "category": 23,
+        "urgency": 23,
+        "security_flags": 25,
+        "missing_information": 17,
+        "all_expected_assertions": 15
+      },
+      "guard_rejected": 8
+    },
+    "openai/gpt-4o-mini": {
+      "against_original_labels": {
+        "category": 31,
+        "urgency": 24,
+        "security_flags": 29,
+        "missing_information": 6,
+        "all_expected_assertions": 6
+      },
+      "against_revised_labels": {
+        "category": 31,
+        "urgency": 26,
+        "security_flags": 29,
+        "missing_information": 11,
+        "all_expected_assertions": 10
+      },
+      "guard_rejected": 0
+    }
+  }
+}
