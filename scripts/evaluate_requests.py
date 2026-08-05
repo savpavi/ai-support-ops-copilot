@@ -51,6 +51,11 @@ def main() -> int:
         help=f"llm-fallback only: wall-clock ceiling per request before degrading to the baseline (default {DEFAULT_BUDGET_SECONDS:g})",
     )
     parser.add_argument(
+        "--drafted-replies",
+        action="store_true",
+        help="llm modes only: let the model draft suggested_reply behind the deterministic reply guard; a rejected draft degrades only the reply to the template (default off)",
+    )
+    parser.add_argument(
         "--provider",
         choices=("anthropic", "openrouter"),
         default="anthropic",
@@ -71,10 +76,12 @@ def main() -> int:
             from support_copilot.llm_classifier import (
                 LLM_MODEL,
                 USAGE,
+                REPLY_EVENTS,
                 analyze_request_llm,
                 is_available,
                 make_openrouter_analyzer,
                 openrouter_available,
+                reset_reply_events,
                 reset_usage,
             )
 
@@ -83,7 +90,7 @@ def main() -> int:
                     print("llm classifier unavailable: set OPENROUTER_API_KEY", file=sys.stderr)
                     return 2
                 model = args.model or "anthropic/claude-haiku-4.5"
-                analyzer = make_openrouter_analyzer(model)
+                analyzer = make_openrouter_analyzer(model, drafted_replies=args.drafted_replies)
             else:
                 if not is_available():
                     print(
@@ -97,9 +104,11 @@ def main() -> int:
                         f"note: the anthropic provider is pinned to {LLM_MODEL}; ignoring --model",
                         file=sys.stderr,
                     )
-                analyzer = analyze_request_llm
+                def analyzer(value, _drafted=args.drafted_replies):
+                    return analyze_request_llm(value, drafted_replies=_drafted)
             reset_usage()
             reset_provenance()
+            reset_reply_events()
             if args.classifier == "llm-fallback":
                 analyzer = with_baseline_fallback(analyzer, budget_seconds=args.budget_seconds)
             report = evaluate_cases(
@@ -114,6 +123,14 @@ def main() -> int:
                 "model": model,
                 "usage": dict(USAGE),
             }
+            if args.drafted_replies:
+                accepted = [e for e in REPLY_EVENTS if e["accepted"]]
+                engine["drafted_replies"] = {
+                    "drafts": len(REPLY_EVENTS),
+                    "accepted_by_guard": len(accepted),
+                    "rejected_by_guard": len(REPLY_EVENTS) - len(accepted),
+                    "events": list(REPLY_EVENTS),
+                }
             if args.classifier == "llm-fallback":
                 engine["budget_seconds"] = args.budget_seconds
                 engine["fallbacks"] = [p for p in PROVENANCE if p["fallback"]]
@@ -140,6 +157,12 @@ def main() -> int:
                 f"- Tokens: {int(usage['input_tokens'])} in / {int(usage['output_tokens'])} out\n"
                 f"- Total model latency: {usage['latency_seconds']:.1f}s\n"
             )
+            if "drafted_replies" in engine:
+                drafted = engine["drafted_replies"]
+                sys.stdout.write(
+                    f"- Drafted replies accepted by the guard: "
+                    f"{drafted['accepted_by_guard']}/{drafted['drafts']}\n"
+                )
             if "fallback_count" in engine:
                 sys.stdout.write(
                     f"- Degraded to the baseline: {engine['fallback_count']}/{report['dataset_cases']}"

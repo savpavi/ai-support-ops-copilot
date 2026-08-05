@@ -31,6 +31,7 @@ def _apply_rules(rules: Mapping[str, Any]) -> None:
     global _URGENT, _CATEGORY_RULES, _PROMPT_INJECTION_PATTERNS, _PAYMENT_TERMS
     global _IDENTITY_TERMS, _CRITICAL_TERMS, _HIGH_TERMS, _LOW_TERMS
     global _MISSING_RULES, _GENERAL_MISSING
+    global REPLY_PREFIX, REPLY_MAX_LENGTH, _REPLY_LINK, _REPLY_COMMITMENTS
 
     SCHEMA_VERSION = rules["schema_version"]
     MAX_MESSAGE_LENGTH = rules["max_message_length"]
@@ -67,7 +68,59 @@ def _apply_rules(rules: Mapping[str, Any]) -> None:
     _GENERAL_MISSING = (general["label"], general["min_words"], tuple(general["terms"]))
 
 
+def _apply_reply_guard(rules: Mapping[str, Any]) -> None:
+    global REPLY_PREFIX, REPLY_MAX_LENGTH, _REPLY_LINK, _REPLY_COMMITMENTS
+
+    guard = rules["reply_guard"]
+    REPLY_PREFIX = guard["required_prefix"]
+    REPLY_MAX_LENGTH = guard["max_length"]
+    _REPLY_LINK = _compile_flagged(guard["link_pattern"])
+    _REPLY_COMMITMENTS = tuple(_compile_flagged(entry) for entry in guard["commitment_patterns"])
+
+
+def validate_reply(reply: Any) -> list[str]:
+    """Return the reasons a suggested reply must not be used, or an empty list.
+
+    Deterministic and shared: the rule data lives in `rules.json`, so the same
+    guard can be replicated in the workflow JavaScript if generated text ever
+    reaches it.
+
+    The prefix, length, link and reflected-sensitive-content checks are exact.
+    The commitment check is a term list, and Tasks 004 and 006 measured what
+    term lists are worth against paraphrase: a draft that says the money will
+    arrive on Thursday can pass a list built around 'we will refund'. This is a
+    floor, not a semantic guarantee.
+    """
+
+    if not isinstance(reply, str):
+        return ["reply must be a string"]
+
+    errors: list[str] = []
+    if not reply.startswith(REPLY_PREFIX):
+        errors.append("reply must begin with the human-review prefix")
+    if len(reply) > REPLY_MAX_LENGTH:
+        errors.append(f"reply exceeds {REPLY_MAX_LENGTH} characters")
+    if _REPLY_LINK.search(reply):
+        errors.append("reply must not contain a link or destination")
+
+    # The request-side scan, turned on the reply: a draft that reflects a card
+    # number, an identity-document reference, a credential or an injection
+    # attempt back at the sender is unusable regardless of how it was produced.
+    reflected = _security_flags(reply)
+    if reflected:
+        errors.append("reply reflects sensitive content: " + ", ".join(reflected))
+
+    for pattern in _REPLY_COMMITMENTS:
+        match = pattern.search(reply)
+        if match:
+            errors.append(f"reply commits to an action: {match.group(0).strip()!r}")
+            break
+
+    return errors
+
+
 _apply_rules(load_rules())
+_apply_reply_guard(load_rules())
 
 
 def validate_input(value: Any) -> list[str]:

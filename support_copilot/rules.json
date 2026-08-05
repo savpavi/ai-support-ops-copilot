@@ -259,5 +259,43 @@
         "flags": "i"
       }
     ]
+  },
+  "reply_guard": {
+    "required_prefix": "Draft for human review:",
+    "max_length": 400,
+    "link_pattern": {
+      "pattern": "https?:\\/\\/|www\\.|\\b[a-z0-9][a-z0-9-]*\\.(?:com|net|org|io|co|dev|app|info|biz|xyz|link)\\b(?:\\/\\S*)?",
+      "flags": "i"
+    },
+    "commitment_patterns": [
+      {
+        "pattern": "\\b(?:we|i)\\s+(?:will|shall|'ll)\\b(?![\\s\\S]{0,20}\\breview\\b)",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:we|i)\\s+(?:have|'ve|has)\\s+(?:now\\s+)?(?:refunded|reversed|credited|cancelled|canceled|processed|issued|approved|reset|updated|changed|fixed|resolved)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:has|have)\\s+been\\s+(?:refunded|reversed|credited|cancelled|canceled|processed|issued|approved|reset|restored|resolved)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\b(?:guarantee|guaranteed|promise|assure\\s+you|rest\\s+assured)\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\bwithin\\s+\\d+\\s*(?:-|to|–)?\\s*\\d*\\s*(?:minute|hour|day|week|business\\s+day)s?\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\bby\\s+(?:today|tomorrow|tonight|monday|tuesday|wednesday|thursday|friday|saturday|sunday|the\\s+end\\s+of\\s+(?:the\\s+)?(?:day|week))\\b",
+        "flags": "i"
+      },
+      {
+        "pattern": "\\byou\\s+(?:will|can\\s+expect\\s+to)\\s+(?:receive|get|see|have)\\b",
+        "flags": "i"
+      }
+    ]
   }
 }

@@ -31,6 +31,7 @@ _TOP_LEVEL_KEYS = {
     "urgency",
     "missing_information",
     "security",
+    "reply_guard",
 }
 _ALLOWED_FLAGS = {"", "i"}
 
@@ -178,5 +179,29 @@ def validate_rules(value: Any) -> list[str]:
         else:
             for index, pattern in enumerate(patterns):
                 _check_pattern(errors, f"security.prompt_injection_patterns[{index}]", pattern)
+
+    guard = value["reply_guard"]
+    if not isinstance(guard, Mapping) or set(guard) != {
+        "required_prefix",
+        "max_length",
+        "link_pattern",
+        "commitment_patterns",
+    }:
+        errors.append(
+            "reply_guard must define required_prefix, max_length, link_pattern, "
+            "and commitment_patterns"
+        )
+    else:
+        if not isinstance(guard["required_prefix"], str) or not guard["required_prefix"]:
+            errors.append("reply_guard.required_prefix must be a non-empty string")
+        if not isinstance(guard["max_length"], int) or guard["max_length"] <= 0:
+            errors.append("reply_guard.max_length must be a positive integer")
+        _check_pattern(errors, "reply_guard.link_pattern", guard["link_pattern"])
+        commitments = guard["commitment_patterns"]
+        if not isinstance(commitments, list) or not commitments:
+            errors.append("reply_guard.commitment_patterns must be a non-empty list")
+        else:
+            for index, pattern in enumerate(commitments):
+                _check_pattern(errors, f"reply_guard.commitment_patterns[{index}]", pattern)
 
     return errors
