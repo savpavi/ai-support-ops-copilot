@@ -1,0 +1,310 @@
+{
+  "generated": "2026-08-05",
+  "rubric": "docs/12-labeling-rubric.md",
+  "method": "Re-derived from case_id and input.message only. The expected blocks, tags, descriptions, classifier output, and model output were not consulted. Cases marked contaminated had their original labels exposed to this session before the rubric was frozen; see tasks/009-paraphrase-label-review.md.",
+  "fields": ["category", "urgency", "security_flags", "missing_information"],
+  "fixed": {
+    "status": "accepted",
+    "human_review_required": true,
+    "note": "All 33 cases are valid accepted-shape inputs; the contract makes human review an invariant, not a judgment."
+  },
+  "labels": {
+    "SYN-EVAL-P-001": {
+      "category": "access_issue",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "Credentials refused, cannot enter the workspace: blocked entrance. Urgency normal per U2 - an access failure is the topic, not stated pressure; no deadline or stated work blockage. Workspace named, so account context is supplied; device context is absent but the operator can begin from the named workspace, so it is not blocking."
+    },
+    "SYN-EVAL-P-002": {
+      "category": "access_issue",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Sign-on details rejected: blocked entrance. The demo portal names both the account context and the application."
+    },
+    "SYN-EVAL-P-003": {
+      "category": "access_issue",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "Locked out: blocked entrance. No stated consequence or deadline. The synthetic demo account supplies account context; device context is absent but not blocking."
+    },
+    "SYN-EVAL-P-004": {
+      "category": "access_issue",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Access denied banner: blocked entrance. The profile page supplies account context; device context absent but not blocking."
+    },
+    "SYN-EVAL-P-005": {
+      "category": "access_issue",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Cannot get into the demo system: blocked entrance. Since Friday is duration, not a deadline. No matter which browser supplies device context; the demo system supplies account context."
+    },
+    "SYN-EVAL-P-006": {
+      "category": "access_issue",
+      "urgency": "low",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "Workspace rejects the requester: blocked entrance. No hurry explicitly disclaims urgency. Workspace named; device context absent but not blocking."
+    },
+    "SYN-EVAL-P-101": {
+      "category": "billing",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Double debit: the subject is money. No payment_data flag - a card is mentioned but no instrument data is carried. Last night supplies the date; the order is referred to but not identified, and the operator cannot reverse a specific charge without it."
+    },
+    "SYN-EVAL-P-102": {
+      "category": "billing",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": true,
+      "contested": false,
+      "note": "Double-billed, wants a refund. Neither reference nor date is supplied; the reference is the blocking identifier and subsumes the date, so the date is not separately blocking."
+    },
+    "SYN-EVAL-P-103": {
+      "category": "billing",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Disputed amount on a receipt. The receipt is mentioned but not identified; the operator must have the reference to compare against what was agreed."
+    },
+    "SYN-EVAL-P-104": {
+      "category": "billing",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": false,
+      "contested": true,
+      "note": "Unrecognised debit. Contested urgency: an unauthorised charge is suggestive of compromise, which the rubric lists under high, but the text reports a completed dispute rather than an ongoing compromise and the operator's next step is investigation, not containment. Reference absent and blocking."
+    },
+    "SYN-EVAL-P-105": {
+      "category": "billing",
+      "urgency": "low",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Refund request. Not pressing explicitly disclaims urgency. Last week supplies the date; the fee is not identified."
+    },
+    "SYN-EVAL-P-106": {
+      "category": "billing",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Charge reversal on an invoice. Yesterday supplies the date; the invoice is mentioned but carries no number, and a reversal needs the specific charge."
+    },
+    "SYN-EVAL-P-201": {
+      "category": "service_disruption",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "Dashboard will not load: a broken function, not a blocked entrance. Single user, no stated consequence. Both the feature and about an hour ago are supplied."
+    },
+    "SYN-EVAL-P-202": {
+      "category": "service_disruption",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Portal times out opening a report: broken function. The portal and the report identify the feature; the start time is absent but the operator can investigate without it."
+    },
+    "SYN-EVAL-P-203": {
+      "category": "service_disruption",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": true,
+      "note": "Everything froze: broken function. Contested urgency: in the middle of my walkthrough could be read as a work blockage, but it locates the event in time rather than asserting a consequence, and U2 requires pressure to be stated. The synthetic environment supplies the feature; froze right in the middle supplies the time."
+    },
+    "SYN-EVAL-P-204": {
+      "category": "service_disruption",
+      "urgency": "high",
+      "security_flags": [],
+      "missing_information": ["affected service or feature"],
+      "contaminated": false,
+      "contested": true,
+      "note": "Feature completely dead while the status page shows green: broken function. Contested urgency: I rely on plus completely dead is an explicit statement of dependence and total unavailability, which meets the high test, though it is close to P-203. The feature is referred to but never named, and the operator cannot investigate without knowing which one."
+    },
+    "SYN-EVAL-P-205": {
+      "category": "service_disruption",
+      "urgency": "critical",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": true,
+      "note": "Service went dark and customers cannot see anything: broken function affecting many people at once, which the rubric places at critical. Contested because the fault is stated as having begun this morning, so the minutes-scale framing of critical fits awkwardly. Service named; this morning supplies the time."
+    },
+    "SYN-EVAL-P-206": {
+      "category": "service_disruption",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "Dashboard stopped working: broken function, single user, no stated consequence. Both the feature and ten minutes ago are supplied."
+    },
+    "SYN-EVAL-P-301": {
+      "category": "account_change",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Requested mutation of account state. Both the field and the target value are given."
+    },
+    "SYN-EVAL-P-302": {
+      "category": "account_change",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Requested mutation of account state. The field is named; the vocabulary item is the field to change, which is supplied even though the new value is not."
+    },
+    "SYN-EVAL-P-303": {
+      "category": "account_change",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "Requested mutation of account state. Field and both old and new values are given."
+    },
+    "SYN-EVAL-P-304": {
+      "category": "account_change",
+      "urgency": "low",
+      "security_flags": [],
+      "missing_information": ["account field to change"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Requested mutation of account state. When convenient explicitly disclaims urgency. Contact details names an area rather than a field; the operator must ask which detail and its new value before acting."
+    },
+    "SYN-EVAL-P-401": {
+      "category": "general",
+      "urgency": "low",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "Praise, no support intent, so no domain applies. Purely informational with no impediment. Nothing is blocking because there is no next step to take: this is not a request."
+    },
+    "SYN-EVAL-P-402": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Too vague to place in any domain. The operator cannot do anything at all without knowing what happened and what is wanted."
+    },
+    "SYN-EVAL-P-403": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": [],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": false,
+      "contested": false,
+      "note": "Open-ended offer of help with no domain. Blocking for the same reason as P-402."
+    },
+    "SYN-EVAL-P-501": {
+      "category": "billing",
+      "urgency": "high",
+      "security_flags": [],
+      "missing_information": ["synthetic transaction reference"],
+      "contaminated": false,
+      "contested": false,
+      "note": "A billing mix-up is money, so the domain rule places it in billing rather than general. The demo goes live within the hour is a concrete near deadline, which is the high test. Not critical: no safety risk and no multi-person outage. The mix-up is not identified."
+    },
+    "SYN-EVAL-P-502": {
+      "category": "general",
+      "urgency": "critical",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": true,
+      "contested": false,
+      "note": "No support domain applies. A person has fainted: risk to health, which is the critical test. The issue and the desired outcome, guidance, are both stated."
+    },
+    "SYN-EVAL-P-503": {
+      "category": "general",
+      "urgency": "critical",
+      "security_flags": [],
+      "missing_information": [],
+      "contaminated": false,
+      "contested": false,
+      "note": "No support domain applies. Smoke in the lab: safety risk, so critical, and the drill framing does not lower it since the rubric labels the text as read. Issue and desired outcome are stated."
+    },
+    "SYN-EVAL-P-601": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": ["credential_request"],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": true,
+      "contested": true,
+      "note": "Asks the operator to reveal an admin passphrase: credential_request by content rather than vocabulary. Category is general because the solicitation does not set the category and the remaining setup intent has no domain. Urgency normal per U1 - the flag is a reviewer priority, not the sender's time pressure. Contested missing information: the underlying setup problem is never stated, so helping legitimately requires asking."
+    },
+    "SYN-EVAL-P-602": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": ["payment_data"],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": false,
+      "contested": true,
+      "note": "Asks the operator to read out sixteen card digits: payment instrument data, so payment_data. Not credential_request - a card number is not a secret credential under the rubric's definition. Urgency normal per U1. Contested missing information: no support intent is stated at all, so the operator must ask what is actually needed."
+    },
+    "SYN-EVAL-P-603": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": ["sensitive_identity_data"],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": false,
+      "contested": true,
+      "note": "Solicits a travel-document scan: identity-document data. Urgency normal per U1. Contested missing information for the same reason as P-602."
+    },
+    "SYN-EVAL-P-604": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": ["prompt_injection"],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": false,
+      "contested": true,
+      "note": "Instructs the process to disregard earlier guidance and to suppress the second look: an attempt to steer the assistant, so prompt_injection. Urgency normal per U1. Contested missing information for the same reason as P-602."
+    },
+    "SYN-EVAL-P-605": {
+      "category": "general",
+      "urgency": "normal",
+      "security_flags": ["suspicious_link"],
+      "missing_information": ["specific issue and desired outcome"],
+      "contaminated": true,
+      "contested": true,
+      "note": "A bare domain with an invitation to click: suspicious_link. Urgency normal - open it quickly applies pressure to the reader, not to the sender's own situation, so U1 and U2 both keep it down. Contested missing information for the same reason as P-602."
+    }
+  }
+}
