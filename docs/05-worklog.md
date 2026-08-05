@@ -182,3 +182,12 @@
 - Regenerated `docs/paraphrase-results.json` (missing information 21/33 to 16/33, all assertions 5/33 to 4/33) and re-scored the four models, every one of which gained.
 - Recorded the prompt confound in `_system_prompt`, the unsupported aggregate echo hypothesis, the refuted pre-registration, the adjudication rule's built-in circularity, and the two now-failing controls.
 - Full suite passed: 64 tests, offline and key-less. Recorded ADR-015 and `docs/13-label-review.md`.
+
+## 2026-08-05 — Task 010: baseline fallback behind the LLM path
+
+- Found while proposing the task that the fallback documented in `docs/11-llm-evaluation.md` did not exist, and that the transport's retry ladder would take about nine minutes to surface an error a fallback could react to.
+- Added `support_copilot/fallback.py`: `with_baseline_fallback` degrades on the typed error, on unexpected exceptions recorded distinctly, and on a wall-clock budget enforced outside the attempt (default 20 seconds, owner-set). Input rejection returns the deterministic result without spending tokens or counting as a fallback.
+- Kept the analyzer signature identical and put provenance in a module-level record, because `validate_output` requires the contract's exact field set and schema `1.0` and the workflow artifact must not move.
+- Added `--classifier llm-fallback` and `--budget-seconds`; `--classifier llm` behavior is unchanged so the Task 008 snapshot stays reproducible in method.
+- Added 15 offline tests including a hung-provider test that itself runs fast, a security-flag floor asserted across all 77 committed fixture cases, and a test asserting the recall that degradation loses.
+- Corrected the false claim in `docs/11-llm-evaluation.md` rather than deleting it. Full suite passed: 79 tests, offline and key-less. Recorded ADR-016.

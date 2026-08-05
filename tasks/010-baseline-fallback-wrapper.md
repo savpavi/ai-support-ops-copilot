@@ -2,7 +2,7 @@
 
 ## Status
 
-- **State:** approved — 2026-08-05. Implementation authorized by the project owner.
+- **State:** complete — 2026-08-05. All acceptance criteria met: the wrapper degrades on the typed error, unexpected exceptions and budget exhaustion; provenance travels outside the contract with schema `1.0` and the workflow artifact unchanged; input rejection spends no tokens and is not a fallback; the security-flag floor and the recall cost are both asserted; `--classifier llm` is untouched and `--classifier llm-fallback` added. 79 tests pass offline and key-less. Recorded ADR-016.
 - **Owner decisions (2026-08-05):** (1) the analyzer signature stays identical and provenance is exposed separately, so the wrapper drops into `evaluate_cases` unmodified. (2) Total time budget defaults to **20 seconds**, configurable per call. (3) A `--classifier llm-fallback` evaluation mode is added so the degraded path's accuracy can be measured.
 - **Position in the approved sequence:** second of three follow-ups approved on 2026-08-05 (009 label review — complete, 010 fallback wrapper, 011 LLM-drafted replies). It runs before 011 because drafted replies inherit whatever resilience this task establishes.
 

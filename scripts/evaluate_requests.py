@@ -12,7 +12,15 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from support_copilot import evaluate_cases, render_json_report, render_markdown_report
+from support_copilot import (
+    DEFAULT_BUDGET_SECONDS,
+    PROVENANCE,
+    evaluate_cases,
+    render_json_report,
+    render_markdown_report,
+    reset_provenance,
+    with_baseline_fallback,
+)
 from support_copilot.evaluation import PARAPHRASE_VALIDATION
 
 DATASETS = {
@@ -32,20 +40,26 @@ def main() -> int:
     parser.add_argument("--format", choices=("json", "markdown"), default="markdown")
     parser.add_argument(
         "--classifier",
-        choices=("baseline", "llm"),
+        choices=("baseline", "llm", "llm-fallback"),
         default="baseline",
-        help="baseline: deterministic keyword rules; llm: an LLM classifier behind the same contract",
+        help="baseline: deterministic keyword rules; llm: an LLM classifier behind the same contract; llm-fallback: the same LLM classifier wrapped so failures degrade to the baseline",
+    )
+    parser.add_argument(
+        "--budget-seconds",
+        type=float,
+        default=DEFAULT_BUDGET_SECONDS,
+        help=f"llm-fallback only: wall-clock ceiling per request before degrading to the baseline (default {DEFAULT_BUDGET_SECONDS:g})",
     )
     parser.add_argument(
         "--provider",
         choices=("anthropic", "openrouter"),
         default="anthropic",
-        help="llm only: anthropic (ANTHROPIC_API_KEY + anthropic SDK) or openrouter (OPENROUTER_API_KEY, standard library)",
+        help="llm modes only: anthropic (ANTHROPIC_API_KEY + anthropic SDK) or openrouter (OPENROUTER_API_KEY, standard library)",
     )
     parser.add_argument(
         "--model",
         default=None,
-        help="llm only: model id; defaults to claude-haiku-4-5 (anthropic) or anthropic/claude-haiku-4.5 (openrouter)",
+        help="llm modes only: model id; defaults to claude-haiku-4-5 (anthropic) or anthropic/claude-haiku-4.5 (openrouter)",
     )
     args = parser.parse_args()
 
@@ -53,7 +67,7 @@ def main() -> int:
     engine: dict | None = None
     try:
         cases = json.loads(dataset_path.read_text(encoding="utf-8"))
-        if args.classifier == "llm":
+        if args.classifier in ("llm", "llm-fallback"):
             from support_copilot.llm_classifier import (
                 LLM_MODEL,
                 USAGE,
@@ -85,6 +99,9 @@ def main() -> int:
                     )
                 analyzer = analyze_request_llm
             reset_usage()
+            reset_provenance()
+            if args.classifier == "llm-fallback":
+                analyzer = with_baseline_fallback(analyzer, budget_seconds=args.budget_seconds)
             report = evaluate_cases(
                 cases,
                 validation=validation,
@@ -92,11 +109,15 @@ def main() -> int:
                 include_parity=False,
             )
             engine = {
-                "classifier": "llm",
+                "classifier": args.classifier,
                 "provider": args.provider,
                 "model": model,
                 "usage": dict(USAGE),
             }
+            if args.classifier == "llm-fallback":
+                engine["budget_seconds"] = args.budget_seconds
+                engine["fallbacks"] = [p for p in PROVENANCE if p["fallback"]]
+                engine["fallback_count"] = len(engine["fallbacks"])
         else:
             report = evaluate_cases(cases, validation=validation)
     except (OSError, json.JSONDecodeError, RuntimeError, ValueError) as error:
@@ -114,11 +135,16 @@ def main() -> int:
             usage = engine["usage"]
             sys.stdout.write(
                 "\n## Engine\n\n"
-                f"- Classifier: llm ({engine['model']})\n"
+                f"- Classifier: {engine['classifier']} ({engine['model']})\n"
                 f"- Requests: {int(usage['requests'])}\n"
                 f"- Tokens: {int(usage['input_tokens'])} in / {int(usage['output_tokens'])} out\n"
                 f"- Total model latency: {usage['latency_seconds']:.1f}s\n"
             )
+            if "fallback_count" in engine:
+                sys.stdout.write(
+                    f"- Degraded to the baseline: {engine['fallback_count']}/{report['dataset_cases']}"
+                    f" (budget {engine['budget_seconds']:g}s)\n"
+                )
     return 0
 
 

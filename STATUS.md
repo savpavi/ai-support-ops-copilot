@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001 through 009 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed. Task 009 audited the paraphrase labels themselves under a rubric frozen in advance, confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting fall in the baseline's own score.
+Tasks 001 through 010 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed. Task 009 audited the paraphrase labels themselves under a rubric frozen in advance, confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting fall in the baseline's own score. Task 010 implemented the baseline fallback that documentation had already claimed but the code did not have, bounded by a 20-second wall-clock budget so a hung provider cannot hold a caller.
 
 ## Completed
 
@@ -87,9 +87,19 @@ Tasks 001 through 009 complete. Task 002 was manually verified on self-hosted n8
 - Recorded three findings against the task's own premise (the Task 008 system prompt hands models the baseline's urgency conventions; the aggregate keyword-echo hypothesis is unsupported; the rubric's pre-registered expectation was refuted), the adjudication rule's built-in circularity, and the two in-distribution controls that now fail.
 - Full suite passed: 64 tests on 2026-08-05. Recorded ADR-015 and `docs/13-label-review.md`.
 
+## Task 010 completion
+
+- Found that the fallback documented in `docs/11-llm-evaluation.md` did not exist: `LLMClassifierError` was caught nowhere outside `llm_classifier.py`, and the only thing between a provider failure and a dead call was the evaluation runner's per-case `except`, which is a sweep boundary rather than production behavior.
+- Added `support_copilot/fallback.py`. `with_baseline_fallback` degrades to the deterministic baseline on the typed error, on unexpected exceptions recorded under a distinct reason, and on a wall-clock budget enforced outside the attempt (default 20 seconds, owner-set) so a hung provider cannot hold a caller for the transport's ~9-minute retry ladder.
+- Input rejection returns the deterministic result without spending tokens and is not counted as a fallback. Provenance travels beside the result, since `validate_output` requires the contract's exact field set; schema `1.0`, `validate_output`, and the workflow artifact are unchanged.
+- Added `--classifier llm-fallback` with `--budget-seconds` and degraded-case reporting; `--classifier llm` keeps its exact prior behavior so the Task 008 snapshot stays reproducible in method.
+- Added 15 offline tests: every failure class, a hung-provider test that itself runs fast, the security-flag floor asserted across all 77 committed fixture cases, and an explicit test of the semantic recall that degradation loses.
+- Corrected the false claim in `docs/11-llm-evaluation.md` rather than deleting it. Full suite passed: 79 tests on 2026-08-05. Recorded ADR-016.
+
 ## Not started or out of scope
 
-- Task 010 (baseline-fallback wrapper) and Task 011 (LLM-drafted replies), which the owner approved in sequence on 2026-08-05 but which have no written scope yet.
+- Task 011 (LLM-drafted replies), which the owner approved in sequence on 2026-08-05 but which has no written scope yet.
+- Any live measurement of the `llm-fallback` path; the wrapper is verified offline on stubs and no sweep has been run through it.
 - Redesigning the in-distribution controls so they anchor to operator judgment rather than to rule phrasings.
 - Acting on the `_system_prompt` confound found in Task 009; it is recorded, not fixed.
 - Native re-exercise of the manual file-import and export/re-import path for the current revision; the 2026-08-04 native verification ran through the MCP connector with byte-identical Code-node JavaScript instead.
@@ -98,6 +108,6 @@ Tasks 001 through 009 complete. Task 002 was manually verified on self-hosted n8
 
 ## Next authorized action
 
-Stop after Task 009. Tasks 010 and 011 are approved in principle but have no written scope; write and approve the Task 010 proposal before implementing anything. Do not add LLM-drafted replies, change `_system_prompt`, redesign the controls, introduce further integrations, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real data, or deploy.
+Stop after Task 010. Task 011 is approved in principle but has no written scope; write and approve its proposal before implementing anything. Do not add LLM-drafted replies, change `_system_prompt`, redesign the controls, run a live sweep, introduce further integrations, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real data, or deploy.
 
 Last updated: 2026-08-05

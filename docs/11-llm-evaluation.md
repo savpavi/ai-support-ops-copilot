@@ -13,7 +13,9 @@ Unlike the deterministic evaluations, LLM outputs are **not reproducible**: thes
 - Input validation runs before any tokens are spent; invalid input never reaches a model.
 - The deterministic security scan always runs; model-reported flags are merged as a union — a model can add flags, never remove them.
 - Replies remain fixed templates; the request text is passed as explicitly untrusted data.
-- `validate_output` enforces the contract on every result; nonconforming model output raises `LLMClassifierError` (fail closed) instead of passing through. In production use, that error path falls back to the deterministic baseline.
+- `validate_output` enforces the contract on every result; nonconforming model output raises `LLMClassifierError` (fail closed) instead of passing through.
+
+**Correction (2026-08-05).** This section previously ended: *"In production use, that error path falls back to the deterministic baseline."* That was untrue when written — no fallback existed anywhere in the repository, and `LLMClassifierError` was caught nowhere outside `llm_classifier.py`. Task 010 implemented the behavior the sentence described, as `support_copilot.fallback.with_baseline_fallback`; the LLM path on its own still raises, and only a wrapped analyzer degrades. The claim is left visible rather than deleted, because it is the kind of unimplemented assertion this project's own review standard exists to catch.
 
 Two providers: the `anthropic` SDK (pinned to `claude-haiku-4-5`) and OpenRouter (standard library HTTP, any served model, `OPENROUTER_API_KEY`). This sweep ran through OpenRouter with `temperature: 0` and a JSON-schema `response_format` derived from `rules.json`.
 

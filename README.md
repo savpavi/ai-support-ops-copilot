@@ -6,7 +6,7 @@ AI Support Operations Copilot is a portfolio project for assisting human support
 
 ## Current state
 
-Tasks 001 through 004 are complete. The repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, automated tests, and a reviewed 44-case synthetic evaluation. It also contains a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. The Task 002 workflow revision was manually verified on an authorized self-hosted n8n 2.14.2 development instance, including import, execution, guarded adverse inputs, export, and re-import; the later Task 003 and Task 004 keyword corrections were natively re-verified on the same instance on 2026-08-04 with a 16-case sweep and exact output parity. Compatibility with newer n8n versions is unverified. Nothing has been deployed or connected to a production or external action system. See `STATUS.md` for the authoritative status.
+Tasks 001 through 010 are complete. The repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, automated tests, a reviewed 44-case synthetic evaluation, a 33-case out-of-distribution paraphrase evaluation whose labels were independently audited in Task 009, and an optional LLM classifier with a baseline fallback behind the same contract. It also contains a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. The Task 002 workflow revision was manually verified on an authorized self-hosted n8n 2.14.2 development instance, including import, execution, guarded adverse inputs, export, and re-import; the later Task 003 and Task 004 keyword corrections were natively re-verified on the same instance on 2026-08-04 with a 16-case sweep and exact output parity. Compatibility with newer n8n versions is unverified. Nothing has been deployed or connected to a production or external action system. See `STATUS.md` for the authoritative status.
 
 ## Scope
 
@@ -27,7 +27,7 @@ Out of scope for the initial phase are real customer data, production integratio
 - `tasks/`: bounded implementation task specifications.
 - `n8n/workflows/`: sanitized inactive workflow artifact, generated from `n8n/src/` and `support_copilot/rules.json`.
 - `n8n/src/`: reviewable Code-node JavaScript templates whose rule literals are placeholders.
-- `support_copilot/`: local classifier, input/output validation, shared rule data (`rules.json`), evaluation, and the workflow generator.
+- `support_copilot/`: local classifier, input/output validation, shared rule data (`rules.json`), evaluation, the optional LLM classifier, the baseline-fallback wrapper, and the workflow generator.
 - `fixtures/`: synthetic scenarios and the reviewed evaluation dataset.
 - `tests/`: standard-library automated tests.
 - `scripts/`: local command-line entry points.
@@ -42,7 +42,7 @@ Run all tests:
 python3 -m unittest discover -s tests -v
 ```
 
-This currently runs 64 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), 6 rule-source and generator tests (Task 005), 7 paraphrase-evaluation tests (Task 006), and 13 offline LLM-classifier tests (Task 008). The suite needs no API key and makes no network requests. Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+This currently runs 79 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), 6 rule-source and generator tests (Task 005), 7 paraphrase-evaluation tests (Task 006), 13 offline LLM-classifier tests (Task 008), and 15 fallback tests (Task 010). The suite needs no API key and makes no network requests. Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
 
 All rule data (term lists, shared patterns, enums, limits) lives in `support_copilot/rules.json`; the committed workflow JavaScript is generated from `n8n/src/` templates. Verify that the committed artifact matches its sources:
 
@@ -69,6 +69,13 @@ Run either dataset against the optional LLM classifier (same contract, same safe
 ```bash
 python3 scripts/evaluate_requests.py --dataset paraphrase --classifier llm \
   --provider openrouter --model anthropic/claude-haiku-4.5
+```
+
+`--classifier llm` fails closed: a provider error, a nonconforming response, or a hung request raises `LLMClassifierError` and the call produces nothing. `--classifier llm-fallback` wraps the same classifier so those failures degrade to the deterministic baseline instead, within a wall-clock budget per request (default 20 seconds, `--budget-seconds`). The run reports how many cases degraded. This restores availability, not accuracy: a degraded result is exactly what the keyword baseline would have produced, including the paraphrased security solicitations the baseline is measured as missing (Task 010, `support_copilot/fallback.py`).
+
+```bash
+python3 scripts/evaluate_requests.py --dataset paraphrase --classifier llm-fallback \
+  --provider openrouter --model anthropic/claude-haiku-4.5 --budget-seconds 20
 ```
 
 Print the deterministic machine-readable report instead:
