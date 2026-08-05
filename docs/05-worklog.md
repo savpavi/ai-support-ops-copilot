@@ -191,3 +191,11 @@
 - Added `--classifier llm-fallback` and `--budget-seconds`; `--classifier llm` behavior is unchanged so the Task 008 snapshot stays reproducible in method.
 - Added 15 offline tests including a hung-provider test that itself runs fast, a security-flag floor asserted across all 77 committed fixture cases, and a test asserting the recall that degradation loses.
 - Corrected the false claim in `docs/11-llm-evaluation.md` rather than deleting it. Full suite passed: 79 tests, offline and key-less. Recorded ADR-016.
+
+## 2026-08-05 — Task 011: LLM-drafted replies behind a real reply guard
+
+- Added `validate_reply` (data in `rules.json`) and wired guarded drafting through both providers; drafted replies are off by default and a rejected draft degrades only the reply.
+- A test caught that the first implementation guarded a reply the model volunteered while the feature was off, instead of ignoring it; fixed by threading the flag into the mapper.
+- Froze 14 adversarial cases with `must_not` and `guard_catches` pre-registered, then swept `claude-haiku-4.5` and `gpt-4o-mini` and read all 25 guard-accepted drafts.
+- Measured: zero unsafe drafts produced, so the guard's catch rate is unmeasured; three rejections, all false positives on safe refusals; refusal verdicts decided by plural morphology; `passphrase` absent from the credential vocabulary. Paraphrase run: 33/33 accepted for both models.
+- Recorded rather than patched, per ADR-012's standard. Full suite passed: 94 tests, offline and key-less. Recorded ADR-017 and `docs/14-reply-safety.md`.

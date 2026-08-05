@@ -2,7 +2,7 @@
 
 ## Status
 
-- **State:** approved — 2026-08-05. Implementation authorized by the project owner.
+- **State:** complete — 2026-08-05. Guard implemented with its data in `rules.json`, drafted replies off by default, rejection degrading only the reply, 15 offline tests covering every rejection class, expectations frozen before the sweep, and both models measured with every accepted draft read. 94 tests pass offline and key-less. Results in `docs/14-reply-safety.md`; recorded ADR-017.
 - **Owner decisions (2026-08-05):** (1) generate a reply for every accepted case, including security-flagged ones, and make behavior on flagged cases the headline measurement. (2) Live sweep authorized over two models. (3) Length bound stays close to what today's templates produce.
 - **Position in the approved sequence:** third of three follow-ups approved on 2026-08-05 (009 label review — complete, 010 fallback wrapper — complete, 011 drafted replies). It runs last because it depends on Task 010's degradation path.
 

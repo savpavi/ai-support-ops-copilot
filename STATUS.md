@@ -2,7 +2,7 @@
 
 ## Overall status
 
-Tasks 001 through 010 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed. Task 009 audited the paraphrase labels themselves under a rubric frozen in advance, confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting fall in the baseline's own score. Task 010 implemented the baseline fallback that documentation had already claimed but the code did not have, bounded by a 20-second wall-clock budget so a hung provider cannot hold a caller.
+Tasks 001 through 011 complete. Task 002 was manually verified on self-hosted n8n 2.14.2. Task 003 established the reviewed synthetic evaluation baseline. Task 004 hardened all keyword rules with word-boundary matching and negation handling, and was natively re-verified. Task 005 moved all rule data into a single shared source with a byte-identical workflow generator. Task 006 measured the baseline honestly against out-of-distribution paraphrases: 5/33 expected assertions with all safety invariants at 100%. Task 008 added an optional LLM classifier behind the same contract and measured four models: paraphrase category recognition rose to 31-33/33 and the guard rejected all nonconforming model output fail-closed. Task 009 audited the paraphrase labels themselves under a rubric frozen in advance, confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting fall in the baseline's own score. Task 010 implemented the baseline fallback that documentation had already claimed but the code did not have, bounded by a 20-second wall-clock budget so a hung provider cannot hold a caller. Task 011 allowed generated replies behind a deterministic reply guard and measured it: no model produced an unsafe draft, so the guard's catch rate is unmeasured and all three of its rejections were false positives on safe refusals.
 
 ## Completed
 
@@ -96,9 +96,16 @@ Tasks 001 through 010 complete. Task 002 was manually verified on self-hosted n8
 - Added 15 offline tests: every failure class, a hung-provider test that itself runs fast, the security-flag floor asserted across all 77 committed fixture cases, and an explicit test of the semantic recall that degradation loses.
 - Corrected the false claim in `docs/11-llm-evaluation.md` rather than deleting it. Full suite passed: 79 tests on 2026-08-05. Recorded ADR-016.
 
-## Not started or out of scope
+## Task 011 completion
 
-- Task 011 (LLM-drafted replies), which the owner approved in sequence on 2026-08-05 but which has no written scope yet.
+- Added `validate_reply` with its data in `rules.json`: prefix, length, link (stricter than the request-side scan, bare domains included), the deterministic security scan run on the reply itself, and a commitment term list documented as a floor.
+- Generated replies are off by default; a rejected draft degrades only the reply to the template while the classification survives, and a reply volunteered while the feature is off is ignored outright — a test caught the first implementation guarding it instead.
+- Added 15 offline tests covering every rejection class plus a proof that all 77 committed fixtures still produce guard-passing templates. Suite: 94 tests.
+- Froze 14 adversarial reply-safety cases with `must_not` and `guard_catches` pre-registered before any model ran, then swept two models (owner decision) for under two cents.
+- Measured and published against interest: 28 drafts, 25 accepted, **zero unsafe drafts produced by any model**, so the guard's live catch rate is unmeasured; all three rejections were false positives on safe refusals; the guard's verdicts on refusals turn on plural morphology and `passphrase` is absent from its credential vocabulary. Both models drafted 33/33 guard-accepted replies on the paraphrase dataset.
+- Results are recorded, not patched: tuning the guard against the drafts that exposed it would repeat what ADR-012 forbids. Recorded ADR-017 and `docs/14-reply-safety.md`.
+
+## Not started or out of scope
 - Any live measurement of the `llm-fallback` path; the wrapper is verified offline on stubs and no sweep has been run through it.
 - Redesigning the in-distribution controls so they anchor to operator judgment rather than to rule phrasings.
 - Acting on the `_system_prompt` confound found in Task 009; it is recorded, not fixed.
@@ -108,6 +115,6 @@ Tasks 001 through 010 complete. Task 002 was manually verified on self-hosted n8
 
 ## Next authorized action
 
-Stop after Task 010. Task 011 is approved in principle but has no written scope; write and approve its proposal before implementing anything. Do not add LLM-drafted replies, change `_system_prompt`, redesign the controls, run a live sweep, introduce further integrations, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real data, or deploy.
+Stop after Task 011; the three follow-ups approved on 2026-08-05 are complete and no further task has approved scope. Do not tune the reply guard against the measured drafts, change `_system_prompt`, redesign the controls, run further sweeps, introduce integrations, upgrade or activate n8n, add credentials or external-action nodes, connect to production, use real data, or deploy.
 
 Last updated: 2026-08-05

@@ -42,6 +42,14 @@ Allowed security flags are `credential_request`, `invalid_input`, `payment_data`
 
 Rejected inputs use `category: unknown` and `urgency: unknown`, include `invalid_input`, and still produce a reviewable draft with `human_review_required: true`. Output validation rejects missing or extra fields, invalid enum values, an unmarked reply draft, or any attempt to set human review to false.
 
+## Reply guard
+
+`suggested_reply` may be written by a model when drafted replies are explicitly enabled (Task 011, off by default). Generated text passes `validate_reply` before it can reach the contract object; a rejected draft degrades only the reply to the deterministic template, leaving the classification intact, and the result still satisfies the output contract with `human_review_required: true`.
+
+The guard's data lives in `support_copilot/rules.json` under `reply_guard`, so the same checks can be replicated in the workflow JavaScript if generated text ever reaches n8n. It rejects a draft that: omits or alters the `Draft for human review:` prefix; exceeds the length bound; contains any link or destination, including bare domains, which is stricter than the request-side scan because a draft reply has no legitimate destination to carry; trips the deterministic security scan when that scan is run on the reply itself, catching a reflected credential, card number, identity-document reference or injection attempt; or matches listed commitment phrasing.
+
+The first four checks are exact for the patterns they hold. The commitment check is a term list and is a floor, not a semantic guarantee; the guard also has no concept of negation, so a refusal that names the secret it is refusing is rejected along with a disclosure of it. Measured behavior and limits are in `docs/14-reply-safety.md`.
+
 ## Compatibility boundary
 
 The contracts are plain JSON and contain no n8n-specific fields. The Task 002 artifact transports these objects and replicates Task 001 rules in a Code node, followed by an independent Human Review Guard. Local parity tests confirm complete object equality with the Python reference for the committed fixtures. Native n8n import and execution remain version-dependent manual verification. Any n8n migration must not weaken validation, reinterpret request text as instructions, or alter the human-review invariant.

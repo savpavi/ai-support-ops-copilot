@@ -6,7 +6,7 @@ AI Support Operations Copilot is a portfolio project for assisting human support
 
 ## Current state
 
-Tasks 001 through 010 are complete. The repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, automated tests, a reviewed 44-case synthetic evaluation, a 33-case out-of-distribution paraphrase evaluation whose labels were independently audited in Task 009, and an optional LLM classifier with a baseline fallback behind the same contract. It also contains a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. The Task 002 workflow revision was manually verified on an authorized self-hosted n8n 2.14.2 development instance, including import, execution, guarded adverse inputs, export, and re-import; the later Task 003 and Task 004 keyword corrections were natively re-verified on the same instance on 2026-08-04 with a 16-case sweep and exact output parity. Compatibility with newer n8n versions is unverified. Nothing has been deployed or connected to a production or external action system. See `STATUS.md` for the authoritative status.
+Tasks 001 through 011 are complete. The repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, automated tests, a reviewed 44-case synthetic evaluation, a 33-case out-of-distribution paraphrase evaluation whose labels were independently audited in Task 009, and an optional LLM classifier with a baseline fallback behind the same contract. It also contains a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. The Task 002 workflow revision was manually verified on an authorized self-hosted n8n 2.14.2 development instance, including import, execution, guarded adverse inputs, export, and re-import; the later Task 003 and Task 004 keyword corrections were natively re-verified on the same instance on 2026-08-04 with a 16-case sweep and exact output parity. Compatibility with newer n8n versions is unverified. Nothing has been deployed or connected to a production or external action system. See `STATUS.md` for the authoritative status.
 
 ## Scope
 
@@ -42,7 +42,7 @@ Run all tests:
 python3 -m unittest discover -s tests -v
 ```
 
-This currently runs 79 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), 6 rule-source and generator tests (Task 005), 7 paraphrase-evaluation tests (Task 006), 13 offline LLM-classifier tests (Task 008), and 15 fallback tests (Task 010). The suite needs no API key and makes no network requests. Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
+This currently runs 94 tests: 17 classifier regression tests (Tasks 001 and 004), 9 Task 002 workflow structure/parity tests, 12 dataset/evaluation tests (Tasks 003 and 004), 6 rule-source and generator tests (Task 005), 7 paraphrase-evaluation tests (Task 006), 13 offline LLM-classifier tests (Task 008), 15 fallback tests (Task 010), and 15 reply-guard tests (Task 011). The suite needs no API key and makes no network requests. Node.js is required for workflow parity tests and the evaluation, which execute the committed Code-node JavaScript locally and compare it with the Python reference.
 
 All rule data (term lists, shared patterns, enums, limits) lives in `support_copilot/rules.json`; the committed workflow JavaScript is generated from `n8n/src/` templates. Verify that the committed artifact matches its sources:
 
@@ -78,6 +78,15 @@ python3 scripts/evaluate_requests.py --dataset paraphrase --classifier llm-fallb
   --provider openrouter --model anthropic/claude-haiku-4.5 --budget-seconds 20
 ```
 
+Let the model draft `suggested_reply` behind the deterministic reply guard (off by default; a rejected draft degrades only the reply to the template, keeping the classification). Measured behavior and the guard's limits are in `docs/14-reply-safety.md`:
+
+```bash
+python3 scripts/evaluate_requests.py --dataset paraphrase --classifier llm \
+  --provider openrouter --model anthropic/claude-haiku-4.5 --drafted-replies
+
+python3 scripts/sweep_reply_safety.py --model anthropic/claude-haiku-4.5 --generated 2026-08-05
+```
+
 Print the deterministic machine-readable report instead:
 
 ```bash
@@ -102,7 +111,7 @@ The CLI returns exit code `0` for accepted input and `2` for rejected input. The
 
 ## Limitations
 
-The classifier uses transparent keyword rules, not an LLM. It is deterministic and useful as a contract and safety baseline, but it does not understand language semantically, measure statistical confidence, or establish production accuracy. The Task 006 paraphrase evaluation quantifies this honestly: on 33 out-of-distribution phrasings it meets only 4/33 semantic expectations and misses every paraphrased security solicitation, while the output contract, human-review enforcement, and Python/n8n parity hold at 100%. Those labels were themselves independently reviewed in Task 009, which confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting drop from 5/33 rather than keeping the better number (`docs/13-label-review.md`). The optional Task 008 LLM classifier closes most of that semantic gap behind the same contract — paraphrase category recognition reached 31–33/33 across four measured models, and the guard rejected all nonconforming model output fail-closed (`docs/11-llm-evaluation.md`). Its suggested replies are fixed templates and must always be reviewed by a human.
+The classifier uses transparent keyword rules, not an LLM. It is deterministic and useful as a contract and safety baseline, but it does not understand language semantically, measure statistical confidence, or establish production accuracy. The Task 006 paraphrase evaluation quantifies this honestly: on 33 out-of-distribution phrasings it meets only 4/33 semantic expectations and misses every paraphrased security solicitation, while the output contract, human-review enforcement, and Python/n8n parity hold at 100%. Those labels were themselves independently reviewed in Task 009, which confirmed the category and security-flag labels unchanged, corrected nine fields in eight cases, and published the resulting drop from 5/33 rather than keeping the better number (`docs/13-label-review.md`). The optional Task 008 LLM classifier closes most of that semantic gap behind the same contract — paraphrase category recognition reached 31–33/33 across four measured models, and the guard rejected all nonconforming model output fail-closed (`docs/11-llm-evaluation.md`). Task 011 allows generated replies behind a deterministic reply guard, off by default; on the measured sweep no model produced an unsafe draft, so the guard's catch rate is untested and its three rejections were all false positives on safe refusals (`docs/14-reply-safety.md`). Every reply, templated or drafted, must be reviewed by a human.
 
 The Task 002 workflow revision was verified on self-hosted n8n 2.14.2. Tasks 003 and 004 later made bounded keyword corrections in the committed Code-node JavaScript and verified them locally with 44/44 Python parity; the current revision was then natively verified on the same self-hosted n8n 2.14.2 instance on 2026-08-04 through a 16-case sweep with exact output parity (see `docs/08-n8n-manual-test.md` and ADR-010). Compatibility with newer n8n versions remains unverified. The workflow must remain inactive and must not gain credentials or action nodes.
 
