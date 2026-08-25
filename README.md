@@ -2,11 +2,75 @@
 
 [![CI](https://github.com/savpavi/ai-support-ops-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/savpavi/ai-support-ops-copilot/actions/workflows/ci.yml)
 
-AI Support Operations Copilot is a portfolio project for assisting human support operators with synthetic inbound requests. The intended system will classify a request, estimate urgency, identify missing information, draft a suggested reply, and flag possible security risks. A human must review every output before any action is taken.
+A human-in-the-loop support triage system: it classifies an inbound request, rates urgency, names the information missing for safe handling, flags security and privacy risks, and drafts a reply behind a deterministic guard. **A human reviews every output before any action.** Nothing is ever sent autonomously.
 
-## Current state
+The point of the project is not that it classifies tickets. It is that it **measures whether it should be trusted to**, and publishes the answer even when the answer is unflattering.
 
-Tasks 001 through 011 are complete. The repository contains a dependency-free Python classifier, explicit JSON contracts, deterministic validation, synthetic fixtures, a local CLI, automated tests, a reviewed 44-case synthetic evaluation, a 33-case out-of-distribution paraphrase evaluation whose labels were independently audited in Task 009, and an optional LLM classifier with a baseline fallback behind the same contract. It also contains a sanitized, inactive, manual-only n8n workflow with structural and Python-parity tests. The Task 002 workflow revision was manually verified on an authorized self-hosted n8n 2.14.2 development instance, including import, execution, guarded adverse inputs, export, and re-import; the later Task 003 and Task 004 keyword corrections were natively re-verified on the same instance on 2026-08-04 with a 16-case sweep and exact output parity. Compatibility with newer n8n versions is unverified. Nothing has been deployed or connected to a production or external action system. See `STATUS.md` for the authoritative status.
+### What this demonstrates
+
+- **Guardrails that fail closed.** Every output is validated against a versioned JSON contract. Nonconforming model output is rejected, not repaired. A provider failure or a hung call degrades to the deterministic baseline inside a wall-clock budget.
+- **Evaluation designed before the result.** Labels, rubrics and adversarial cases were frozen and committed *before* any model ran. Git history carries the ordering.
+- **Two implementations kept in lockstep.** The same rule data drives a Python reference and the n8n Code-node JavaScript; a drift test fails whenever the committed workflow stops matching its sources.
+- **94 tests, no third-party runtime dependencies**, running on Python 3.10 and 3.13 in CI, with no API key and no network access.
+
+### How it fits together
+
+```mermaid
+flowchart LR
+    A[Inbound request<br/>synthetic] --> B{Input<br/>validation}
+    B -->|malformed| X[Safe rejection]
+    B -->|valid| C[Classifier]
+    C --> D[Deterministic<br/>baseline]
+    C --> E[Optional LLM<br/>same contract]
+    E -.->|error, timeout,<br/>budget exceeded| D
+    D --> F{Output contract<br/>guard}
+    E --> F
+    F -->|nonconforming| X
+    F -->|valid| G{Reply guard<br/>off by default}
+    G -->|rejected draft| H
+    G -->|accepted| H[Human review<br/>always required]
+```
+
+### Measured results
+
+In-distribution, 44 reviewed synthetic cases (deterministic baseline):
+
+| Metric | Result |
+| --- | --- |
+| All expected assertions | 44/44 |
+| Python ↔ n8n parity | 44/44 |
+| Output contract valid | 44/44 |
+| Human review enforced | 44/44 |
+| Safe rejection of malformed input | 7/7 |
+
+Out-of-distribution, 33 paraphrased cases the rules were never written for — **this is where the baseline breaks, and it is published on purpose**:
+
+| Metric | Deterministic baseline | Optional LLM classifier |
+| --- | --- | --- |
+| All expected assertions | 4/33 | — |
+| Category correct | 14/33 | 31–33/33 |
+| Paraphrased security solicitations caught | 0/5 | 4–5/5 |
+| Security flags correct | 28/33 | — |
+| Output contract valid | 33/33 | nonconforming output rejected, 0 unsafe passes |
+| Human review enforced | 33/33 | 33/33 |
+
+The LLM sweep covered four models and 308 calls for roughly $0.10. Safety invariants held at 100% in every configuration; only accuracy moved.
+
+### The uncomfortable findings, kept
+
+These are in the repository because removing them would make the evaluation worthless:
+
+- **The baseline's own score fell after an audit of the labels.** Task 009 re-derived all 33 paraphrase labels blind under a rubric frozen in advance, then adjudicated. Nine fields in eight cases were wrong — and correcting them dropped the baseline from 5/33 to 4/33 while every model rose. Both figures are retained.
+- **A documented fallback did not exist.** Task 010 found that the baseline fallback the docs claimed was caught nowhere in production code. The claim was corrected rather than deleted, and the fallback was then actually built.
+- **The reply guard's catch rate is unmeasured.** Across 28 adversarial drafts, no model produced an unsafe reply, so the guard never got the chance to catch one. All three of its rejections were false positives on safe refusals. Tuning it against those drafts would invalidate the pre-registration, so it was left alone.
+
+### Current state
+
+Tasks 001–011 are complete: a dependency-free Python classifier, versioned JSON contracts, deterministic validation, synthetic fixtures, a local CLI, 94 automated tests, a reviewed 44-case evaluation, a 33-case out-of-distribution evaluation with independently audited labels, an optional LLM classifier with a baseline fallback, and a sanitized, inactive, manual-only n8n workflow with structural and parity tests.
+
+The workflow was natively verified on an authorized self-hosted n8n 2.14.2 development instance — import, execution, guarded adverse inputs, export and re-import — and the later keyword corrections were re-verified there on 2026-08-04 with a 16-case sweep at exact output parity.
+
+**Not claimed:** compatibility with newer n8n versions, any production deployment, external integrations, autonomous action, or use with real customer data. `STATUS.md` is the authoritative status.
 
 ## Scope
 
